@@ -1,0 +1,807 @@
+'use strict';
+
+/* ============================================================================
+   Settings
+
+   source: 'sample'  reads window.SAMPLE_DATA from sample-data.js. This works when
+                     you open index.html straight from your disk.
+           'live'    reads the commit list from the GitHub API and run results from
+                     index.json at resultsBase. Browsers block fetch() on file://
+                     pages, so serve the folder over http(s) (GitHub Pages, or
+                     `python -m http.server` for a local test).
+
+   index.json format (written by your workflows):
+   {
+     "generated_at": "2026-11-03T18:20:00Z",
+     "machines": [ { "id": "lab-win-01", "os": "...", "cpu": "...", "gpu": "...",
+                     "driver": "...", "ram_gb": 32 } ],
+     "runs": {
+       "<full commit sha>": {
+         "lab-win-01": {
+           "status": "passed" | "failed" | "running" | "queued",
+           "started": ISO time, "finished": ISO time, "duration_sec": 412,
+           "run_url": "https://github.com/.../actions/runs/...",
+           "stats": { "fps_avg": 164.2, "frame_ms_p95": 7.6, "gpu_mem_mb": 1480, "load_ms": 2900 },
+           "tests": [ { "name": "Unit tests", "status": "passed", "ms": 3200, "message": "..." } ],
+           "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
+                              "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
+                              "status": "passed", "diff_pct": 0.3 } ]
+         }
+       }
+     }
+   }
+   Relative screenshot paths are read from resultsBase.
+============================================================================ */
+const CONFIG = {
+  source: 'sample',
+  repo: 'your-user/your-repo',
+  branch: 'main',
+  resultsBase: 'https://results.example.com/',
+  maxCommits: 50,
+};
+
+/* ============================================================================
+   Helpers
+============================================================================ */
+const $ = (sel, el = document) => el.querySelector(sel);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const short = (sha) => sha.slice(0, 7);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let DATA = null;
+let refNow = () => new Date();
+
+const STATUS_LABEL = { passed: 'Passed', failed: 'Failed', running: 'Running', queued: 'Queued', pending: 'Pending', none: 'Not run' };
+
+function statusIcon(status) {
+  switch (status) {
+    case 'passed':
+      return '<svg class="si si-passed" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.5"/><path d="M4.8 8.3l2.1 2.1 4.3-4.6"/></svg>';
+    case 'failed':
+      return '<svg class="si si-failed" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.5"/><path d="M5.6 5.6l4.8 4.8M10.4 5.6l-4.8 4.8"/></svg>';
+    case 'running':
+      return '<svg class="si si-running" viewBox="0 0 16 16" aria-hidden="true"><circle class="track" cx="8" cy="8" r="6"/><path class="arc" d="M8 2a6 6 0 0 1 6 6"/></svg>';
+    case 'queued':
+    case 'pending':
+      return '<svg class="si si-queued" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 5v3.3l2 1.3"/></svg>';
+    default:
+      return '<svg class="si si-none" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 8h6"/></svg>';
+  }
+}
+
+// Each machine gets a color and a marker shape, so it is never told apart by color alone.
+function shapePath(i, cx, cy, s) {
+  const k = i % 3;
+  if (k === 0) return `<circle cx="${cx}" cy="${cy}" r="${s / 2}"/>`;
+  if (k === 1) return `<rect x="${cx - s * 0.43}" y="${cy - s * 0.43}" width="${s * 0.86}" height="${s * 0.86}" rx="1"/>`;
+  const r = s * 0.6;
+  return `<polygon points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}"/>`;
+}
+function machineMark(i, size = 10) {
+  return `<svg class="mk" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true" style="fill:var(--series-${(i % 3) + 1})">${shapePath(i, size / 2, size / 2, size - 1)}</svg>`;
+}
+
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+function ago(iso) {
+  const s = (new Date(iso) - refNow()) / 1000;
+  const units = [['year', 31536000], ['month', 2592000], ['week', 604800], ['day', 86400], ['hour', 3600], ['minute', 60]];
+  for (const [u, n] of units) if (Math.abs(s) >= n) return rtf.format(Math.round(s / n), u);
+  return 'just now';
+}
+const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+const fmtDate = (iso) => dateFmt.format(new Date(iso));
+function fmtDur(sec) {
+  sec = Math.max(0, Math.round(sec));
+  if (sec < 60) return `${sec} s`;
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  if (h) return `${h} h ${m} min`;
+  return s ? `${m} min ${s} s` : `${m} min`;
+}
+function fmtMs(ms) {
+  if (ms < 1000) return `${ms} ms`;
+  if (ms < 60000) return `${(ms / 1000).toFixed(1)} s`;
+  return fmtDur(ms / 1000);
+}
+function joinList(items) {
+  if (items.length <= 1) return items.join('');
+  return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
+}
+
+/* ============================================================================
+   Data
+============================================================================ */
+async function loadData() {
+  if (CONFIG.source === 'sample') {
+    if (!window.SAMPLE_DATA) throw new Error('sample-data.js did not load. Keep it in the same folder as index.html.');
+    return window.SAMPLE_DATA;
+  }
+  const [commitsRes, indexRes] = await Promise.all([
+    fetch(`https://api.github.com/repos/${CONFIG.repo}/commits?sha=${encodeURIComponent(CONFIG.branch)}&per_page=${CONFIG.maxCommits}`),
+    fetch(new URL('index.json', CONFIG.resultsBase), { cache: 'no-cache' }),
+  ]);
+  if (!commitsRes.ok) throw new Error(`GitHub returned ${commitsRes.status} for the commit list. If it is 403, the hourly limit for anonymous requests was reached; try again later.`);
+  if (!indexRes.ok) throw new Error(`index.json could not be loaded (HTTP ${indexRes.status}). Check resultsBase in app.js.`);
+  const gh = await commitsRes.json();
+  const index = await indexRes.json();
+  return {
+    repo: CONFIG.repo,
+    branch: CONFIG.branch,
+    generated_at: index.generated_at,
+    machines: index.machines,
+    runs: index.runs || {},
+    commits: gh.map((c) => ({
+      sha: c.sha,
+      message: c.commit.message.split('\n')[0],
+      author: c.author?.login || c.commit.author.name,
+      date: c.commit.author.date,
+      url: c.html_url,
+    })),
+  };
+}
+
+function prepare(raw) {
+  const base = CONFIG.source === 'sample' ? '' : CONFIG.resultsBase;
+  const abs = (p) => (!p || /^https?:\/\//.test(p) || !base ? p : new URL(p, base).href);
+  const machines = raw.machines.map((m, index) => ({ ...m, index }));
+  const commits = raw.commits.map((c) => {
+    const runs = raw.runs[c.sha] || {};
+    for (const r of Object.values(runs)) {
+      r.screenshots = (r.screenshots || []).map((s) => ({ ...s, file: abs(s.file), thumb: abs(s.thumb || s.file) }));
+      r.tests = r.tests || [];
+    }
+    return { ...c, runs };
+  });
+  // Link each finished run to the previous finished run on the same machine (for deltas).
+  const last = {};
+  for (let i = commits.length - 1; i >= 0; i--) {
+    for (const m of machines) {
+      const r = commits[i].runs[m.id];
+      if (r && r.stats) {
+        r.prev = last[m.id] || null;
+        last[m.id] = { sha: commits[i].sha, stats: r.stats, duration_sec: r.duration_sec };
+      }
+    }
+  }
+  for (const c of commits) c.state = commitState(c);
+  return { ...raw, machines, commits };
+}
+
+function commitState(c) {
+  const s = Object.values(c.runs).map((r) => r.status);
+  if (!s.length) return 'none';
+  if (s.includes('failed')) return 'failed';
+  if (s.includes('running') || s.includes('queued')) return 'running';
+  return 'passed';
+}
+const isFinished = (r) => r && (r.status === 'passed' || r.status === 'failed');
+
+/* ============================================================================
+   State
+============================================================================ */
+const state = {
+  filter: 'all',
+  query: '',
+  open: new Set(),
+  tab: {},
+  compare: {},
+  metric: 'fps_avg',
+};
+
+const METRICS = {
+  fps_avg: {
+    button: 'Average FPS', note: 'Average frames per second across the test scenes. Higher is better.',
+    get: (r) => r?.stats?.fps_avg, fmt: (v) => `${v.toFixed(1)} fps`, tick: (v) => `${v}`,
+  },
+  frame_ms_p95: {
+    button: 'Frame time', note: '95th percentile frame time in milliseconds. Lower is better.',
+    get: (r) => r?.stats?.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, tick: (v) => `${v}`,
+  },
+  load_s: {
+    button: 'Load time', note: 'Time to load the test scenes, in seconds. Lower is better.',
+    get: (r) => (r?.stats?.load_ms != null ? r.stats.load_ms / 1000 : undefined), fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
+  },
+  duration_min: {
+    button: 'Run time', note: 'Total job time, from checkout to upload, in minutes. Lower is better.',
+    get: (r) => (r?.duration_sec != null ? r.duration_sec / 60 : undefined), fmt: (v) => `${v.toFixed(1)} min`, tick: (v) => `${v}`,
+  },
+};
+
+/* ============================================================================
+   Header and footer
+============================================================================ */
+function describe(c) {
+  const by = {};
+  for (const m of DATA.machines) {
+    const st = c.runs[m.id]?.status;
+    if (st) (by[st] ||= []).push(m.id);
+  }
+  const total = DATA.machines.length;
+  if ((by.passed || []).length === total) return `passed on all ${total} machines`;
+  const parts = [];
+  if (by.running) parts.push(`running on ${joinList(by.running)}`);
+  if (by.queued) parts.push(`queued on ${joinList(by.queued)}`);
+  if (by.failed) parts.push(`failed on ${joinList(by.failed)}`);
+  if (by.passed) parts.push(`passed on ${joinList(by.passed)}`);
+  let text = parts.length > 1 && (by.running || by.queued) ? joinList(parts) : parts.join(', ');
+  if (by.running || by.queued) text = 'is ' + text;
+  return text;
+}
+const shaLink = (sha) => `<button class="sha-link sha" type="button" data-open="${sha}">${short(sha)}</button>`;
+
+function renderHeader() {
+  const [owner, name] = DATA.repo.split('/');
+  $('#repo-name').innerHTML = `<span class="owner">${esc(owner)}/</span>${esc(name)}`;
+  document.title = `${name} test results`;
+  $('#branch-name').textContent = DATA.branch;
+  $('#source-pill').hidden = CONFIG.source !== 'sample';
+
+  const latest = DATA.commits[0];
+  const finished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
+  let s = '';
+  if (latest) {
+    s = Object.keys(latest.runs).length
+      ? `Latest commit ${shaLink(latest.sha)} ${describe(latest)}.`
+      : `Latest commit ${shaLink(latest.sha)} has no runs.`;
+    if (finished && finished !== latest && latest.state !== 'passed' && latest.state !== 'failed') {
+      s += ` The last finished commit, ${shaLink(finished.sha)}, ${describe(finished)}.`;
+    }
+  }
+  $('#summary').innerHTML = s || 'No commits found.';
+
+  const weekAgo = refNow() - 7 * 86400000;
+  let runs = 0, failed = 0;
+  for (const c of DATA.commits) for (const r of Object.values(c.runs)) {
+    if (isFinished(r) && new Date(r.started) >= weekAgo) { runs++; if (r.status === 'failed') failed++; }
+  }
+  $('#summary-sub').textContent =
+    `Last 7 days: ${runs} ${runs === 1 ? 'run' : 'runs'}, ${failed} failed. Updated ${fmtDate(DATA.generated_at)}.`;
+
+  $('#foot').innerHTML = CONFIG.source === 'sample'
+    ? 'This page shows sample data from <code>sample-data.js</code>. To show real results, set <code>source</code> to <code>\'live\'</code> in <code>app.js</code> and point <code>resultsBase</code> at the folder that holds <code>index.json</code>.'
+    : `Commits from GitHub, results from <code>${esc(CONFIG.resultsBase)}index.json</code>.`;
+}
+
+/* ============================================================================
+   Chart
+============================================================================ */
+function niceTicks(lo, hi, n) {
+  const raw = (hi - lo) / n;
+  const mag = 10 ** Math.floor(Math.log10(raw));
+  const norm = raw / mag;
+  const step = (norm < 1.5 ? 1 : norm < 3 ? 2 : norm < 7 ? 5 : 10) * mag;
+  const out = [];
+  for (let v = Math.floor(lo / step) * step; v <= Math.ceil(hi / step) * step + step / 2; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+
+function renderMetricSwitch() {
+  $('#metric-switch').innerHTML = Object.entries(METRICS)
+    .map(([k, m]) => `<button type="button" data-metric="${k}" aria-pressed="${k === state.metric}">${m.button}</button>`)
+    .join('');
+  $('#trend-note').textContent = METRICS[state.metric].note;
+}
+
+function renderLegend() {
+  $('#legend').innerHTML = DATA.machines
+    .map((m) => `<li>${machineMark(m.index, 11)}<span>${esc(m.id)}</span><span class="gpu">${esc(m.gpu)}</span></li>`)
+    .join('')
+    + '<li class="legend-gap"><svg width="22" height="10" aria-hidden="true"><line x1="1" y1="5" x2="21" y2="5"/></svg>Dotted: commits in between were not run</li>';
+}
+
+let chartCtx = null;
+function renderChart() {
+  const box = $('#chart');
+  const metric = METRICS[state.metric];
+  const val = (c, m) => (isFinished(c.runs[m.id]) ? metric.get(c.runs[m.id]) : undefined);
+  const list = DATA.commits.slice().reverse().filter((c) => DATA.machines.some((m) => val(c, m) != null));
+  renderChartTable(list, val, metric);
+  if (!list.length) {
+    box.innerHTML = '<p class="chart-empty">The chart fills in once a run finishes.</p>';
+    return;
+  }
+  const W = Math.max(280, box.clientWidth);
+  const narrow = W < 640;
+  const H = narrow ? 200 : 240;
+  const M = { l: 44, r: narrow ? 12 : 104, t: 14, b: 30 };
+  const pw = W - M.l - M.r, ph = H - M.t - M.b;
+
+  const vals = [];
+  list.forEach((c) => DATA.machines.forEach((m) => { const v = val(c, m); if (v != null) vals.push(v); }));
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  const pad = (hi - lo) * 0.08 || Math.abs(hi) * 0.1 || 1;
+  const ticks = niceTicks(Math.max(0, lo - pad), hi + pad, 4);
+  lo = ticks[0]; hi = ticks[ticks.length - 1];
+  const dx = list.length > 1 ? pw / (list.length - 1) : 0;
+  const x = (i) => (list.length === 1 ? M.l + pw / 2 : M.l + i * dx);
+  const y = (v) => M.t + ph - ((v - lo) / (hi - lo)) * ph;
+
+  let svg = '';
+  for (const t of ticks) {
+    svg += `<line class="grid" x1="${M.l}" x2="${M.l + pw}" y1="${y(t)}" y2="${y(t)}"/>`;
+    svg += `<text class="tick" x="${M.l - 8}" y="${y(t)}" dy="0.32em" text-anchor="end">${metric.tick(t)}</text>`;
+  }
+  svg += `<line class="axis" x1="${M.l}" x2="${M.l + pw}" y1="${M.t + ph}" y2="${M.t + ph}"/>`;
+  const step = dx ? Math.max(1, Math.ceil(60 / dx)) : 1;
+  list.forEach((c, i) => {
+    if ((list.length - 1 - i) % step === 0) svg += `<text class="xtick" x="${x(i)}" y="${H - 8}" text-anchor="middle">${short(c.sha)}</text>`;
+  });
+
+  const ends = [];
+  for (const m of DATA.machines) {
+    const color = `var(--series-${(m.index % 3) + 1})`;
+    const pts = list.map((c, i) => ({ i, v: val(c, m) })).filter((p) => p.v != null);
+    for (let k = 1; k < pts.length; k++) {
+      const a = pts[k - 1], b = pts[k];
+      svg += `<line class="series-line${b.i - a.i > 1 ? ' gap' : ''}" style="stroke:${color}" x1="${x(a.i)}" y1="${y(a.v)}" x2="${x(b.i)}" y2="${y(b.v)}"/>`;
+    }
+    svg += `<g class="mk-svg" style="fill:${color}">${pts.map((p) => shapePath(m.index, x(p.i), y(p.v), 9)).join('')}</g>`;
+    if (pts.length) ends.push({ m, y: y(pts[pts.length - 1].v) });
+  }
+  if (!narrow) {
+    ends.sort((a, b) => a.y - b.y);
+    for (let k = 1; k < ends.length; k++) ends[k].y = Math.max(ends[k].y, ends[k - 1].y + 16);
+    for (const e of ends) {
+      svg += `<g style="fill:var(--series-${(e.m.index % 3) + 1})">${shapePath(e.m.index, M.l + pw + 16, e.y, 8)}</g>`;
+      svg += `<text class="end-label" x="${M.l + pw + 26}" y="${e.y}" dy="0.33em">${esc(e.m.id)}</text>`;
+    }
+  }
+  svg += `<line class="crosshair" id="xh" x1="0" x2="0" y1="${M.t}" y2="${M.t + ph}" visibility="hidden"/>`;
+  svg += `<g id="hover-dots"></g>`;
+  svg += `<rect class="hit" x="${M.l - 12}" y="0" width="${pw + 24}" height="${H}"/>`;
+
+  box.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
+      aria-label="${esc(metric.button)} per commit for each machine. Use left and right arrow keys to read values, Enter to open the commit.">${svg}</svg>
+    <div class="chart-tip" id="chart-tip" hidden></div>`;
+  chartCtx = { list, x, y, val, metric, M, pw, dx, W, hovered: null };
+  bindChart();
+}
+
+function bindChart() {
+  const svg = $('#chart svg');
+  const tip = $('#chart-tip');
+  const ctx = chartCtx;
+  const show = (i) => {
+    ctx.hovered = i;
+    const c = ctx.list[i];
+    const xh = $('#xh');
+    xh.setAttribute('x1', ctx.x(i)); xh.setAttribute('x2', ctx.x(i)); xh.setAttribute('visibility', 'visible');
+    let dots = '', rows = '';
+    for (const m of DATA.machines) {
+      const v = ctx.val(c, m);
+      const r = c.runs[m.id];
+      if (v != null) dots += `<g class="mk-svg" style="fill:var(--series-${(m.index % 3) + 1})">${shapePath(m.index, ctx.x(i), ctx.y(v), 12)}</g>`;
+      const valText = v != null ? ctx.metric.fmt(v) : r ? STATUS_LABEL[r.status] : 'Not run';
+      rows += `<div class="tip-row">${machineMark(m.index)}<span>${esc(m.id)}</span>${r?.status === 'failed' ? '<span class="tip-fail">failed</span>' : ''}<b>${valText}</b></div>`;
+    }
+    $('#hover-dots').innerHTML = dots;
+    tip.innerHTML = `<div><span class="sha">${short(c.sha)}</span> <span class="tip-date">${esc(fmtDate(c.date))}</span></div>
+      <div class="tip-msg">${esc(c.message)}</div>${rows}<div class="tip-hint">Click to open this commit</div>`;
+    tip.hidden = false;
+    const tw = tip.offsetWidth;
+    let left = ctx.x(i) + 14;
+    if (left + tw > ctx.W) left = ctx.x(i) - tw - 14;
+    tip.style.left = `${Math.max(0, left)}px`;
+  };
+  const hide = () => {
+    ctx.hovered = null;
+    tip.hidden = true;
+    $('#xh').setAttribute('visibility', 'hidden');
+    $('#hover-dots').innerHTML = '';
+  };
+  const indexAt = (clientX) => {
+    const r = svg.getBoundingClientRect();
+    if (!ctx.dx) return 0;
+    return clamp(Math.round((clientX - r.left - ctx.M.l) / ctx.dx), 0, ctx.list.length - 1);
+  };
+  svg.addEventListener('pointermove', (e) => show(indexAt(e.clientX)));
+  svg.addEventListener('pointerleave', hide);
+  svg.addEventListener('click', (e) => openCommit(ctx.list[indexAt(e.clientX)].sha));
+  svg.addEventListener('focus', () => show(ctx.list.length - 1));
+  svg.addEventListener('blur', hide);
+  svg.addEventListener('keydown', (e) => {
+    const i = ctx.hovered ?? ctx.list.length - 1;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(clamp(i - 1, 0, ctx.list.length - 1)); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(clamp(i + 1, 0, ctx.list.length - 1)); }
+    if (e.key === 'Enter') { e.preventDefault(); openCommit(ctx.list[i].sha); }
+  });
+}
+
+function renderChartTable(list, val, metric) {
+  const head = `<tr><th>Commit</th>${DATA.machines.map((m) => `<th>${esc(m.id)}</th>`).join('')}</tr>`;
+  const body = list.slice().reverse()
+    .map((c) => `<tr><td><span class="sha">${short(c.sha)}</span> ${esc(c.message)}</td>${DATA.machines
+      .map((m) => { const v = val(c, m); return `<td>${v != null ? metric.fmt(v) : '–'}</td>`; }).join('')}</tr>`)
+    .join('');
+  $('#chart-table').innerHTML = `<table><caption class="sr-only">${esc(metric.button)} per commit</caption><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+
+/* ============================================================================
+   Commit matrix
+============================================================================ */
+function renderMatrixHead() {
+  const n = DATA.machines.length;
+  $('#matrix').style.setProperty('--m', n);
+  $('#matrix-cols').innerHTML = `<col>${'<col style="width:140px">'.repeat(n)}<col style="width:392px">`;
+  $('#matrix-head').innerHTML = `<tr>
+    <th scope="col"><span class="th-title">Commit</span></th>
+    ${DATA.machines.map((m) => `<th scope="col" title="${esc(`${m.os}, ${m.cpu}, ${m.gpu}, ${m.ram_gb} GB RAM`)}">
+      <span class="th-machine">${machineMark(m.index, 11)}${esc(m.id)}</span>
+      <span class="th-spec">${esc(m.gpu)}</span></th>`).join('')}
+    <th scope="col"><span class="th-title">Screenshots</span></th></tr>`;
+}
+
+function filtered() {
+  const q = state.query.trim().toLowerCase();
+  return DATA.commits.filter((c) => {
+    if (state.filter === 'runs' && !Object.keys(c.runs).length) return false;
+    if (state.filter === 'failed' && c.state !== 'failed') return false;
+    if (!q) return true;
+    return c.message.toLowerCase().includes(q) || c.sha.startsWith(q) || c.author.toLowerCase().includes(q);
+  });
+}
+
+function renderFilters() {
+  const counts = {
+    all: DATA.commits.length,
+    runs: DATA.commits.filter((c) => Object.keys(c.runs).length).length,
+    failed: DATA.commits.filter((c) => c.state === 'failed').length,
+  };
+  const label = { all: 'All commits', runs: 'With runs', failed: 'Failed' };
+  $('#filters').innerHTML = Object.keys(label)
+    .map((k) => `<button type="button" data-filter="${k}" aria-pressed="${state.filter === k}">${label[k]}<span class="count">${counts[k]}</span></button>`)
+    .join('');
+}
+
+function statusCell(c, m) {
+  const r = c.runs[m.id];
+  const st = r ? r.status : 'none';
+  let sub = '';
+  if (isFinished(r) && r.duration_sec != null) sub = fmtDur(r.duration_sec);
+  else if (st === 'running' && r.started) sub = `for ${fmtDur((refNow() - new Date(r.started)) / 1000)}`;
+  return `<td class="c-status s-${st}">
+    <span class="cell-machine">${machineMark(m.index)}${esc(m.id)}</span>
+    <span class="status">${statusIcon(st)}<span class="status-label">${STATUS_LABEL[st]}</span></span>
+    ${sub ? `<span class="status-sub">${sub}</span>` : ''}</td>`;
+}
+
+function filmMachine(c) {
+  const withShots = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length);
+  return withShots.find((m) => c.runs[m.id].screenshots.some((s) => s.status === 'failed')) || withShots[0];
+}
+
+function filmstrip(c) {
+  const m = filmMachine(c);
+  if (!m) return `<span class="film-empty">${Object.keys(c.runs).length ? 'Not captured yet' : '–'}</span>`;
+  const shots = c.runs[m.id].screenshots;
+  return `<div class="film">${shots.map((s, i) => `<button class="thumb${s.status === 'failed' ? ' is-failed' : ''}" type="button"
+      data-shots="${c.sha}|${m.id}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}${s.status === 'failed' ? ', failed' : ''}"
+      title="${esc(s.scene)}${s.status === 'failed' ? ' (failed)' : ''}"><img src="${esc(s.thumb)}" alt="" loading="lazy" width="56" height="32"></button>`).join('')}</div>
+    <div class="film-src">${machineMark(m.index)}From ${esc(m.id)}</div>`;
+}
+
+const chevron = '<svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5L8 6l-3.5 3.5"/></svg>';
+
+function rowHTML(c) {
+  const open = state.open.has(c.sha);
+  const id = `detail-${short(c.sha)}`;
+  let html = `<tr class="commit-row${open ? ' is-open' : ''}" data-sha="${c.sha}">
+    <td class="c-commit">
+      <button class="row-toggle" type="button" aria-expanded="${open}" aria-controls="${id}" data-toggle="${c.sha}">
+        ${chevron}<span class="sha">${short(c.sha)}</span><span class="msg" title="${esc(c.message)}">${esc(c.message)}</span>
+      </button>
+      <div class="meta">${esc(c.author)}, <time datetime="${c.date}" title="${esc(fmtDate(c.date))}">${ago(c.date)}</time></div>
+    </td>
+    ${DATA.machines.map((m) => statusCell(c, m)).join('')}
+    <td class="c-film">${filmstrip(c)}</td>
+  </tr>`;
+  if (open) html += `<tr class="detail-row" id="${id}"><td colspan="${DATA.machines.length + 2}">${detailHTML(c)}</td></tr>`;
+  return html;
+}
+
+function renderRows(focusSel) {
+  const rows = filtered();
+  const tbody = $('#rows');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="${DATA.machines.length + 2}">
+      ${state.query ? `No commits match “${esc(state.query)}”.` : 'No commits match this filter.'}
+      <button class="theme-btn" type="button" data-clear>Show all commits</button></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(rowHTML).join('');
+  if (focusSel) $(focusSel)?.focus({ preventScroll: true });
+}
+
+/* ============================================================================
+   Detail panel
+============================================================================ */
+function defaultTab(c) {
+  const ms = DATA.machines;
+  return (ms.find((m) => c.runs[m.id]?.status === 'failed')
+    || ms.find((m) => isFinished(c.runs[m.id]))
+    || ms.find((m) => c.runs[m.id])
+    || ms[0]).id;
+}
+
+function detailHTML(c) {
+  if (!Object.keys(c.runs).length) {
+    return `<div class="detail detail-empty"><p class="notice">No runs for this commit.
+      <span class="sub">To get results for it, start the workflow by hand from the Actions tab of the private repo and enter this SHA.</span></p></div>`;
+  }
+  const compare = !!state.compare[c.sha];
+  const active = state.tab[c.sha] || defaultTab(c);
+  const canCompare = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length).length >= 2;
+  const tabs = DATA.machines.map((m) => {
+    const st = c.runs[m.id]?.status || 'none';
+    const sel = !compare && m.id === active;
+    return `<button class="tab${sel ? ' is-active' : ''}" type="button" role="tab" aria-selected="${sel}" data-tab="${c.sha}|${m.id}">
+      ${machineMark(m.index)}<span>${esc(m.id)}</span>${statusIcon(st)}<span class="sr-only">${STATUS_LABEL[st]}</span></button>`;
+  }).join('');
+  const btn = `<button class="compare-btn" type="button" aria-pressed="${compare}" data-compare="${c.sha}"
+    ${canCompare ? '' : 'disabled title="Needs screenshots from at least two machines"'}>Compare machines</button>`;
+  const body = compare ? compareHTML(c) : machineHTML(c, DATA.machines.find((m) => m.id === active));
+  return `<div class="detail"><div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
+}
+
+function statsHTML(run) {
+  const S = [
+    ['Average FPS', 'fps_avg', (v) => v.toFixed(1), 'higher'],
+    ['p95 frame time', 'frame_ms_p95', (v) => `${v.toFixed(2)} ms`, 'lower'],
+    ['GPU memory', 'gpu_mem_mb', (v) => `${v.toLocaleString('en-US')} MB`, 'lower'],
+    ['Scene load time', 'load_ms', (v) => `${(v / 1000).toFixed(2)} s`, 'lower'],
+  ];
+  return `<dl class="stats">${S.map(([label, key, fmt, better]) => {
+    const v = run.stats[key];
+    let delta = '<span class="delta">First run on this machine</span>';
+    if (run.prev) {
+      const pv = run.prev.stats[key];
+      const pct = ((v - pv) / pv) * 100;
+      if (Math.abs(pct) < 1) delta = `<span class="delta">About the same as ${short(run.prev.sha)}</span>`;
+      else {
+        const good = better === 'higher' ? pct > 0 : pct < 0;
+        delta = `<span class="delta ${good ? 'better' : 'worse'}">${pct > 0 ? '▲' : '▼'} ${pct > 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}% vs ${short(run.prev.sha)}</span>`;
+      }
+    }
+    return `<div class="stat"><dt>${label}</dt><dd><span class="val">${fmt(v)}</span>${delta}</dd></div>`;
+  }).join('')}</dl>`;
+}
+
+function testsHTML(run) {
+  const done = run.tests.filter((t) => t.status !== 'pending');
+  const passed = run.tests.filter((t) => t.status === 'passed').length;
+  const failed = run.tests.filter((t) => t.status === 'failed').length;
+  let count = `${passed} of ${run.tests.length} passed`;
+  if (failed) count += `, ${failed} failed`;
+  if (done.length < run.tests.length) count += `, ${run.tests.length - done.length} pending`;
+  return `<h3>Tests <span class="count">${count}</span></h3>
+    <ul class="tests">${run.tests.map((t) => `<li class="t-${t.status}">${statusIcon(t.status)}<span class="t-name">${esc(t.name)}</span>
+      <span class="t-time">${t.ms != null ? fmtMs(t.ms) : STATUS_LABEL[t.status]}</span>
+      ${t.message ? `<span class="t-msg">${esc(t.message)}</span>` : ''}</li>`).join('')}</ul>`;
+}
+
+function shotFigure(s, key, i, m, showScene = true) {
+  const failed = s.status === 'failed';
+  return `<figure class="shot${failed ? ' is-failed' : ''}">
+    <button type="button" class="shot-btn" data-shots="${key}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}">
+      <img src="${esc(s.file)}" alt="${esc(s.scene)} on ${esc(m.id)}" loading="lazy" width="960" height="540"></button>
+    <figcaption>${showScene ? `<span>${esc(s.scene)}</span>` : ''}
+      <span class="diff${failed ? ' is-failed' : ''}">${failed ? statusIcon('failed') : ''}${s.diff_pct != null ? `${s.diff_pct.toFixed(1)}% different` : ''}</span></figcaption>
+  </figure>`;
+}
+
+function machineHTML(c, m) {
+  const run = c.runs[m.id];
+  const spec = `<p class="spec">${esc(m.os)}, ${esc(m.cpu)}, ${esc(m.gpu)}, ${m.ram_gb} GB RAM, driver ${esc(m.driver)}</p>`;
+  if (!run) return `${spec}<p class="notice">This commit was not run on ${esc(m.id)}.</p>`;
+  if (run.status === 'queued') {
+    return `${spec}<p class="notice">Waiting for ${esc(m.id)} to pick up this job.
+      <span class="sub">If it stays queued, check that the runner service is running on that machine.</span></p>`;
+  }
+  const link = run.run_url ? ` <a href="${esc(run.run_url)}" target="_blank" rel="noopener">Open run on GitHub</a>` : '';
+  const when = run.status === 'running'
+    ? `Started ${fmtDate(run.started)}, running for ${fmtDur((refNow() - new Date(run.started)) / 1000)}.`
+    : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
+  const key = `${c.sha}|${m.id}`;
+  const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
+  const gallery = run.screenshots.map((s, i) => shotFigure(s, key, i, m)).join('')
+    + Array.from({ length: pendingShots }, () => '<div class="shot"><div class="shot-pending">Not captured yet</div></div>').join('');
+  return `<div class="machine-view">
+    <div>
+      ${spec}
+      <p class="run-line">${when}${link}</p>
+      ${run.stats ? statsHTML(run) : '<p class="notice" style="margin-bottom:18px">Stats appear when the run finishes.</p>'}
+      ${testsHTML(run)}
+    </div>
+    <div>
+      <h3>Screenshots <span class="count">${run.screenshots.length}${pendingShots ? ` of ${run.screenshots.length + pendingShots}` : ''}</span></h3>
+      <div class="gallery">${gallery || '<p class="notice">No screenshots in this run.</p>'}</div>
+    </div>
+  </div>`;
+}
+
+function compareItems(c) {
+  const ms = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length);
+  const scenes = [];
+  for (const m of ms) for (const s of c.runs[m.id].screenshots) if (!scenes.includes(s.scene)) scenes.push(s.scene);
+  const grid = scenes.map((scene) => ms.map((m) => {
+    const s = c.runs[m.id].screenshots.find((x) => x.scene === scene);
+    return s ? { ...s, machine: m.id, sha: c.sha } : null;
+  }));
+  return { ms, scenes, grid, flat: grid.flat().filter(Boolean) };
+}
+
+function compareHTML(c) {
+  const { ms, scenes, grid, flat } = compareItems(c);
+  const key = `${c.sha}|compare`;
+  let html = '<div></div>' + ms.map((m) => `<div class="c-head">${machineMark(m.index)}${esc(m.id)} <small>${esc(m.gpu)}</small></div>`).join('');
+  scenes.forEach((scene, r) => {
+    html += `<div class="c-scene">${esc(scene)}</div>`;
+    grid[r].forEach((s, k) => {
+      html += s ? shotFigure(s, key, flat.indexOf(s), ms[k], false) : '<div class="c-missing">Not captured</div>';
+    });
+  });
+  return `<div class="compare-wrap"><div class="compare" style="--cols:${ms.length}">${html}</div></div>`;
+}
+
+/* ============================================================================
+   Lightbox
+============================================================================ */
+const lb = { items: [], i: 0 };
+function itemsFor(key) {
+  const [sha, mid] = key.split('|');
+  const c = DATA.commits.find((x) => x.sha === sha);
+  if (mid === 'compare') return compareItems(c).flat;
+  return c.runs[mid].screenshots.map((s) => ({ ...s, machine: mid, sha }));
+}
+function showLightboxItem() {
+  const it = lb.items[lb.i];
+  const img = $('#lb-img');
+  img.src = it.file;
+  img.alt = `${it.scene} on ${it.machine}`;
+  $('#lb-caption').textContent = `${it.scene}, ${it.machine}`;
+  $('#lb-count').textContent = `${lb.i + 1} of ${lb.items.length}`;
+  const failed = it.status === 'failed';
+  $('#lb-detail').innerHTML = `Commit <span class="sha">${short(it.sha)}</span>. `
+    + (it.diff_pct != null ? `<span class="${failed ? 'bad' : ''}">${it.diff_pct.toFixed(1)}% different from the reference image${failed ? ', failed' : ''}.</span>` : '')
+    + ' Use the arrow keys to move between screenshots.';
+  const multi = lb.items.length > 1;
+  document.querySelectorAll('.lb-nav').forEach((b) => { b.disabled = !multi; });
+}
+function openLightbox(key, i) {
+  lb.items = itemsFor(key);
+  lb.i = i;
+  showLightboxItem();
+  const d = $('#lightbox');
+  if (!d.open) d.showModal();
+}
+function stepLightbox(d) {
+  if (lb.items.length < 2) return;
+  lb.i = (lb.i + d + lb.items.length) % lb.items.length;
+  showLightboxItem();
+}
+
+/* ============================================================================
+   Actions
+============================================================================ */
+function openCommit(sha) {
+  if (!filtered().some((c) => c.sha === sha)) {
+    state.filter = 'all'; state.query = ''; $('#search').value = '';
+    renderFilters();
+  }
+  state.open.add(sha);
+  const sel = `[data-toggle="${sha}"]`;
+  renderRows(sel);
+  $(`tr[data-sha="${sha}"]`)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+}
+
+function bindEvents() {
+  $('#rows').addEventListener('click', (e) => {
+    const shot = e.target.closest('[data-shots]');
+    if (shot) { openLightbox(shot.dataset.shots, +shot.dataset.i); return; }
+    const tab = e.target.closest('[data-tab]');
+    if (tab) {
+      const [sha, mid] = tab.dataset.tab.split('|');
+      state.tab[sha] = mid; state.compare[sha] = false;
+      renderRows(`[data-tab="${sha}|${mid}"]`); return;
+    }
+    const cmp = e.target.closest('[data-compare]');
+    if (cmp) {
+      const sha = cmp.dataset.compare;
+      state.compare[sha] = !state.compare[sha];
+      renderRows(`[data-compare="${sha}"]`); return;
+    }
+    if (e.target.closest('[data-clear]')) {
+      state.filter = 'all'; state.query = ''; $('#search').value = '';
+      renderFilters(); renderRows(); return;
+    }
+    if (e.target.closest('a, .detail-row')) return;
+    const row = e.target.closest('tr.commit-row');
+    if (row) {
+      const sha = row.dataset.sha;
+      state.open.has(sha) ? state.open.delete(sha) : state.open.add(sha);
+      renderRows(`[data-toggle="${sha}"]`);
+    }
+  });
+
+  $('#filters').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-filter]');
+    if (!b) return;
+    state.filter = b.dataset.filter;
+    renderFilters(); renderRows();
+  });
+  $('#search').addEventListener('input', (e) => { state.query = e.target.value; renderRows(); });
+  $('#metric-switch').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-metric]');
+    if (!b) return;
+    state.metric = b.dataset.metric;
+    renderMetricSwitch(); renderChart();
+  });
+  document.addEventListener('click', (e) => {
+    const o = e.target.closest('[data-open]');
+    if (o) openCommit(o.dataset.open);
+  });
+
+  const d = $('#lightbox');
+  d.addEventListener('click', (e) => {
+    if (e.target === d) { d.close(); return; }
+    const b = e.target.closest('[data-lb]');
+    if (!b) return;
+    if (b.dataset.lb === 'close') d.close();
+    if (b.dataset.lb === 'prev') stepLightbox(-1);
+    if (b.dataset.lb === 'next') stepLightbox(1);
+  });
+  d.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); stepLightbox(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); stepLightbox(1); }
+  });
+
+  // Theme: Auto (follows Windows setting), Light, Dark.
+  const themes = ['auto', 'light', 'dark'];
+  const themeBtn = $('#theme-btn');
+  let theme = document.documentElement.getAttribute('data-theme') || 'auto';
+  const paintThemeBtn = () => { themeBtn.textContent = `Theme: ${theme[0].toUpperCase()}${theme.slice(1)}`; };
+  paintThemeBtn();
+  themeBtn.addEventListener('click', () => {
+    theme = themes[(themes.indexOf(theme) + 1) % themes.length];
+    if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('ci-theme', theme); } catch (err) { /* storage can be blocked; theme still applies */ }
+    paintThemeBtn();
+  });
+
+  let raf = 0, lastW = $('#chart').clientWidth;
+  new ResizeObserver(() => {
+    const w = $('#chart').clientWidth;
+    if (w === lastW) return;
+    lastW = w;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(renderChart);
+  }).observe($('#chart'));
+}
+
+/* ============================================================================
+   Start
+============================================================================ */
+(async function start() {
+  try {
+    DATA = prepare(await loadData());
+  } catch (err) {
+    $('#summary').textContent = `Results could not be loaded. ${err.message}`;
+    return;
+  }
+  if (CONFIG.source === 'sample' && DATA.generated_at) {
+    const t = new Date(DATA.generated_at);
+    refNow = () => t; // keep the sample's "2 hours ago" text stable whenever you open it
+  }
+  const firstFinished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
+  if (firstFinished) state.open.add(firstFinished.sha);
+
+  renderHeader();
+  renderMetricSwitch();
+  renderLegend();
+  renderMatrixHead();
+  renderFilters();
+  renderRows();
+  renderChart();
+  bindEvents();
+})();

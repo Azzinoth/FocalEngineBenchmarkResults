@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // Apply a saved theme before the page paints.
+    try {
+      var t = localStorage.getItem('ci-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="top-row">
+        <h1 class="repo" id="repo-name">Test results</h1>
+        <span class="branch" id="branch-name"></span>
+        <div class="top-actions">
+          <span class="source-pill" id="source-pill" hidden>Sample data</span>
+          <button class="theme-btn" id="theme-btn" type="button">Theme: Auto</button>
+        </div>
+      </div>
+      <p class="summary" id="summary">Loading results…</p>
+      <p class="summary-sub" id="summary-sub"></p>
+    </header>
+
+    <main>
+      <section class="panel trend" aria-labelledby="trend-title">
+        <div class="trend-head">
+          <div>
+            <h2 id="trend-title">Performance by commit</h2>
+            <p class="trend-note" id="trend-note"></p>
+          </div>
+          <div class="segmented" id="metric-switch" role="group" aria-label="Chart measure"></div>
+        </div>
+        <ul class="legend" id="legend" aria-label="Machines"></ul>
+        <div class="chart" id="chart"></div>
+        <details class="chart-table">
+          <summary>Show chart data as a table</summary>
+          <div class="chart-table-wrap" id="chart-table"></div>
+        </details>
+      </section>
+
+      <section class="commits" aria-labelledby="commits-title">
+        <div class="commits-head">
+          <h2 id="commits-title">Commits</h2>
+          <div class="segmented" id="filters" role="group" aria-label="Show commits"></div>
+          <label class="search">
+            <span class="sr-only">Search commits</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+            <input id="search" type="search" placeholder="Search commits" autocomplete="off">
+          </label>
+        </div>
+        <div class="panel matrix-wrap">
+          <table class="matrix" id="matrix">
+            <colgroup id="matrix-cols"></colgroup>
+            <thead id="matrix-head"></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot" id="foot"></footer>
+  </div>
+
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lb-caption">
+    <div class="lb-top">
+      <p class="lb-caption" id="lb-caption"></p>
+      <span class="lb-count" id="lb-count"></span>
+      <button class="lb-btn" type="button" data-lb="close" aria-label="Close screenshot viewer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg>
+      </button>
+    </div>
+    <div class="lb-stage">
+      <button class="lb-btn lb-nav" type="button" data-lb="prev" aria-label="Previous screenshot">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+      </button>
+      <img id="lb-img" alt="">
+      <button class="lb-btn lb-nav" type="button" data-lb="next" aria-label="Next screenshot">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+      </button>
+    </div>
+    <p class="lb-detail" id="lb-detail"></p>
+  </dialog>
+
+  <script src="sample-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
