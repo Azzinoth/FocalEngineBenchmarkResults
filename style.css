@@ -125,6 +125,28 @@ a { color: var(--accent); }
   text-underline-offset: 3px; text-decoration-thickness: 1px;
 }
 
+/* test machines (runner status) */
+.runners { display: flex; align-items: center; gap: 8px 14px; flex-wrap: wrap; margin-top: 16px; font-size: 13.5px; }
+.runners[hidden] { display: none; }
+.runners .runners-title { font-size: 13.5px; font-weight: 600; letter-spacing: 0; color: var(--ink-2); }
+.runner-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.runner {
+  display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px 4px 10px;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 999px;
+}
+.runner-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.runner-name { font-weight: 500; overflow-wrap: anywhere; }
+.runner-state { color: var(--muted); white-space: nowrap; }
+.r-idle .runner-dot { background: var(--good); }
+.r-idle .runner-state { color: var(--good-text); }
+.r-busy .runner-dot { background: var(--warning); }
+.r-busy .runner-state { color: var(--warning-text); font-weight: 500; }
+.r-offline .runner-dot { box-shadow: inset 0 0 0 1.5px var(--muted); }
+.r-offline .runner-name { color: var(--ink-2); }
+.runner-none { color: var(--muted); }
+.runners-checked { color: var(--muted); }
+.runners-checked.is-stale { color: var(--warning-text); }
+
 /* ---------------------------------------------------------------- shared controls */
 .segmented { display: inline-flex; background: var(--surface-3); border-radius: 8px; padding: 3px; gap: 2px; flex-wrap: wrap; }
 .segmented button {
