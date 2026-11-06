@@ -1,0 +1,3 @@
+# PNG screenshots stay in the repo for downloading and comparing, but are not published, so the site stays small.
+exclude:
+  - png

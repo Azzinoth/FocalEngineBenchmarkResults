@@ -26,12 +26,13 @@
            "tests": [ { "name": "Unit tests", "status": "passed", "ms": 3200, "message": "..." } ],
            "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
                               "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
-                              "status": "passed", "diff_pct": 0.3 } ]
+                              "png": "png/<sha>/lab-win-01/01.png",
+                              "status": "passed", "diff_pct": 0.3, "diff_against": "<sha>" } ]
          }
        }
      }
    }
-   Relative screenshot paths are read from resultsBase.
+   Relative screenshot paths are read from resultsBase, PNG paths from pngBase.
    Commits listed in "commits" are shown even when they are not among the newest
    maxCommits commits of branch, so results never drop off the page.
 ============================================================================ */
@@ -40,6 +41,8 @@ const CONFIG = {
   repo: 'Azzinoth/FocalEngine',
   branch: 'master',
   resultsBase: 'https://azzinoth.github.io/FocalEngineBenchmarkResults/',
+  // png folder is left out of the site (see _config.yml), so PNGs are read straight from the repo.
+  pngBase: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/master/',
   maxCommits: 100,
   // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
   runnersUrl: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/status/runners.json',
@@ -169,7 +172,9 @@ function prepare(raw) {
   const commits = raw.commits.map((c) => {
     const runs = raw.runs[c.sha] || {};
     for (const r of Object.values(runs)) {
-      r.screenshots = (r.screenshots || []).map((s) => ({ ...s, file: abs(s.file), thumb: abs(s.thumb || s.file) }));
+      r.screenshots = (r.screenshots || []).map((s) => ({
+        ...s, file: abs(s.file), thumb: abs(s.thumb || s.file), png: s.png ? new URL(s.png, CONFIG.pngBase).href : null,
+      }));
       r.tests = r.tests || [];
     }
     return { ...c, runs };
@@ -220,7 +225,7 @@ const METRICS = {
     get: (r) => r?.stats?.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, tick: (v) => `${v}`,
   },
   load_s: {
-    button: 'Load time', note: 'Time to load the test scenes, in seconds. Lower is better.',
+    button: 'Load time', note: 'Time to load all test projects together, in seconds. Lower is better.',
     get: (r) => (r?.stats?.load_ms != null ? r.stats.load_ms / 1000 : undefined), fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
   },
   duration_min: {
@@ -620,13 +625,14 @@ function statsHTML(run) {
     ['Average FPS', 'fps_avg', (v) => v.toFixed(1), 'higher'],
     ['p95 frame time', 'frame_ms_p95', (v) => `${v.toFixed(2)} ms`, 'lower'],
     ['GPU memory', 'gpu_mem_mb', (v) => `${v.toLocaleString('en-US')} MB`, 'lower'],
-    ['Scene load time', 'load_ms', (v) => `${(v / 1000).toFixed(2)} s`, 'lower'],
+    ['Load time of all projects', 'load_ms', (v) => `${(v / 1000).toFixed(2)} s`, 'lower'],
   ];
-  return `<dl class="stats">${S.map(([label, key, fmt, better]) => {
+  // A run has only the stats that were measured in it.
+  return `<dl class="stats">${S.filter(([, key]) => run.stats[key] != null).map(([label, key, fmt, better]) => {
     const v = run.stats[key];
+    const pv = run.prev?.stats?.[key];
     let delta = '<span class="delta">First run on this machine</span>';
-    if (run.prev) {
-      const pv = run.prev.stats[key];
+    if (pv != null) {
       const pct = ((v - pv) / pv) * 100;
       if (Math.abs(pct) < 1) delta = `<span class="delta">About the same as ${short(run.prev.sha)}</span>`;
       else {
@@ -657,7 +663,7 @@ function shotFigure(s, key, i, m, showScene = true) {
     <button type="button" class="shot-btn" data-shots="${key}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}">
       <img src="${esc(s.file)}" alt="${esc(s.scene)} on ${esc(m.id)}" loading="lazy" width="960" height="540"></button>
     <figcaption>${showScene ? `<span>${esc(s.scene)}</span>` : ''}
-      <span class="diff${failed ? ' is-failed' : ''}">${failed ? statusIcon('failed') : ''}${s.diff_pct != null ? `${s.diff_pct.toFixed(1)}% different` : ''}</span></figcaption>
+      <span class="diff${failed ? ' is-failed' : ''}"${s.diff_against ? ` title="Compared with ${short(s.diff_against)}"` : ''}>${failed ? statusIcon('failed') : ''}${s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different` : ''}</span></figcaption>
   </figure>`;
 }
 
@@ -673,6 +679,7 @@ function machineHTML(c, m) {
   const when = run.status === 'running'
     ? `Started ${fmtDate(run.started)}, running for ${fmtDur((refNow() - new Date(run.started)) / 1000)}.`
     : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
+  const projects = run.projects_commit ? ` Projects at <span class="sha">${short(run.projects_commit)}</span>.` : '';
   const key = `${c.sha}|${m.id}`;
   const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
   const gallery = run.screenshots.map((s, i) => shotFigure(s, key, i, m)).join('')
@@ -680,7 +687,7 @@ function machineHTML(c, m) {
   return `<div class="machine-view">
     <div>
       ${spec}
-      <p class="run-line">${when}${link}</p>
+      <p class="run-line">${when}${projects}${link}</p>
       ${run.stats ? statsHTML(run) : '<p class="notice" style="margin-bottom:18px">Stats appear when the run finishes.</p>'}
       ${testsHTML(run)}
     </div>
@@ -733,8 +740,10 @@ function showLightboxItem() {
   $('#lb-caption').textContent = `${it.scene}, ${it.machine}`;
   $('#lb-count').textContent = `${lb.i + 1} of ${lb.items.length}`;
   const failed = it.status === 'failed';
+  const reference = it.diff_against ? `commit <span class="sha">${short(it.diff_against)}</span>` : 'the reference image';
   $('#lb-detail').innerHTML = `Commit <span class="sha">${short(it.sha)}</span>. `
-    + (it.diff_pct != null ? `<span class="${failed ? 'bad' : ''}">${it.diff_pct.toFixed(1)}% different from the reference image${failed ? ', failed' : ''}.</span>` : '')
+    + (it.diff_pct != null ? `<span class="${failed ? 'bad' : ''}">${it.diff_pct.toFixed(2)}% of pixels different from ${reference}${failed ? ', failed' : ''}.</span>` : '')
+    + (it.png ? ` <a href="${esc(it.png)}" target="_blank" rel="noopener">Open PNG</a>.` : '')
     + ' Use the arrow keys to move between screenshots.';
   const multi = lb.items.length > 1;
   document.querySelectorAll('.lb-nav').forEach((b) => { b.disabled = !multi; });
