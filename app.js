@@ -15,6 +15,7 @@
      "generated_at": "2026-11-03T18:20:00Z",
      "machines": [ { "id": "lab-win-01", "os": "...", "cpu": "...", "gpu": "...",
                      "driver": "...", "ram_gb": 32 } ],
+     "commits": { "<full commit sha>": { "message": "...", "author": "...", "date": ISO time } },
      "runs": {
        "<full commit sha>": {
          "lab-win-01": {
@@ -31,13 +32,15 @@
      }
    }
    Relative screenshot paths are read from resultsBase.
+   Commits listed in "commits" are shown even when they are not among the newest
+   maxCommits commits of branch, so results never drop off the page.
 ============================================================================ */
 const CONFIG = {
   source: 'live',
   repo: 'Azzinoth/FocalEngine',
   branch: 'master',
   resultsBase: 'https://azzinoth.github.io/FocalEngineBenchmarkResults/',
-  maxCommits: 50,
+  maxCommits: 100,
   // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
   runnersUrl: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/status/runners.json',
 };
@@ -126,20 +129,37 @@ async function loadData() {
   if (!indexRes.ok) throw new Error(`index.json could not be loaded (HTTP ${indexRes.status}). Check resultsBase in app.js.`);
   const gh = await commitsRes.json();
   const index = await indexRes.json();
+  const branchCommits = gh.map((c) => ({
+    sha: c.sha,
+    message: c.commit.message.split('\n')[0],
+    author: c.author?.login || c.commit.author.name,
+    date: c.commit.author.date,
+    url: c.html_url,
+  }));
   return {
     repo: CONFIG.repo,
     branch: CONFIG.branch,
     generated_at: index.generated_at,
     machines: index.machines,
     runs: index.runs || {},
-    commits: gh.map((c) => ({
-      sha: c.sha,
-      message: c.commit.message.split('\n')[0],
-      author: c.author?.login || c.commit.author.name,
-      date: c.commit.author.date,
-      url: c.html_url,
-    })),
+    commits: mergeCommits(branchCommits, index.commits || {}),
   };
+}
+
+// Keeps GitHub's order of branch commits and slots in, by date, commits that have results but are not in that list.
+function mergeCommits(branchCommits, resultCommits) {
+  const listed = new Set(branchCommits.map((c) => c.sha));
+  const extra = Object.entries(resultCommits)
+    .filter(([sha]) => !listed.has(sha))
+    .map(([sha, c]) => ({ sha, ...c }))
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+  const merged = [];
+  let k = 0;
+  for (const c of branchCommits) {
+    while (k < extra.length && new Date(extra[k].date) > new Date(c.date)) merged.push(extra[k++]);
+    merged.push(c);
+  }
+  return merged.concat(extra.slice(k));
 }
 
 function prepare(raw) {
