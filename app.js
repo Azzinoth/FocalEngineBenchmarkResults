@@ -33,10 +33,10 @@
    Relative screenshot paths are read from resultsBase.
 ============================================================================ */
 const CONFIG = {
-  source: 'sample',
-  repo: 'your-user/your-repo',
-  branch: 'main',
-  resultsBase: 'https://results.example.com/',
+  source: 'live',
+  repo: 'Azzinoth/FocalEngine',
+  branch: 'master',
+  resultsBase: 'https://azzinoth.github.io/FocalEngineBenchmarkResults/',
   maxCommits: 50,
   // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
   runnersUrl: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/status/runners.json',
@@ -219,7 +219,7 @@ function describe(c) {
     if (st) (by[st] ||= []).push(m.id);
   }
   const total = DATA.machines.length;
-  if ((by.passed || []).length === total) return `passed on all ${total} machines`;
+  if ((by.passed || []).length === total) return total === 1 ? `passed on ${by.passed[0]}` : `passed on all ${total} machines`;
   const parts = [];
   if (by.running) parts.push(`running on ${joinList(by.running)}`);
   if (by.queued) parts.push(`queued on ${joinList(by.queued)}`);
@@ -298,13 +298,11 @@ function renderRunners() {
     note.classList.add('is-stale');
     return;
   }
-  const machines = DATA?.machines || [];
   list.innerHTML = runnerStatus.runners.length
     ? runnerStatus.runners.map((r) => {
       const st = runnerState(r);
-      const m = machines.find((x) => x.id === r.name || r.labels.includes(x.id));
       return `<li class="runner r-${st}" title="${esc(`Labels: ${r.labels.join(', ')}`)}">
-        <span class="runner-dot" aria-hidden="true"></span>${m ? machineMark(m.index) : ''}
+        <span class="runner-dot" aria-hidden="true"></span>
         <span class="runner-name">${esc(r.name)}</span><span class="runner-state">${RUNNER_LABEL[st]}</span></li>`;
     }).join('')
     : '<li class="runner-none">No runners registered</li>';
