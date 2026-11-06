@@ -1,5 +1,38 @@
 {
- "generated_at": "2026-11-06T16:09:24Z",
- "machines": [],
- "runs": {}
+ "generated_at": "2026-11-06T16:33:14Z",
+ "machines": [
+  {
+   "id": "lab-win-SHEARWATER",
+   "os": "Windows 11 Enterprise 10.0.26200",
+   "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+   "gpu": "NVIDIA GeForce RTX 4090",
+   "driver": "616.92",
+   "ram_gb": 64
+  }
+ ],
+ "runs": {
+  "c4aa9b5a38fb035f149bda936c32054d96ff772a": {
+   "lab-win-SHEARWATER": {
+    "status": "passed",
+    "started": "2026-11-06T16:32:32Z",
+    "finished": "2026-11-06T16:32:56Z",
+    "duration_sec": 24,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42253319434",
+    "machine": {
+     "os": "Windows 11 Enterprise 10.0.26200",
+     "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+     "gpu": "NVIDIA GeForce RTX 4090",
+     "driver": "616.92",
+     "ram_gb": 64
+    },
+    "tests": [
+     {
+      "name": "Benchmark job",
+      "status": "passed"
+     }
+    ],
+    "screenshots": []
+   }
+  }
+ }
 }
