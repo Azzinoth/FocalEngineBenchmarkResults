@@ -302,7 +302,7 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .compare-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 .compare-btn:disabled { opacity: .5; }
 
-.machine-view { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 32px; }
+.machine-view { display: grid; grid-template-columns: minmax(300px, 500px) 1fr; gap: 32px; }
 .spec { color: var(--muted); font-size: 13.5px; margin-bottom: 4px; }
 .run-line { font-size: 14px; color: var(--ink-2); margin-bottom: 16px; }
 .run-line a { white-space: nowrap; }
@@ -312,13 +312,27 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 h3 { font-size: 14.5px; font-weight: 650; margin: 0 0 8px; }
 h3 .count { font-weight: 400; }
 
-.tests { list-style: none; margin: 0; padding: 0; font-size: 14px; }
-.tests li { display: grid; grid-template-columns: 16px 1fr auto; column-gap: 9px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--rule); }
-.tests li:last-child { border-bottom: 0; }
-.tests .t-time { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
-.tests .t-pending .t-name { color: var(--muted); }
-.tests .t-perf { grid-column: 2 / -1; color: var(--ink-2); font-size: 13px; font-variant-numeric: tabular-nums; }
-.tests .t-msg { grid-column: 2 / -1; color: var(--critical-text); font-size: 13px; margin-top: 2px; }
+.build-line { display: flex; align-items: center; gap: 9px; font-size: 14px; margin: 0 0 4px; }
+.build-line .build-time { margin-left: auto; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.build-msg { color: var(--critical-text); font-size: 13px; margin: 0 0 4px 25px; }
+.build-line + h3, .build-msg + h3 { margin-top: 18px; }
+
+.projects-wrap { overflow-x: auto; }
+.projects { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+/* Table sits inside the commit matrix, so sticky header cells of the matrix are reset. */
+.projects th, .projects td { position: static; background: none; padding: 7px 0 7px 14px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; vertical-align: baseline; }
+.projects thead th { padding-top: 0; font-size: 12.5px; font-weight: 500; color: var(--muted); vertical-align: bottom; white-space: normal; }
+.projects thead th:nth-child(2), .projects tbody th { text-align: left; padding-left: 9px; }
+.projects tbody th { font-weight: 500; white-space: normal; }
+.projects td { color: var(--ink-2); font-size: 13px; }
+.projects .p-icon { width: 16px; padding-left: 0; }
+.projects .p-icon .si { display: inline-block; vertical-align: -3px; }
+.projects td.p-fps { color: var(--ink); font-size: 15.5px; font-weight: 650; }
+.projects .p-pending th { color: var(--muted); }
+.projects tr.has-message th, .projects tr.has-message td { border-bottom: 0; padding-bottom: 2px; }
+.projects td.p-message { text-align: left; white-space: normal; padding: 0 0 7px 9px; color: var(--critical-text); }
+.projects td.p-message.is-note { color: var(--warning-text); }
+.projects tbody tr:last-child th, .projects tbody tr:last-child td { border-bottom: 0; }
 
 .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px 14px; }
 .shot { margin: 0; }
@@ -368,7 +382,7 @@ h3 .count { font-weight: 400; }
 
 /* ---------------------------------------------------------------- responsive */
 @media (max-width: 1100px) {
-  .machine-view { grid-template-columns: 1fr; gap: 22px; }
+  .machine-view { grid-template-columns: minmax(0, 1fr); gap: 22px; }
 }
 
 @media (max-width: 760px) {
@@ -380,9 +394,10 @@ h3 .count { font-weight: 400; }
   .trend { padding: 16px 14px 10px; }
   .legend .legend-gap { margin-left: 0; }
   .search { margin-left: 0; width: 100%; min-width: 0; }
+  .projects th, .projects td { padding-left: 8px; }
 
-  .matrix, .matrix tbody { display: block; }
-  .matrix thead, .matrix colgroup { display: none; }
+  .matrix, .matrix > tbody { display: block; }
+  .matrix > thead, .matrix > colgroup { display: none; }
   .commit-row { display: grid; grid-template-columns: repeat(var(--m, 3), minmax(0, 1fr)); gap: 10px 8px; padding: 14px 14px 12px; border-bottom: 1px solid var(--rule); }
   .commit-row td { display: block; padding: 0; border: 0; background: none !important; }
   .commit-row.is-open { background: var(--surface-2); border-bottom-color: transparent; }

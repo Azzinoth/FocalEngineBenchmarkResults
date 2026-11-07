@@ -629,25 +629,47 @@ function detailHTML(c) {
   return `<div class="detail"><div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
 }
 
-function testPerformance(t) {
-  if (t.fps_avg == null) return '';
+// Publish job names the build test "Build (Release)", every other test is a project.
+const isBuildTest = (t) => t.name.startsWith('Build (');
 
-  const p95 = t.frame_ms_p95 != null ? ` · p95 frame time ${t.frame_ms_p95.toFixed(2)} ms` : '';
-  return `<span class="t-perf">${t.fps_avg.toFixed(1)} fps${p95}</span>`;
+function buildHTML(run) {
+  return run.tests.filter(isBuildTest).map((t) => `<p class="build-line">${statusIcon(t.status)}<span>${esc(t.name)}</span>
+    <span class="build-time">${t.ms != null ? fmtMs(t.ms) : STATUS_LABEL[t.status]}</span></p>
+    ${t.message ? `<p class="build-msg">${esc(t.message)}</p>` : ''}`).join('');
 }
 
-function testsHTML(run) {
-  const done = run.tests.filter((t) => t.status !== 'pending');
-  const passed = run.tests.filter((t) => t.status === 'passed').length;
-  const failed = run.tests.filter((t) => t.status === 'failed').length;
-  let count = `${passed} of ${run.tests.length} passed`;
+function projectsHTML(run) {
+  const projects = run.tests.filter((t) => !isBuildTest(t));
+  if (!projects.length) return '';
+
+  const passed = projects.filter((t) => t.status === 'passed').length;
+  const failed = projects.filter((t) => t.status === 'failed').length;
+  const pending = projects.filter((t) => t.status === 'pending').length;
+  let count = `${passed} of ${projects.length} passed`;
   if (failed) count += `, ${failed} failed`;
-  if (done.length < run.tests.length) count += `, ${run.tests.length - done.length} pending`;
-  return `<h3>Tests <span class="count">${count}</span></h3>
-    <ul class="tests">${run.tests.map((t) => `<li class="t-${t.status}">${statusIcon(t.status)}<span class="t-name">${esc(t.name)}</span>
-      <span class="t-time">${t.ms != null ? fmtMs(t.ms) : STATUS_LABEL[t.status]}</span>
-      ${testPerformance(t)}
-      ${t.message ? `<span class="t-msg">${esc(t.message)}</span>` : ''}</li>`).join('')}</ul>`;
+  if (pending) count += `, ${pending} pending`;
+
+  const rows = projects.map((t) => {
+    // For a project that did not load, ms is its run time, not load time.
+    const load = t.status === 'passed' && t.ms != null ? fmtMs(t.ms) : '–';
+    // Message of a passed project is a note, for example that frame time did not settle.
+    const message = t.message
+      ? `<tr class="p-message-row"><td></td><td colspan="4" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
+      : '';
+    return `<tr class="p-${t.status}${t.message ? ' has-message' : ''}">
+      <td class="p-icon">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span></td>
+      <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}</th>
+      <td class="p-fps">${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}</td>
+      <td>${t.frame_ms_p95 != null ? `${t.frame_ms_p95.toFixed(2)} ms` : '–'}</td>
+      <td>${load}</td></tr>${message}`;
+  }).join('');
+
+  return `<h3>Projects <span class="count">${count}</span></h3>
+    <div class="projects-wrap"><table class="projects">
+      <thead><tr><th><span class="sr-only">Status</span></th><th scope="col">Project</th><th scope="col">Average FPS</th>
+        <th scope="col" title="95th percentile frame time, 95% of frames were faster">p95 frame time</th><th scope="col">Load time</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
 }
 
 function shotFigure(s, key, i, m, showScene = true) {
@@ -681,7 +703,8 @@ function machineHTML(c, m) {
     <div>
       ${spec}
       <p class="run-line">${when}${projects}${link}</p>
-      ${testsHTML(run)}
+      ${buildHTML(run)}
+      ${projectsHTML(run)}
     </div>
     <div>
       <h3>Screenshots <span class="count">${run.screenshots.length}${pendingShots ? ` of ${run.screenshots.length + pendingShots}` : ''}</span></h3>
