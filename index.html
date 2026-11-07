@@ -43,7 +43,13 @@
             <h2 id="trend-title">Performance by commit</h2>
             <p class="trend-note" id="trend-note"></p>
           </div>
-          <div class="segmented" id="metric-switch" role="group" aria-label="Chart measure"></div>
+          <div class="trend-controls">
+            <label class="project-pick" id="project-pick" hidden>
+              <span>Project</span>
+              <select id="project-select"></select>
+            </label>
+            <div class="segmented" id="metric-switch" role="group" aria-label="Chart measure"></div>
+          </div>
         </div>
         <ul class="legend" id="legend" aria-label="Machines"></ul>
         <div class="chart" id="chart"></div>

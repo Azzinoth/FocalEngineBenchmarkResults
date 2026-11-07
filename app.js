@@ -22,8 +22,10 @@
            "status": "passed" | "failed" | "running" | "queued",
            "started": ISO time, "finished": ISO time, "duration_sec": 412,
            "run_url": "https://github.com/.../actions/runs/...",
-           "stats": { "fps_avg": 164.2, "frame_ms_p95": 7.6, "gpu_mem_mb": 1480, "load_ms": 2900 },
-           "tests": [ { "name": "Unit tests", "status": "passed", "ms": 3200, "message": "..." } ],
+           "tests": [ { "name": "Build (Release)", "status": "passed", "ms": 412345 },
+                      { "name": "Terrain", "status": "passed", "ms": 2900, "fps_avg": 164.2, "frame_ms_p95": 7.6,
+                        "message": "..." } ],
+           ("ms" of a project is its load time when it loaded, its run time when it did not)
            "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
                               "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
                               "png": "png/<sha>/lab-win-01/01.png",
@@ -179,19 +181,10 @@ function prepare(raw) {
     }
     return { ...c, runs };
   });
-  // Link each finished run to the previous finished run on the same machine (for deltas).
-  const last = {};
-  for (let i = commits.length - 1; i >= 0; i--) {
-    for (const m of machines) {
-      const r = commits[i].runs[m.id];
-      if (r && r.stats) {
-        r.prev = last[m.id] || null;
-        last[m.id] = { sha: commits[i].sha, stats: r.stats, duration_sec: r.duration_sec };
-      }
-    }
-  }
   for (const c of commits) c.state = commitState(c);
-  return { ...raw, machines, commits };
+  // Every project has a screenshot when it ran, test names also include the build.
+  const projects = [...new Set(commits.flatMap((c) => Object.values(c.runs).flatMap((r) => r.screenshots.map((s) => s.scene))))].sort();
+  return { ...raw, machines, commits, projects };
 }
 
 function commitState(c) {
@@ -213,20 +206,27 @@ const state = {
   tab: {},
   compare: {},
   metric: 'fps_avg',
+  project: null,
 };
+
+const projectTest = (r, project) => r?.tests?.find((t) => t.name === project);
 
 const METRICS = {
   fps_avg: {
-    button: 'Average FPS', note: 'Average frames per second across the test scenes. Higher is better.',
-    get: (r) => r?.stats?.fps_avg, fmt: (v) => `${v.toFixed(1)} fps`, tick: (v) => `${v}`,
+    button: 'Average FPS', perProject: true,
+    note: 'Average frames per second of the project, measured after frame time settles. Higher is better.',
+    get: (r, p) => projectTest(r, p)?.fps_avg, fmt: (v) => `${v.toFixed(1)} fps`, tick: (v) => `${v}`,
   },
   frame_ms_p95: {
-    button: 'Frame time', note: '95th percentile frame time in milliseconds. Lower is better.',
-    get: (r) => r?.stats?.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, tick: (v) => `${v}`,
+    button: 'Frame time', perProject: true,
+    note: '95th percentile frame time of the project in milliseconds, 95% of frames were faster. Lower is better.',
+    get: (r, p) => projectTest(r, p)?.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, tick: (v) => `${v}`,
   },
   load_s: {
-    button: 'Load time', note: 'Time to load all test projects together, in seconds. Lower is better.',
-    get: (r) => (r?.stats?.load_ms != null ? r.stats.load_ms / 1000 : undefined), fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
+    button: 'Load time', perProject: true,
+    note: 'Time to load the project, in seconds. Lower is better.',
+    get: (r, p) => { const t = projectTest(r, p); return t?.status === 'passed' && t.ms != null ? t.ms / 1000 : undefined; },
+    fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
   },
   duration_min: {
     button: 'Run time', note: 'Total job time, from checkout to upload, in minutes. Lower is better.',
@@ -353,11 +353,18 @@ function niceTicks(lo, hi, n) {
 }
 
 function renderMetricSwitch() {
+  const metric = METRICS[state.metric];
   $('#metric-switch').innerHTML = Object.entries(METRICS)
     .map(([k, m]) => `<button type="button" data-metric="${k}" aria-pressed="${k === state.metric}">${m.button}</button>`)
     .join('');
-  $('#trend-note').textContent = METRICS[state.metric].note;
+  $('#project-select').innerHTML = DATA.projects
+    .map((p) => `<option${p === state.project ? ' selected' : ''}>${esc(p)}</option>`)
+    .join('');
+  $('#project-pick').hidden = !metric.perProject || !DATA.projects.length;
+  $('#trend-note').textContent = metric.note;
 }
+
+const chartTitle = (metric) => (metric.perProject ? `${metric.button} of ${state.project}` : metric.button);
 
 function renderLegend() {
   $('#legend').innerHTML = DATA.machines
@@ -370,11 +377,13 @@ let chartCtx = null;
 function renderChart() {
   const box = $('#chart');
   const metric = METRICS[state.metric];
-  const val = (c, m) => (isFinished(c.runs[m.id]) ? metric.get(c.runs[m.id]) : undefined);
+  const val = (c, m) => (isFinished(c.runs[m.id]) ? metric.get(c.runs[m.id], state.project) : undefined);
   const list = DATA.commits.slice().reverse().filter((c) => DATA.machines.some((m) => val(c, m) != null));
   renderChartTable(list, val, metric);
   if (!list.length) {
-    box.innerHTML = '<p class="chart-empty">The chart fills in once a run finishes.</p>';
+    box.innerHTML = `<p class="chart-empty">${metric.perProject && state.project
+      ? `No finished run has ${esc(metric.button.toLowerCase())} of ${esc(state.project)} yet.`
+      : 'The chart fills in once a run finishes.'}</p>`;
     return;
   }
   const W = Math.max(280, box.clientWidth);
@@ -428,7 +437,7 @@ function renderChart() {
   svg += `<rect class="hit" x="${M.l - 12}" y="0" width="${pw + 24}" height="${H}"/>`;
 
   box.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
-      aria-label="${esc(metric.button)} per commit for each machine. Use left and right arrow keys to read values, Enter to open the commit.">${svg}</svg>
+      aria-label="${esc(chartTitle(metric))} per commit for each machine. Use left and right arrow keys to read values, Enter to open the commit.">${svg}</svg>
     <div class="chart-tip" id="chart-tip" hidden></div>`;
   chartCtx = { list, x, y, val, metric, M, pw, dx, W, hovered: null };
   bindChart();
@@ -490,7 +499,7 @@ function renderChartTable(list, val, metric) {
     .map((c) => `<tr><td><span class="sha">${short(c.sha)}</span> ${esc(c.message)}</td>${DATA.machines
       .map((m) => { const v = val(c, m); return `<td>${v != null ? metric.fmt(v) : '–'}</td>`; }).join('')}</tr>`)
     .join('');
-  $('#chart-table').innerHTML = `<table><caption class="sr-only">${esc(metric.button)} per commit</caption><thead>${head}</thead><tbody>${body}</tbody></table>`;
+  $('#chart-table').innerHTML = `<table><caption class="sr-only">${esc(chartTitle(metric))} per commit</caption><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
 /* ============================================================================
@@ -620,28 +629,11 @@ function detailHTML(c) {
   return `<div class="detail"><div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
 }
 
-function statsHTML(run) {
-  const S = [
-    ['Average FPS', 'fps_avg', (v) => v.toFixed(1), 'higher'],
-    ['p95 frame time', 'frame_ms_p95', (v) => `${v.toFixed(2)} ms`, 'lower'],
-    ['GPU memory', 'gpu_mem_mb', (v) => `${v.toLocaleString('en-US')} MB`, 'lower'],
-    ['Load time of all projects', 'load_ms', (v) => `${(v / 1000).toFixed(2)} s`, 'lower'],
-  ];
-  // A run has only the stats that were measured in it.
-  return `<dl class="stats">${S.filter(([, key]) => run.stats[key] != null).map(([label, key, fmt, better]) => {
-    const v = run.stats[key];
-    const pv = run.prev?.stats?.[key];
-    let delta = '<span class="delta">First run on this machine</span>';
-    if (pv != null) {
-      const pct = ((v - pv) / pv) * 100;
-      if (Math.abs(pct) < 1) delta = `<span class="delta">About the same as ${short(run.prev.sha)}</span>`;
-      else {
-        const good = better === 'higher' ? pct > 0 : pct < 0;
-        delta = `<span class="delta ${good ? 'better' : 'worse'}">${pct > 0 ? '▲' : '▼'} ${pct > 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}% vs ${short(run.prev.sha)}</span>`;
-      }
-    }
-    return `<div class="stat"><dt>${label}</dt><dd><span class="val">${fmt(v)}</span>${delta}</dd></div>`;
-  }).join('')}</dl>`;
+function testPerformance(t) {
+  if (t.fps_avg == null) return '';
+
+  const p95 = t.frame_ms_p95 != null ? ` · p95 frame time ${t.frame_ms_p95.toFixed(2)} ms` : '';
+  return `<span class="t-perf">${t.fps_avg.toFixed(1)} fps${p95}</span>`;
 }
 
 function testsHTML(run) {
@@ -654,6 +646,7 @@ function testsHTML(run) {
   return `<h3>Tests <span class="count">${count}</span></h3>
     <ul class="tests">${run.tests.map((t) => `<li class="t-${t.status}">${statusIcon(t.status)}<span class="t-name">${esc(t.name)}</span>
       <span class="t-time">${t.ms != null ? fmtMs(t.ms) : STATUS_LABEL[t.status]}</span>
+      ${testPerformance(t)}
       ${t.message ? `<span class="t-msg">${esc(t.message)}</span>` : ''}</li>`).join('')}</ul>`;
 }
 
@@ -688,7 +681,6 @@ function machineHTML(c, m) {
     <div>
       ${spec}
       <p class="run-line">${when}${projects}${link}</p>
-      ${run.stats ? statsHTML(run) : '<p class="notice" style="margin-bottom:18px">Stats appear when the run finishes.</p>'}
       ${testsHTML(run)}
     </div>
     <div>
@@ -817,6 +809,7 @@ function bindEvents() {
     state.metric = b.dataset.metric;
     renderMetricSwitch(); renderChart();
   });
+  $('#project-select').addEventListener('change', (e) => { state.project = e.target.value; renderChart(); });
   document.addEventListener('click', (e) => {
     const o = e.target.closest('[data-open]');
     if (o) openCommit(o.dataset.open);
@@ -878,6 +871,7 @@ function bindEvents() {
     const t = new Date(DATA.generated_at);
     refNow = () => t; // keep the sample's "2 hours ago" text stable whenever you open it
   }
+  state.project = DATA.projects[0] ?? null;
   const firstFinished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
   if (firstFinished) state.open.add(firstFinished.sha);
 
