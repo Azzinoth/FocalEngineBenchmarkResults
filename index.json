@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-07T01:11:21Z",
+ "generated_at": "2026-11-07T02:25:22Z",
  "machines": [
   {
    "id": "lab-win-SHEARWATER",
@@ -278,10 +278,10 @@
    },
    "personal-win-main": {
     "status": "passed",
-    "started": "2026-11-07T00:42:25Z",
-    "finished": "2026-11-07T00:58:50Z",
-    "duration_sec": 985,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42319831559",
+    "started": "2026-11-07T02:17:20Z",
+    "finished": "2026-11-07T02:25:02Z",
+    "duration_sec": 462,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42328466981",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-07T00:36:41Z",
@@ -289,7 +289,7 @@
      "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
     },
     "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
-    "benchmark_commit": "05a76d2a5ad5c51c9f06a4939a7bace8c95942fd",
+    "benchmark_commit": "de6b3d257c7eb88a923f679239e025ba740cec17",
     "machine": {
      "os": "Windows 11 Home build 26200.9711",
      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
@@ -301,82 +301,112 @@
      {
       "name": "Build (Release)",
       "status": "passed",
-      "ms": 30370
+      "ms": 23103
      },
      {
       "name": "Bistro",
       "status": "passed",
-      "ms": 88950
+      "ms": 75251,
+      "fps_avg": 1.674,
+      "frame_ms_p95": 617.817
      },
      {
       "name": "Complex_Forest",
       "status": "passed",
-      "ms": 37515
+      "ms": 36409,
+      "fps_avg": 82.14,
+      "frame_ms_p95": 12.809
      },
      {
       "name": "Corals",
       "status": "passed",
-      "ms": 3337
+      "ms": 3351,
+      "fps_avg": 493.606,
+      "frame_ms_p95": 2.302
      },
      {
       "name": "New_Sponza",
       "status": "passed",
-      "ms": 14308
+      "ms": 12884,
+      "fps_avg": 33.76,
+      "frame_ms_p95": 30.928
      },
      {
       "name": "Simple_Forest",
       "status": "passed",
-      "ms": 5658
+      "ms": 5553,
+      "fps_avg": 304.917,
+      "frame_ms_p95": 3.6
      },
      {
       "name": "Simple_Scene",
       "status": "passed",
-      "ms": 1011
+      "ms": 988,
+      "fps_avg": 921.525,
+      "frame_ms_p95": 1.317
      },
      {
       "name": "Simple_Scene_2",
       "status": "passed",
-      "ms": 3568
+      "ms": 3565,
+      "fps_avg": 671.289,
+      "frame_ms_p95": 1.799
      },
      {
       "name": "Simple_Scene_3",
       "status": "passed",
-      "ms": 8881
+      "ms": 9002,
+      "fps_avg": 460.411,
+      "frame_ms_p95": 2.506
      },
      {
       "name": "Simple_Scene_4",
       "status": "passed",
-      "ms": 1475
+      "ms": 1451,
+      "fps_avg": 589.149,
+      "frame_ms_p95": 1.977
      },
      {
       "name": "Simple_Terrrain",
       "status": "passed",
-      "ms": 809
+      "ms": 867,
+      "fps_avg": 831.067,
+      "frame_ms_p95": 1.494
      },
      {
       "name": "Simple_Terrrain_2",
       "status": "passed",
-      "ms": 5529
+      "ms": 5530,
+      "fps_avg": 789.839,
+      "frame_ms_p95": 1.555
      },
      {
       "name": "Simple_Terrrain_Layers",
       "status": "passed",
-      "ms": 1969
+      "ms": 1967,
+      "fps_avg": 790.921,
+      "frame_ms_p95": 1.567
      },
      {
       "name": "Sponza_OLD_without_graph",
       "status": "passed",
-      "ms": 685
+      "ms": 600,
+      "fps_avg": 454.053,
+      "frame_ms_p95": 2.558
      },
      {
       "name": "Tower Defence_Scripts",
       "status": "passed",
-      "ms": 247
+      "ms": 209,
+      "fps_avg": 511.187,
+      "frame_ms_p95": 2.313
      },
      {
       "name": "Volumetric",
       "status": "passed",
-      "ms": 279
+      "ms": 159,
+      "fps_avg": 813.042,
+      "frame_ms_p95": 1.532
      }
     ],
     "screenshots": [
@@ -485,10 +515,7 @@
       "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/personal-win-main/Volumetric.png",
       "status": "passed"
      }
-    ],
-    "stats": {
-     "load_ms": 174221
-    }
+    ]
    }
   },
   "c4aa9b5a38fb035f149bda936c32054d96ff772a": {
