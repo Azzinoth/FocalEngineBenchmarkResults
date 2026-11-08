@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-08T03:17:04Z",
+ "generated_at": "2026-11-08T03:35:14Z",
  "machines": [
   {
    "id": "lab-win-SHEARWATER",
@@ -11,7 +11,7 @@
   },
   {
    "id": "lab-win-SHEARWATER-editor",
-   "os": "Windows 11 Enterprise 10.0.26200",
+   "os": "Windows 11 Enterprise build 26200.9445",
    "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
    "gpu": "NVIDIA GeForce RTX 4090",
    "driver": "616.92",
@@ -299,11 +299,11 @@
     ]
    },
    "lab-win-SHEARWATER-editor": {
-    "status": "failed",
-    "started": "2026-11-08T03:15:27Z",
-    "finished": "2026-11-08T03:16:29Z",
-    "duration_sec": 62,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42441932536",
+    "status": "passed",
+    "started": "2026-11-08T03:20:17Z",
+    "finished": "2026-11-08T03:34:44Z",
+    "duration_sec": 867,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42442282850",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-07T00:36:41Z",
@@ -313,15 +313,232 @@
     "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
     "benchmark_commit": "8462db3922fe72f1e7f1a59c8fff8ac6dc444f52",
     "machine": {
-     "os": "Windows 11 Enterprise 10.0.26200",
+     "os": "Windows 11 Enterprise build 26200.9445",
      "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
      "gpu": "NVIDIA GeForce RTX 4090",
      "driver": "616.92",
      "ram_gb": 64
     },
-    "tests": [],
-    "screenshots": [],
-    "editor_commit": "be61cd6dc2d83c622b73e1016770b679abef0636"
+    "tests": [
+     {
+      "name": "Build (Release)",
+      "status": "passed",
+      "ms": 264458
+     },
+     {
+      "name": "Bistro",
+      "status": "passed",
+      "ms": 134856,
+      "fps_avg": 1.848,
+      "frame_ms_p95": 547.201
+     },
+     {
+      "name": "Complex_Forest",
+      "status": "passed",
+      "ms": 48968,
+      "fps_avg": 70.257,
+      "frame_ms_p95": 15.034
+     },
+     {
+      "name": "Corals",
+      "status": "passed",
+      "ms": 4170,
+      "fps_avg": 522.561,
+      "frame_ms_p95": 2.253
+     },
+     {
+      "name": "New_Sponza",
+      "status": "passed",
+      "ms": 18523,
+      "fps_avg": 33.245,
+      "frame_ms_p95": 31.064
+     },
+     {
+      "name": "Simple_Forest",
+      "status": "passed",
+      "ms": 6321,
+      "fps_avg": 348.849,
+      "frame_ms_p95": 3.361
+     },
+     {
+      "name": "Simple_Scene",
+      "status": "passed",
+      "ms": 1365,
+      "fps_avg": 675.686,
+      "frame_ms_p95": 1.72
+     },
+     {
+      "name": "Simple_Scene_2",
+      "status": "passed",
+      "ms": 4292,
+      "fps_avg": 508.664,
+      "frame_ms_p95": 2.309
+     },
+     {
+      "name": "Simple_Scene_3",
+      "status": "passed",
+      "ms": 9730,
+      "fps_avg": 365.071,
+      "frame_ms_p95": 3.211
+     },
+     {
+      "name": "Simple_Scene_4",
+      "status": "passed",
+      "ms": 1947,
+      "fps_avg": 493.187,
+      "frame_ms_p95": 2.415
+     },
+     {
+      "name": "Simple_Terrrain",
+      "status": "passed",
+      "ms": 1049,
+      "fps_avg": 667.34,
+      "frame_ms_p95": 1.733
+     },
+     {
+      "name": "Simple_Terrrain_2",
+      "status": "passed",
+      "ms": 6299,
+      "fps_avg": 623.736,
+      "frame_ms_p95": 1.838
+     },
+     {
+      "name": "Simple_Terrrain_Layers",
+      "status": "passed",
+      "ms": 2372,
+      "fps_avg": 656.014,
+      "frame_ms_p95": 1.771
+     },
+     {
+      "name": "Sponza_OLD_without_graph",
+      "status": "passed",
+      "ms": 1110,
+      "fps_avg": 371.419,
+      "frame_ms_p95": 3.018
+     },
+     {
+      "name": "Tower Defence_Scripts",
+      "status": "passed",
+      "ms": 914,
+      "fps_avg": 334.409,
+      "frame_ms_p95": 3.466
+     },
+     {
+      "name": "Volumetric",
+      "status": "passed",
+      "ms": 311,
+      "fps_avg": 790.021,
+      "frame_ms_p95": 1.459
+     }
+    ],
+    "screenshots": [
+     {
+      "scene": "Bistro",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Bistro.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Bistro.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Complex_Forest",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Complex_Forest.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Complex_Forest.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Corals",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Corals.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Corals.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "New_Sponza",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/New_Sponza.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/New_Sponza.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Forest",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Forest.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Forest.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Scene",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Scene_2",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_2.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_2.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Scene_3",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_3.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_3.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Scene_4",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_4.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_4.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Terrrain",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Terrrain_2",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain_2.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain_2.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Simple_Terrrain_Layers",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain_Layers.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain_Layers.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Sponza_OLD_without_graph",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Sponza_OLD_without_graph.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Sponza_OLD_without_graph.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Tower Defence_Scripts",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Tower_Defence_Scripts.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Tower_Defence_Scripts.jpg",
+      "status": "passed",
+      "reference_created": true
+     },
+     {
+      "scene": "Volumetric",
+      "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Volumetric.jpg",
+      "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Volumetric.jpg",
+      "status": "passed",
+      "reference_created": true
+     }
+    ],
+    "editor_commit": "87bde0430d0f3d4f4f43e3c264ddd51b701573ed"
    },
    "personal-win-main": {
     "status": "passed",
