@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-08T03:35:14Z",
+ "generated_at": "2026-11-08T04:05:53Z",
  "machines": [
   {
    "id": "lab-win-SHEARWATER",
@@ -300,10 +300,10 @@
    },
    "lab-win-SHEARWATER-editor": {
     "status": "passed",
-    "started": "2026-11-08T03:20:17Z",
-    "finished": "2026-11-08T03:34:44Z",
-    "duration_sec": 867,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42442282850",
+    "started": "2026-11-08T03:51:16Z",
+    "finished": "2026-11-08T04:05:21Z",
+    "duration_sec": 845,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42444413269",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-07T00:36:41Z",
@@ -311,7 +311,7 @@
      "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
     },
     "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
-    "benchmark_commit": "8462db3922fe72f1e7f1a59c8fff8ac6dc444f52",
+    "benchmark_commit": "fd8fd4cbefb2ad67ac4fa89895e110253ce9f081",
     "machine": {
      "os": "Windows 11 Enterprise build 26200.9445",
      "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
@@ -323,112 +323,112 @@
      {
       "name": "Build (Release)",
       "status": "passed",
-      "ms": 264458
+      "ms": 232514
      },
      {
       "name": "Bistro",
       "status": "passed",
-      "ms": 134856,
-      "fps_avg": 1.848,
-      "frame_ms_p95": 547.201
+      "ms": 139937,
+      "fps_avg": 1.791,
+      "frame_ms_p95": 571.221
      },
      {
       "name": "Complex_Forest",
       "status": "passed",
-      "ms": 48968,
-      "fps_avg": 70.257,
-      "frame_ms_p95": 15.034
+      "ms": 49428,
+      "fps_avg": 69.396,
+      "frame_ms_p95": 15.276
      },
      {
       "name": "Corals",
       "status": "passed",
-      "ms": 4170,
-      "fps_avg": 522.561,
-      "frame_ms_p95": 2.253
+      "ms": 4097,
+      "fps_avg": 518.741,
+      "frame_ms_p95": 2.251
      },
      {
       "name": "New_Sponza",
       "status": "passed",
-      "ms": 18523,
-      "fps_avg": 33.245,
-      "frame_ms_p95": 31.064
+      "ms": 18784,
+      "fps_avg": 33.336,
+      "frame_ms_p95": 31.216
      },
      {
       "name": "Simple_Forest",
       "status": "passed",
-      "ms": 6321,
-      "fps_avg": 348.849,
-      "frame_ms_p95": 3.361
+      "ms": 6224,
+      "fps_avg": 348.569,
+      "frame_ms_p95": 3.386
      },
      {
       "name": "Simple_Scene",
       "status": "passed",
-      "ms": 1365,
-      "fps_avg": 675.686,
-      "frame_ms_p95": 1.72
+      "ms": 1446,
+      "fps_avg": 671.386,
+      "frame_ms_p95": 1.716
      },
      {
       "name": "Simple_Scene_2",
       "status": "passed",
-      "ms": 4292,
-      "fps_avg": 508.664,
-      "frame_ms_p95": 2.309
+      "ms": 4272,
+      "fps_avg": 510.577,
+      "frame_ms_p95": 2.304
      },
      {
       "name": "Simple_Scene_3",
       "status": "passed",
-      "ms": 9730,
-      "fps_avg": 365.071,
-      "frame_ms_p95": 3.211
+      "ms": 9741,
+      "fps_avg": 375.214,
+      "frame_ms_p95": 3.019
      },
      {
       "name": "Simple_Scene_4",
       "status": "passed",
-      "ms": 1947,
-      "fps_avg": 493.187,
-      "frame_ms_p95": 2.415
+      "ms": 1850,
+      "fps_avg": 491.683,
+      "frame_ms_p95": 2.433
      },
      {
       "name": "Simple_Terrrain",
       "status": "passed",
-      "ms": 1049,
-      "fps_avg": 667.34,
-      "frame_ms_p95": 1.733
+      "ms": 1055,
+      "fps_avg": 661.676,
+      "frame_ms_p95": 1.767
      },
      {
       "name": "Simple_Terrrain_2",
       "status": "passed",
-      "ms": 6299,
-      "fps_avg": 623.736,
-      "frame_ms_p95": 1.838
+      "ms": 6314,
+      "fps_avg": 614.343,
+      "frame_ms_p95": 1.896
      },
      {
       "name": "Simple_Terrrain_Layers",
       "status": "passed",
-      "ms": 2372,
-      "fps_avg": 656.014,
-      "frame_ms_p95": 1.771
+      "ms": 2305,
+      "fps_avg": 642.535,
+      "frame_ms_p95": 1.794
      },
      {
       "name": "Sponza_OLD_without_graph",
       "status": "passed",
-      "ms": 1110,
-      "fps_avg": 371.419,
-      "frame_ms_p95": 3.018
+      "ms": 1119,
+      "fps_avg": 371.956,
+      "frame_ms_p95": 2.993
      },
      {
       "name": "Tower Defence_Scripts",
       "status": "passed",
-      "ms": 914,
-      "fps_avg": 334.409,
-      "frame_ms_p95": 3.466
+      "ms": 913,
+      "fps_avg": 323.376,
+      "frame_ms_p95": 3.555
      },
      {
       "name": "Volumetric",
       "status": "passed",
-      "ms": 311,
-      "fps_avg": 790.021,
-      "frame_ms_p95": 1.459
+      "ms": 285,
+      "fps_avg": 763.416,
+      "frame_ms_p95": 1.549
      }
     ],
     "screenshots": [
