@@ -1,9 +1,17 @@
 {
- "generated_at": "2026-11-08T01:59:14Z",
+ "generated_at": "2026-11-08T03:17:04Z",
  "machines": [
   {
    "id": "lab-win-SHEARWATER",
    "os": "Windows 11 Enterprise build 26200.9445",
+   "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+   "gpu": "NVIDIA GeForce RTX 4090",
+   "driver": "616.92",
+   "ram_gb": 64
+  },
+  {
+   "id": "lab-win-SHEARWATER-editor",
+   "os": "Windows 11 Enterprise 10.0.26200",
    "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
    "gpu": "NVIDIA GeForce RTX 4090",
    "driver": "616.92",
@@ -289,6 +297,31 @@
       "reference": "references/269bb469-b8e0-4034-ba32-cecfbc076e21.png"
      }
     ]
+   },
+   "lab-win-SHEARWATER-editor": {
+    "status": "failed",
+    "started": "2026-11-08T03:15:27Z",
+    "finished": "2026-11-08T03:16:29Z",
+    "duration_sec": 62,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42441932536",
+    "commit": {
+     "author": "Azzinoth",
+     "date": "2026-11-07T00:36:41Z",
+     "message": "Updated FEBasicApplication submodule to the latest version.",
+     "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
+    },
+    "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
+    "benchmark_commit": "8462db3922fe72f1e7f1a59c8fff8ac6dc444f52",
+    "machine": {
+     "os": "Windows 11 Enterprise 10.0.26200",
+     "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+     "gpu": "NVIDIA GeForce RTX 4090",
+     "driver": "616.92",
+     "ram_gb": 64
+    },
+    "tests": [],
+    "screenshots": [],
+    "editor_commit": "be61cd6dc2d83c622b73e1016770b679abef0636"
    },
    "personal-win-main": {
     "status": "passed",
