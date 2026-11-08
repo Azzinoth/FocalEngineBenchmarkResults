@@ -5,10 +5,10 @@
  "duration_sec": 845,
  "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42444413269",
  "commit": {
+  "message": "Added FOCAL_ENGINE_EDITOR_MAIN CMake option, the editor is built with that source file instead of main.cpp when it is set; Editor folder is now an include directory, so such file could include editor headers.",
   "author": "Azzinoth",
-  "date": "2026-11-07T00:36:41Z",
-  "message": "Updated FEBasicApplication submodule to the latest version.",
-  "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
+  "date": "2026-11-08T02:35:58Z",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/87bde0430d0f3d4f4f43e3c264ddd51b701573ed"
  },
  "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
  "benchmark_commit": "fd8fd4cbefb2ad67ac4fa89895e110253ce9f081",
@@ -134,109 +134,109 @@
  "screenshots": [
   {
    "scene": "Bistro",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Bistro.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Bistro.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Bistro.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Bistro.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Complex_Forest",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Complex_Forest.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Complex_Forest.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Complex_Forest.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Complex_Forest.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Corals",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Corals.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Corals.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Corals.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Corals.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "New_Sponza",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/New_Sponza.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/New_Sponza.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/New_Sponza.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/New_Sponza.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Forest",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Forest.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Forest.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Forest.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Forest.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Scene",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Scene.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Scene.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Scene_2",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_2.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_2.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Scene_2.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Scene_2.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Scene_3",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_3.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_3.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Scene_3.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Scene_3.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Scene_4",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Scene_4.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Scene_4.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Scene_4.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Scene_4.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Terrrain",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Terrrain.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Terrrain.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Terrrain_2",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain_2.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain_2.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Terrrain_2.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Terrrain_2.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Simple_Terrrain_Layers",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Simple_Terrrain_Layers.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Simple_Terrrain_Layers.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Simple_Terrrain_Layers.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Simple_Terrrain_Layers.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Sponza_OLD_without_graph",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Sponza_OLD_without_graph.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Sponza_OLD_without_graph.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Sponza_OLD_without_graph.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Sponza_OLD_without_graph.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Tower Defence_Scripts",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Tower_Defence_Scripts.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Tower_Defence_Scripts.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Tower_Defence_Scripts.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Tower_Defence_Scripts.jpg",
    "status": "passed",
    "reference_created": true
   },
   {
    "scene": "Volumetric",
-   "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/Volumetric.jpg",
-   "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER-editor/thumbs/Volumetric.jpg",
+   "file": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/Volumetric.jpg",
+   "thumb": "editor/runs/87bde0430d0f3d4f4f43e3c264ddd51b701573ed/lab-win-SHEARWATER/thumbs/Volumetric.jpg",
    "status": "passed",
    "reference_created": true
   }
  ],
- "editor_commit": "87bde0430d0f3d4f4f43e3c264ddd51b701573ed"
+ "engine_commit": "9779fe5b9cef413d63ca07b892b46c3d90eed1db"
 }

@@ -36,13 +36,19 @@
        }
      }
    }
+   Editor view reads editor/index.json in the same format, its commits are editor commits
+   and each run has "engine_commit", the engine commit that editor commit was built with.
    Relative screenshot paths are read from resultsBase, reference PNGs from pngBase.
    Commits listed in "commits" are shown even when they are not among the newest
    maxCommits commits of branch, so results never drop off the page.
 ============================================================================ */
 const CONFIG = {
   source: 'live',
-  repo: 'Azzinoth/FocalEngine',
+  // Editor results are kept by editor commit, the engine they were built with is in their run details.
+  views: {
+    engine: { title: 'Engine', repo: 'Azzinoth/FocalEngine', index: 'index.json' },
+    editor: { title: 'Editor', repo: 'Azzinoth/FocalEngineEditor', index: 'editor/index.json' },
+  },
   branch: 'master',
   resultsBase: 'https://azzinoth.github.io/FocalEngineBenchmarkResults/',
   // references folder is left out of the site (see _config.yml), so reference PNGs are read straight from the repo.
@@ -51,6 +57,10 @@ const CONFIG = {
   // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
   runnersUrl: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/status/runners.json',
 };
+
+// Page address ?view=editor opens editor view, any other address opens engine view.
+const VIEW_ID = new URLSearchParams(window.location.search).get('view') === 'editor' ? 'editor' : 'engine';
+const VIEW = CONFIG.views[VIEW_ID];
 
 /* ============================================================================
    Helpers
@@ -129,11 +139,11 @@ async function loadData() {
     return window.SAMPLE_DATA;
   }
   const [commitsRes, indexRes] = await Promise.all([
-    fetch(`https://api.github.com/repos/${CONFIG.repo}/commits?sha=${encodeURIComponent(CONFIG.branch)}&per_page=${CONFIG.maxCommits}`),
-    fetch(new URL('index.json', CONFIG.resultsBase), { cache: 'no-cache' }),
+    fetch(`https://api.github.com/repos/${VIEW.repo}/commits?sha=${encodeURIComponent(CONFIG.branch)}&per_page=${CONFIG.maxCommits}`),
+    fetch(new URL(VIEW.index, CONFIG.resultsBase), { cache: 'no-cache' }),
   ]);
   if (!commitsRes.ok) throw new Error(`GitHub returned ${commitsRes.status} for the commit list. If it is 403, the hourly limit for anonymous requests was reached; try again later.`);
-  if (!indexRes.ok) throw new Error(`index.json could not be loaded (HTTP ${indexRes.status}). Check resultsBase in app.js.`);
+  if (!indexRes.ok) throw new Error(`${VIEW.index} could not be loaded (HTTP ${indexRes.status}). Check resultsBase in app.js.`);
   const gh = await commitsRes.json();
   const index = await indexRes.json();
   const branchCommits = gh.map((c) => ({
@@ -144,7 +154,7 @@ async function loadData() {
     url: c.html_url,
   }));
   return {
-    repo: CONFIG.repo,
+    repo: VIEW.repo,
     branch: CONFIG.branch,
     generated_at: index.generated_at,
     machines: index.machines,
@@ -265,6 +275,9 @@ function renderHeader() {
   document.title = `${name} test results`;
   $('#branch-name').textContent = DATA.branch;
   $('#source-pill').hidden = CONFIG.source !== 'sample';
+  $('#view-switch').innerHTML = Object.entries(CONFIG.views)
+    .map(([id, view]) => `<a href="${id === 'engine' ? './' : `?view=${id}`}"${id === VIEW_ID ? ' aria-current="page"' : ''}>${esc(view.title)}</a>`)
+    .join('');
 
   const latest = DATA.commits[0];
   const finished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
@@ -289,7 +302,7 @@ function renderHeader() {
 
   $('#foot').innerHTML = CONFIG.source === 'sample'
     ? 'This page shows sample data from <code>sample-data.js</code>. To show real results, set <code>source</code> to <code>\'live\'</code> in <code>app.js</code> and point <code>resultsBase</code> at the folder that holds <code>index.json</code>.'
-    : `Commits from GitHub, results from <code>${esc(CONFIG.resultsBase)}index.json</code>.`;
+    : `Commits from GitHub, results from <code>${esc(CONFIG.resultsBase)}${esc(VIEW.index)}</code>.`;
 }
 
 /* ============================================================================
@@ -700,7 +713,7 @@ function machineHTML(c, m) {
     ? `Started ${fmtDate(run.started)}, running for ${fmtDur((refNow() - new Date(run.started)) / 1000)}.`
     : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
   const projects = run.projects_commit ? ` Projects at <span class="sha">${short(run.projects_commit)}</span>.` : '';
-  const editor = run.editor_commit ? ` Editor at <span class="sha">${short(run.editor_commit)}</span>.` : '';
+  const engine = run.engine_commit ? ` Engine at <span class="sha">${short(run.engine_commit)}</span>.` : '';
   const key = `${c.sha}|${m.id}`;
   const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
   const gallery = run.screenshots.map((s, i) => shotFigure(s, key, i, m)).join('')
@@ -708,7 +721,7 @@ function machineHTML(c, m) {
   return `<div class="machine-view">
     <div>
       ${spec}
-      <p class="run-line">${when}${projects}${editor}${link}</p>
+      <p class="run-line">${when}${projects}${engine}${link}</p>
       ${buildHTML(run)}
       ${projectsHTML(run)}
     </div>
