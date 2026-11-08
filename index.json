@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-07T02:37:49Z",
+ "generated_at": "2026-11-08T01:59:14Z",
  "machines": [
   {
    "id": "lab-win-SHEARWATER",
@@ -36,10 +36,10 @@
   "9779fe5b9cef413d63ca07b892b46c3d90eed1db": {
    "lab-win-SHEARWATER": {
     "status": "passed",
-    "started": "2026-11-07T02:27:06Z",
-    "finished": "2026-11-07T02:37:25Z",
-    "duration_sec": 619,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42329305371",
+    "started": "2026-11-08T01:48:02Z",
+    "finished": "2026-11-08T01:58:46Z",
+    "duration_sec": 644,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42435791047",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-07T00:36:41Z",
@@ -47,7 +47,7 @@
      "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
     },
     "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
-    "benchmark_commit": "de6b3d257c7eb88a923f679239e025ba740cec17",
+    "benchmark_commit": "2f81e2916bf1e533697f6592a32222bd1ccf95a8",
     "machine": {
      "os": "Windows 11 Enterprise build 26200.9445",
      "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
@@ -59,112 +59,112 @@
      {
       "name": "Build (Release)",
       "status": "passed",
-      "ms": 146191
+      "ms": 148493
      },
      {
       "name": "Bistro",
       "status": "passed",
-      "ms": 76709,
-      "fps_avg": 1.622,
-      "frame_ms_p95": 632.754
+      "ms": 92698,
+      "fps_avg": 1.623,
+      "frame_ms_p95": 624.832
      },
      {
       "name": "Complex_Forest",
       "status": "passed",
-      "ms": 39378,
-      "fps_avg": 78.384,
-      "frame_ms_p95": 13.374
+      "ms": 40783,
+      "fps_avg": 77.104,
+      "frame_ms_p95": 13.652
      },
      {
       "name": "Corals",
       "status": "passed",
-      "ms": 3491,
-      "fps_avg": 533.033,
-      "frame_ms_p95": 2.181
+      "ms": 3600,
+      "fps_avg": 532.497,
+      "frame_ms_p95": 2.189
      },
      {
       "name": "New_Sponza",
       "status": "passed",
-      "ms": 13413,
-      "fps_avg": 32.239,
-      "frame_ms_p95": 31.899
+      "ms": 15347,
+      "fps_avg": 28.422,
+      "frame_ms_p95": 36.124
      },
      {
       "name": "Simple_Forest",
       "status": "passed",
-      "ms": 5767,
-      "fps_avg": 332.799,
-      "frame_ms_p95": 3.412
+      "ms": 5891,
+      "fps_avg": 332.208,
+      "frame_ms_p95": 3.419
      },
      {
       "name": "Simple_Scene",
       "status": "passed",
-      "ms": 1100,
-      "fps_avg": 924.952,
-      "frame_ms_p95": 1.24
+      "ms": 1105,
+      "fps_avg": 892.752,
+      "frame_ms_p95": 1.35
      },
      {
       "name": "Simple_Scene_2",
       "status": "passed",
-      "ms": 3758,
-      "fps_avg": 661.497,
-      "frame_ms_p95": 1.74
+      "ms": 3791,
+      "fps_avg": 570.168,
+      "frame_ms_p95": 2.067
      },
      {
       "name": "Simple_Scene_3",
       "status": "passed",
-      "ms": 9188,
-      "fps_avg": 452.835,
-      "frame_ms_p95": 2.54
+      "ms": 9313,
+      "fps_avg": 448.862,
+      "frame_ms_p95": 2.557
      },
      {
       "name": "Simple_Scene_4",
       "status": "passed",
-      "ms": 1376,
-      "fps_avg": 578.523,
-      "frame_ms_p95": 2.024
+      "ms": 1576,
+      "fps_avg": 566.827,
+      "frame_ms_p95": 2.077
      },
      {
       "name": "Simple_Terrrain",
       "status": "passed",
-      "ms": 708,
-      "fps_avg": 870.946,
-      "frame_ms_p95": 1.333
+      "ms": 856,
+      "fps_avg": 867.469,
+      "frame_ms_p95": 1.377
      },
      {
       "name": "Simple_Terrrain_2",
       "status": "passed",
-      "ms": 5753,
-      "fps_avg": 794.862,
-      "frame_ms_p95": 1.462
+      "ms": 5775,
+      "fps_avg": 802.836,
+      "frame_ms_p95": 1.46
      },
      {
       "name": "Simple_Terrrain_Layers",
       "status": "passed",
-      "ms": 2051,
-      "fps_avg": 847.419,
-      "frame_ms_p95": 1.403
+      "ms": 2092,
+      "fps_avg": 837.409,
+      "frame_ms_p95": 1.459
      },
      {
       "name": "Sponza_OLD_without_graph",
       "status": "passed",
-      "ms": 622,
-      "fps_avg": 443.313,
-      "frame_ms_p95": 2.56
+      "ms": 780,
+      "fps_avg": 445.173,
+      "frame_ms_p95": 2.525
      },
      {
       "name": "Tower Defence_Scripts",
       "status": "passed",
-      "ms": 222,
-      "fps_avg": 519.304,
-      "frame_ms_p95": 2.175
+      "ms": 270,
+      "fps_avg": 516.699,
+      "frame_ms_p95": 2.18
      },
      {
       "name": "Volumetric",
       "status": "passed",
-      "ms": 281,
-      "fps_avg": 877.843,
-      "frame_ms_p95": 1.419
+      "ms": 273,
+      "fps_avg": 877.371,
+      "frame_ms_p95": 1.427
      }
     ],
     "screenshots": [
@@ -172,134 +172,121 @@
       "scene": "Bistro",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Bistro.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Bistro.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Bistro.png",
       "status": "passed",
-      "diff_pct": 0.011,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.009,
+      "reference": "references/fedb1b0f-f19a-4359-b8fb-e968bb1c1cd8.png"
      },
      {
       "scene": "Complex_Forest",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Complex_Forest.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Complex_Forest.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Complex_Forest.png",
       "status": "passed",
-      "diff_pct": 0.038,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.02,
+      "reference": "references/3a1fbe3f-0a31-5be7-8df6-2fb56dca5a2f.png"
      },
      {
       "scene": "Corals",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Corals.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Corals.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Corals.png",
-      "status": "passed"
+      "status": "passed",
+      "diff_pct": 0.105,
+      "reference": "references/77a800b2-2dd4-57bc-b959-6014ff15067d.png"
      },
      {
       "scene": "New_Sponza",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/New_Sponza.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/New_Sponza.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/New_Sponza.png",
       "status": "passed",
-      "diff_pct": 0.133,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.023,
+      "reference": "references/fda7bff8-eb89-485c-af08-14f2fe389e4d.png"
      },
      {
       "scene": "Simple_Forest",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Forest.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Forest.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Forest.png",
       "status": "passed",
-      "diff_pct": 0.068,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.082,
+      "reference": "references/e22ce3e4-0b29-5ff8-bf22-3ec74d6763d3.png"
      },
      {
       "scene": "Simple_Scene",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Scene.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene.png",
       "status": "passed",
-      "diff_pct": 0.012,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.009,
+      "reference": "references/b684c5a5-085b-57c4-8889-0478963ac05d.png"
      },
      {
       "scene": "Simple_Scene_2",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_2.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Scene_2.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_2.png",
       "status": "passed",
-      "diff_pct": 0.05,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.034,
+      "reference": "references/1e093847-a671-561f-ae87-f4fb241025d3.png"
      },
      {
       "scene": "Simple_Scene_3",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_3.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Scene_3.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_3.png",
       "status": "passed",
-      "diff_pct": 0.006,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.004,
+      "reference": "references/cf1e1b35-79f9-5d4a-a578-73112e029ceb.png"
      },
      {
       "scene": "Simple_Scene_4",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_4.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Scene_4.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Scene_4.png",
       "status": "passed",
-      "diff_pct": 0.016,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.012,
+      "reference": "references/eb47de18-dce6-5e2c-979f-676cfba338e9.png"
      },
      {
       "scene": "Simple_Terrrain",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Terrrain.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain.png",
       "status": "passed",
-      "diff_pct": 0.008,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.012,
+      "reference": "references/045cd749-fd86-524d-ab5f-dcc32a2bbb30.png"
      },
      {
       "scene": "Simple_Terrrain_2",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain_2.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Terrrain_2.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain_2.png",
       "status": "passed",
       "diff_pct": 0.007,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "reference": "references/2460e420-8cb8-5553-8da6-878789ada998.png"
      },
      {
       "scene": "Simple_Terrrain_Layers",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain_Layers.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Simple_Terrrain_Layers.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Simple_Terrrain_Layers.png",
       "status": "passed",
       "diff_pct": 0.005,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "reference": "references/e3b6cc59-71f7-59b0-aac9-1739d8e9db60.png"
      },
      {
       "scene": "Sponza_OLD_without_graph",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Sponza_OLD_without_graph.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Sponza_OLD_without_graph.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Sponza_OLD_without_graph.png",
       "status": "passed",
-      "diff_pct": 0.082,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.045,
+      "reference": "references/18c74324-89ca-5f4b-974a-fd136924c6a0.png"
      },
      {
       "scene": "Tower Defence_Scripts",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Tower_Defence_Scripts.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Tower_Defence_Scripts.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Tower_Defence_Scripts.png",
       "status": "passed",
       "diff_pct": 0,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "reference": "references/30e57a71-2894-57a8-96f6-6062efa9596f.png"
      },
      {
       "scene": "Volumetric",
       "file": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Volumetric.jpg",
       "thumb": "runs/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/thumbs/Volumetric.jpg",
-      "png": "png/9779fe5b9cef413d63ca07b892b46c3d90eed1db/lab-win-SHEARWATER/Volumetric.png",
       "status": "passed",
-      "diff_pct": 0,
-      "diff_against": "c4aa9b5a38fb035f149bda936c32054d96ff772a"
+      "diff_pct": 0.001,
+      "reference": "references/269bb469-b8e0-4034-ba32-cecfbc076e21.png"
      }
     ]
    },
