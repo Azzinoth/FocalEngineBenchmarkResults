@@ -195,6 +195,23 @@ function prepare(raw) {
     return { ...c, runs };
   });
   for (const c of commits) c.state = commitState(c);
+  // Commits go from newest to oldest. Each finished run gets the previous finished run on its machine,
+  // and for every project the newest older passed result on that machine, for the change shown in projects table.
+  for (const m of machines) {
+    let previousSha = null;
+    const lastPassed = {};
+    for (let i = commits.length - 1; i >= 0; i--) {
+      const r = commits[i].runs[m.id];
+      if (!isFinished(r)) continue;
+
+      r.previousSha = previousSha;
+      r.previous = { ...lastPassed };
+      for (const t of r.tests) {
+        if (t.status === 'passed') lastPassed[t.name] = { ...t, sha: commits[i].sha };
+      }
+      previousSha = commits[i].sha;
+    }
+  }
   // Every project has a screenshot when it ran, test names also include the build.
   const projects = [...new Set(commits.flatMap((c) => Object.values(c.runs).flatMap((r) => r.screenshots.map((s) => s.scene))))].sort();
   return { ...raw, machines, commits, projects };
@@ -654,6 +671,17 @@ function buildHTML(run) {
     ${t.message ? `<p class="build-msg">${esc(t.message)}</p>` : ''}`).join('');
 }
 
+// Change from the previous result of the project on this machine. Changes under 1% are left uncolored as noise.
+function changeHTML(value, previousValue, previousSha, higherIsBetter, fmt) {
+  if (value == null || previousValue == null) return '';
+
+  const pct = Math.round(((value - previousValue) / previousValue) * 1000) / 10;
+  const better = higherIsBetter ? pct > 0 : pct < 0;
+  const tone = Math.abs(pct) < 1 ? '' : better ? ' better' : ' worse';
+  const sign = pct > 0 ? '+' : pct < 0 ? '−' : '±';
+  return `<span class="change${tone}" title="${esc(fmt(previousValue))} in ${short(previousSha)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
+}
+
 function projectsHTML(run) {
   const projects = run.tests.filter((t) => !isBuildTest(t));
   if (!projects.length) return '';
@@ -667,7 +695,12 @@ function projectsHTML(run) {
 
   const rows = projects.map((t) => {
     // For a project that did not load, ms is its run time, not load time.
-    const load = t.status === 'passed' && t.ms != null ? fmtMs(t.ms) : '–';
+    const loadMs = t.status === 'passed' ? t.ms : null;
+    const load = loadMs != null ? fmtMs(loadMs) : '–';
+    const previous = run.previous?.[t.name];
+    const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, (v) => `${v.toFixed(1)} fps`);
+    const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, (v) => `${v.toFixed(2)} ms`);
+    const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, fmtMs);
     // Message of a passed project is a note, for example that frame time did not settle.
     const message = t.message
       ? `<tr class="p-message-row"><td></td><td colspan="4" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
@@ -675,12 +708,16 @@ function projectsHTML(run) {
     return `<tr class="p-${t.status}${t.message ? ' has-message' : ''}">
       <td class="p-icon">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span></td>
       <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}</th>
-      <td class="p-fps">${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}</td>
-      <td>${t.frame_ms_p95 != null ? `${t.frame_ms_p95.toFixed(2)} ms` : '–'}</td>
-      <td>${load}</td></tr>${message}`;
+      <td class="p-fps">${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}${fpsChange}</td>
+      <td>${t.frame_ms_p95 != null ? `${t.frame_ms_p95.toFixed(2)} ms` : '–'}${p95Change}</td>
+      <td>${load}${loadChange}</td></tr>${message}`;
   }).join('');
 
+  const note = run.previousSha
+    ? `Changes are compared with the previous run on this machine, <span class="sha">${short(run.previousSha)}</span>.`
+    : 'First run on this machine, there is nothing to compare with yet.';
   return `<h3>Projects <span class="count">${count}</span></h3>
+    <p class="projects-note">${note}</p>
     <div class="projects-wrap"><table class="projects">
       <thead><tr><th><span class="sr-only">Status</span></th><th scope="col">Project</th><th scope="col">Average FPS</th>
         <th scope="col" title="95th percentile frame time, 95% of frames were faster">p95 frame time</th><th scope="col">Load time</th></tr></thead>
