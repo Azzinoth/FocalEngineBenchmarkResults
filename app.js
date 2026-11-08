@@ -28,13 +28,15 @@
            ("ms" of a project is its load time when it loaded, its run time when it did not)
            "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
                               "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
-                              "png": "png/<sha>/lab-win-01/01.png",
-                              "status": "passed", "diff_pct": 0.3, "diff_against": "<sha>" } ]
+                              "status": "passed", "diff_pct": 0.3, "reference": "references/<project ID>.png",
+                              "difference": "runs/<sha>/lab-win-01/differences/01.jpg" } ]
+           ("reference_created": true instead of diff_pct when screenshot became the reference,
+            older results have "diff_against": "<sha>" instead of "reference")
          }
        }
      }
    }
-   Relative screenshot paths are read from resultsBase, PNG paths from pngBase.
+   Relative screenshot paths are read from resultsBase, reference PNGs from pngBase.
    Commits listed in "commits" are shown even when they are not among the newest
    maxCommits commits of branch, so results never drop off the page.
 ============================================================================ */
@@ -43,7 +45,7 @@ const CONFIG = {
   repo: 'Azzinoth/FocalEngine',
   branch: 'master',
   resultsBase: 'https://azzinoth.github.io/FocalEngineBenchmarkResults/',
-  // png folder is left out of the site (see _config.yml), so PNGs are read straight from the repo.
+  // references folder is left out of the site (see _config.yml), so reference PNGs are read straight from the repo.
   pngBase: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/master/',
   maxCommits: 100,
   // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
@@ -175,7 +177,8 @@ function prepare(raw) {
     const runs = raw.runs[c.sha] || {};
     for (const r of Object.values(runs)) {
       r.screenshots = (r.screenshots || []).map((s) => ({
-        ...s, file: abs(s.file), thumb: abs(s.thumb || s.file), png: s.png ? new URL(s.png, CONFIG.pngBase).href : null,
+        ...s, file: abs(s.file), thumb: abs(s.thumb || s.file), difference: abs(s.difference),
+        reference: s.reference ? new URL(s.reference, CONFIG.pngBase).href : null,
       }));
       r.tests = r.tests || [];
     }
@@ -674,11 +677,13 @@ function projectsHTML(run) {
 
 function shotFigure(s, key, i, m, showScene = true) {
   const failed = s.status === 'failed';
+  const diffTitle = s.diff_against ? ` title="Compared with ${short(s.diff_against)}"` : s.reference ? ' title="Compared with the reference image"' : '';
+  const diffText = s.reference_created ? 'New reference' : s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different` : '';
   return `<figure class="shot${failed ? ' is-failed' : ''}">
     <button type="button" class="shot-btn" data-shots="${key}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}">
       <img src="${esc(s.file)}" alt="${esc(s.scene)} on ${esc(m.id)}" loading="lazy" width="960" height="540"></button>
     <figcaption>${showScene ? `<span>${esc(s.scene)}</span>` : ''}
-      <span class="diff${failed ? ' is-failed' : ''}"${s.diff_against ? ` title="Compared with ${short(s.diff_against)}"` : ''}>${failed ? statusIcon('failed') : ''}${s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different` : ''}</span></figcaption>
+      <span class="diff${failed ? ' is-failed' : ''}"${diffTitle}>${failed ? statusIcon('failed') : ''}${diffText}</span></figcaption>
   </figure>`;
 }
 
@@ -758,7 +763,9 @@ function showLightboxItem() {
   const reference = it.diff_against ? `commit <span class="sha">${short(it.diff_against)}</span>` : 'the reference image';
   $('#lb-detail').innerHTML = `Commit <span class="sha">${short(it.sha)}</span>. `
     + (it.diff_pct != null ? `<span class="${failed ? 'bad' : ''}">${it.diff_pct.toFixed(2)}% of pixels different from ${reference}${failed ? ', failed' : ''}.</span>` : '')
-    + (it.png ? ` <a href="${esc(it.png)}" target="_blank" rel="noopener">Open PNG</a>.` : '')
+    + (it.reference_created ? 'This screenshot became the reference image of the project.' : '')
+    + (it.difference ? ` <a href="${esc(it.difference)}" target="_blank" rel="noopener">Show changed pixels</a>.` : '')
+    + (it.reference ? ` <a href="${esc(it.reference)}" target="_blank" rel="noopener">Open reference</a>.` : '')
     + ' Use the arrow keys to move between screenshots.';
   const multi = lb.items.length > 1;
   document.querySelectorAll('.lb-nav').forEach((b) => { b.disabled = !multi; });
