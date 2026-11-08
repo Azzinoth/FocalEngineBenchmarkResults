@@ -700,6 +700,7 @@ function machineHTML(c, m) {
     ? `Started ${fmtDate(run.started)}, running for ${fmtDur((refNow() - new Date(run.started)) / 1000)}.`
     : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
   const projects = run.projects_commit ? ` Projects at <span class="sha">${short(run.projects_commit)}</span>.` : '';
+  const editor = run.editor_commit ? ` Editor at <span class="sha">${short(run.editor_commit)}</span>.` : '';
   const key = `${c.sha}|${m.id}`;
   const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
   const gallery = run.screenshots.map((s, i) => shotFigure(s, key, i, m)).join('')
@@ -707,7 +708,7 @@ function machineHTML(c, m) {
   return `<div class="machine-view">
     <div>
       ${spec}
-      <p class="run-line">${when}${projects}${link}</p>
+      <p class="run-line">${when}${projects}${editor}${link}</p>
       ${buildHTML(run)}
       ${projectsHTML(run)}
     </div>
