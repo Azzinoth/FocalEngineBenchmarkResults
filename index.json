@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-09T14:14:12Z",
+ "generated_at": "2026-11-09T14:21:08Z",
  "machines": [
   {
    "id": "lab-win-RASBORA",
@@ -1084,10 +1084,10 @@
   "9779fe5b9cef413d63ca07b892b46c3d90eed1db": {
    "lab-win-RASBORA": {
     "status": "failed",
-    "started": "2026-11-09T14:12:49Z",
-    "finished": "2026-11-09T14:13:47Z",
-    "duration_sec": 58,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42628740135",
+    "started": "2026-11-09T14:20:09Z",
+    "finished": "2026-11-09T14:20:47Z",
+    "duration_sec": 38,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42633630820",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-07T00:36:41Z",
@@ -1095,7 +1095,7 @@
      "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
     },
     "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
-    "benchmark_commit": "de26da68df8f88e0451a04c18a52e42f6b9a21ca",
+    "benchmark_commit": "3512c1eb9d6b74f27cb483ea6843f070db2ee5b0",
     "machine": {
      "os": "Windows 11 Enterprise 10.0.26200",
      "cpu": "Intel(R) Core(TM) Ultra 9 285K",
@@ -1107,7 +1107,8 @@
      {
       "name": "Build (Release)",
       "status": "failed",
-      "ms": 29610
+      "ms": 359,
+      "message": "CMake on lab-win-RASBORA (cmake version 4.0.2) does not know generator Visual Studio 18 2026, a newer CMake is needed."
      }
     ],
     "screenshots": []
