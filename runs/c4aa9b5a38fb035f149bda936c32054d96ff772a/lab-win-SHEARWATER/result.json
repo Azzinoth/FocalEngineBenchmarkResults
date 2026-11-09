@@ -10,7 +10,13 @@
   "message": "Updated FEBasicApplication submodule to the latest version.",
   "url": "https://github.com/Azzinoth/FocalEngine/commit/c4aa9b5a38fb035f149bda936c32054d96ff772a"
  },
- "projects_commit": "36f17a1e974e578d1aa9a1480a8e024bfefdc04d",
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects",
+   "ref": "master",
+   "commit": "36f17a1e974e578d1aa9a1480a8e024bfefdc04d"
+  }
+ ],
  "benchmark_commit": "a8e86e994b6d4c28f27cbb95d194bc3578fb1b07",
  "machine": {
   "os": "Windows 11 Enterprise 10.0.26200",
@@ -28,78 +34,93 @@
   {
    "name": "Bistro",
    "status": "passed",
-   "ms": 96428
+   "ms": 96428,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Complex_Forest",
    "status": "passed",
-   "ms": 42336
+   "ms": 42336,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Corals",
    "status": "failed",
    "ms": 872,
-   "message": "Starting scene does not have a main camera."
+   "message": "Starting scene does not have a main camera.",
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "New_Sponza",
    "status": "passed",
-   "ms": 15983
+   "ms": 15983,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Forest",
    "status": "passed",
-   "ms": 6010
+   "ms": 6010,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene",
    "status": "passed",
-   "ms": 1138
+   "ms": 1138,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_2",
    "status": "passed",
-   "ms": 4021
+   "ms": 4021,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_3",
    "status": "passed",
-   "ms": 9534
+   "ms": 9534,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_4",
    "status": "passed",
-   "ms": 1630
+   "ms": 1630,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain",
    "status": "passed",
-   "ms": 899
+   "ms": 899,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_2",
    "status": "passed",
-   "ms": 6102
+   "ms": 6102,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_Layers",
    "status": "passed",
-   "ms": 2122
+   "ms": 2122,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Sponza_OLD_without_graph",
    "status": "passed",
-   "ms": 774
+   "ms": 774,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Tower Defence_Scripts",
    "status": "passed",
-   "ms": 305
+   "ms": 305,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Volumetric",
    "status": "passed",
-   "ms": 298
+   "ms": 298,
+   "source": "Azzinoth/FocalEngineProjects"
   }
  ],
  "screenshots": [

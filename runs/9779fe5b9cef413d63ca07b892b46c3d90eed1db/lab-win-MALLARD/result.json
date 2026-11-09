@@ -10,7 +10,13 @@
   "message": "Updated FEBasicApplication submodule to the latest version.",
   "url": "https://github.com/Azzinoth/FocalEngine/commit/9779fe5b9cef413d63ca07b892b46c3d90eed1db"
  },
- "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects",
+   "ref": "master",
+   "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
+  }
+ ],
  "benchmark_commit": "5293ab1e3abfaca1b588f9b13c1180dbcd601c82",
  "machine": {
   "os": "Windows 11 Pro build 26100.8457",
@@ -30,105 +36,120 @@
    "status": "passed",
    "ms": 82623,
    "fps_avg": 1.693,
-   "frame_ms_p95": 597.159
+   "frame_ms_p95": 597.159,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Complex_Forest",
    "status": "passed",
    "ms": 37892,
    "fps_avg": 54.06,
-   "frame_ms_p95": 18.898
+   "frame_ms_p95": 18.898,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Corals",
    "status": "passed",
    "ms": 3391,
    "fps_avg": 210.809,
-   "frame_ms_p95": 5.24
+   "frame_ms_p95": 5.24,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "New_Sponza",
    "status": "passed",
    "ms": 14314,
    "fps_avg": 30.218,
-   "frame_ms_p95": 34.136
+   "frame_ms_p95": 34.136,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Forest",
    "status": "passed",
    "ms": 5711,
    "fps_avg": 134.121,
-   "frame_ms_p95": 7.913
+   "frame_ms_p95": 7.913,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene",
    "status": "passed",
    "ms": 959,
    "fps_avg": 438.558,
-   "frame_ms_p95": 2.603
+   "frame_ms_p95": 2.603,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_2",
    "status": "passed",
    "ms": 3669,
    "fps_avg": 377.041,
-   "frame_ms_p95": 3.014
+   "frame_ms_p95": 3.014,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_3",
    "status": "passed",
    "ms": 8940,
    "fps_avg": 380.609,
-   "frame_ms_p95": 3.103
+   "frame_ms_p95": 3.103,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_4",
    "status": "passed",
    "ms": 1455,
    "fps_avg": 442.592,
-   "frame_ms_p95": 2.649
+   "frame_ms_p95": 2.649,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain",
    "status": "passed",
    "ms": 762,
    "fps_avg": 373.155,
-   "frame_ms_p95": 3.149
+   "frame_ms_p95": 3.149,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_2",
    "status": "passed",
    "ms": 5669,
    "fps_avg": 354.454,
-   "frame_ms_p95": 3.281
+   "frame_ms_p95": 3.281,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_Layers",
    "status": "passed",
    "ms": 1969,
    "fps_avg": 335.955,
-   "frame_ms_p95": 3.464
+   "frame_ms_p95": 3.464,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Sponza_OLD_without_graph",
    "status": "passed",
    "ms": 619,
    "fps_avg": 317.283,
-   "frame_ms_p95": 3.598
+   "frame_ms_p95": 3.598,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Tower Defence_Scripts",
    "status": "passed",
    "ms": 277,
    "fps_avg": 448.906,
-   "frame_ms_p95": 2.591
+   "frame_ms_p95": 2.591,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Volumetric",
    "status": "passed",
    "ms": 174,
    "fps_avg": 355.351,
-   "frame_ms_p95": 3.162
+   "frame_ms_p95": 3.162,
+   "source": "Azzinoth/FocalEngineProjects"
   }
  ],
  "screenshots": [

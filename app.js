@@ -68,6 +68,7 @@ const VIEW = CONFIG.views[VIEW_ID];
 const $ = (sel, el = document) => el.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const short = (sha) => sha.slice(0, 7);
+const repoName = (repository) => repository.split('/').pop();
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -191,6 +192,12 @@ function prepare(raw) {
         reference: s.reference ? new URL(s.reference, CONFIG.pngBase).href : null,
       }));
       r.tests = r.tests || [];
+      // Screenshots follow the order of project repos, as they are grouped on the page and in the screenshot viewer.
+      const sourceOrder = (r.project_sources || []).map((s) => s.repository);
+      if (sourceOrder.length > 1) {
+        const sourceIndex = (s) => sourceOrder.indexOf(r.tests.find((t) => t.name === s.scene)?.source);
+        r.screenshots.sort((a, b) => sourceIndex(a) - sourceIndex(b));
+      }
     }
     return { ...c, runs };
   });
@@ -214,7 +221,16 @@ function prepare(raw) {
   }
   // Every project has a screenshot when it ran, test names also include the build.
   const projects = [...new Set(commits.flatMap((c) => Object.values(c.runs).flatMap((r) => r.screenshots.map((s) => s.scene))))].sort();
-  return { ...raw, machines, commits, projects };
+  // Repo of each project, from its newest result, for grouping the project picker of the chart.
+  const projectSources = {};
+  for (const c of commits) {
+    for (const r of Object.values(c.runs)) {
+      for (const t of r.tests) {
+        if (t.source && !(t.name in projectSources)) projectSources[t.name] = t.source;
+      }
+    }
+  }
+  return { ...raw, machines, commits, projects, projectSources };
 }
 
 function commitState(c) {
@@ -390,11 +406,17 @@ function renderMetricSwitch() {
   $('#metric-switch').innerHTML = Object.entries(METRICS)
     .map(([k, m]) => `<button type="button" data-metric="${k}" aria-pressed="${k === state.metric}">${m.button}</button>`)
     .join('');
-  $('#project-select').innerHTML = DATA.projects
-    .map((p) => `<option${p === state.project ? ' selected' : ''}>${esc(p)}</option>`)
-    .join('');
+  $('#project-select').innerHTML = projectOptionsHTML();
   $('#project-pick').hidden = !metric.perProject || !DATA.projects.length;
   $('#trend-note').textContent = metric.note;
+}
+
+function projectOptionsHTML() {
+  const option = (p) => `<option${p === state.project ? ' selected' : ''}>${esc(p)}</option>`;
+  const repos = [...new Set(Object.values(DATA.projectSources))];
+  if (repos.length < 2) return DATA.projects.map(option).join('');
+
+  return repos.map((r) => `<optgroup label="${esc(repoName(r))}">${DATA.projects.filter((p) => DATA.projectSources[p] === r).map(option).join('')}</optgroup>`).join('');
 }
 
 const chartTitle = (metric) => (metric.perProject ? `${metric.button} of ${state.project}` : metric.button);
@@ -682,6 +704,14 @@ function changeHTML(value, previousValue, previousSha, higherIsBetter, fmt) {
   return `<span class="change${tone}" title="${esc(fmt(previousValue))} in ${short(previousSha)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
 }
 
+// With several project repos, projects and screenshots are grouped by repo, in the order of project_sources.
+function sourceGroups(run, items, sourceOf) {
+  const sources = run.project_sources || [];
+  if (sources.length < 2) return [{ source: null, items }];
+
+  return sources.map((s) => ({ source: s, items: items.filter((it) => sourceOf(it) === s.repository) })).filter((g) => g.items.length);
+}
+
 function projectsHTML(run) {
   const projects = run.tests.filter((t) => !isBuildTest(t));
   if (!projects.length) return '';
@@ -693,11 +723,14 @@ function projectsHTML(run) {
   if (failed) count += `, ${failed} failed`;
   if (pending) count += `, ${pending} pending`;
 
-  const rows = projects.map((t) => {
+  const projectRow = (t) => {
     // For a project that did not load, ms is its run time, not load time.
     const loadMs = t.status === 'passed' ? t.ms : null;
     const load = loadMs != null ? fmtMs(loadMs) : '–';
     const previous = run.previous?.[t.name];
+    // Files of the project differ from its previous result, so a change in numbers may come from the project, not from the engine.
+    const changed = previous?.tree && t.tree && previous.tree !== t.tree
+      ? ` <span class="p-changed" title="Files of this project changed since ${short(previous.sha)}">changed</span>` : '';
     const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, (v) => `${v.toFixed(1)} fps`);
     const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, (v) => `${v.toFixed(2)} ms`);
     const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, fmtMs);
@@ -707,10 +740,17 @@ function projectsHTML(run) {
       : '';
     return `<tr class="p-${t.status}${t.message ? ' has-message' : ''}">
       <td class="p-icon">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span></td>
-      <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}</th>
+      <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}${changed}</th>
       <td class="p-fps">${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}${fpsChange}</td>
       <td>${t.frame_ms_p95 != null ? `${t.frame_ms_p95.toFixed(2)} ms` : '–'}${p95Change}</td>
       <td>${load}${loadChange}</td></tr>${message}`;
+  };
+  const body = sourceGroups(run, projects, (t) => t.source).map((g) => {
+    const header = g.source
+      ? `<tr class="p-group"><th colspan="5" scope="rowgroup">${esc(repoName(g.source.repository))}<span class="sha">${short(g.source.commit)}</span>`
+        + `<span class="count">${g.items.length} ${g.items.length === 1 ? 'project' : 'projects'}</span></th></tr>`
+      : '';
+    return `<tbody>${header}${g.items.map(projectRow).join('')}</tbody>`;
   }).join('');
 
   const note = run.previousSha
@@ -721,7 +761,7 @@ function projectsHTML(run) {
     <div class="projects-wrap"><table class="projects">
       <thead><tr><th><span class="sr-only">Status</span></th><th scope="col">Project</th><th scope="col">Average FPS</th>
         <th scope="col" title="95th percentile frame time, 95% of frames were faster">p95 frame time</th><th scope="col">Load time</th></tr></thead>
-      <tbody>${rows}</tbody>
+      ${body}
     </table></div>`;
 }
 
@@ -737,6 +777,14 @@ function shotFigure(s, key, i, m, showScene = true) {
   </figure>`;
 }
 
+function galleryHTML(run, key, m) {
+  const sourceOfShot = (s) => run.tests.find((t) => t.name === s.scene)?.source;
+  const indexed = run.screenshots.map((s, i) => ({ s, i }));
+  return sourceGroups(run, indexed, ({ s }) => sourceOfShot(s)).map((g) =>
+    (g.source ? `<h4 class="gallery-group">${esc(repoName(g.source.repository))}</h4>` : '')
+    + g.items.map(({ s, i }) => shotFigure(s, key, i, m)).join('')).join('');
+}
+
 function machineHTML(c, m) {
   const run = c.runs[m.id];
   const spec = `<p class="spec">${esc(m.os)}, ${esc(m.cpu)}, ${esc(m.gpu)}, ${m.ram_gb} GB RAM, driver ${esc(m.driver)}</p>`;
@@ -749,11 +797,14 @@ function machineHTML(c, m) {
   const when = run.status === 'running'
     ? `Started ${fmtDate(run.started)}, running for ${fmtDur((refNow() - new Date(run.started)) / 1000)}.`
     : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
-  const projects = run.projects_commit ? ` Projects at <span class="sha">${short(run.projects_commit)}</span>.` : '';
+  const sources = run.project_sources || [];
+  const projects = sources.length
+    ? ` Projects: ${sources.map((s) => `${esc(repoName(s.repository))} at <span class="sha">${short(s.commit)}</span>`).join(', ')}.`
+    : '';
   const engine = run.engine_commit ? ` Engine at <span class="sha">${short(run.engine_commit)}</span>.` : '';
   const key = `${c.sha}|${m.id}`;
   const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
-  const gallery = run.screenshots.map((s, i) => shotFigure(s, key, i, m)).join('')
+  const gallery = galleryHTML(run, key, m)
     + Array.from({ length: pendingShots }, () => '<div class="shot"><div class="shot-pending">Not captured yet</div></div>').join('');
   return `<div class="machine-view">
     <div>

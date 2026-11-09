@@ -10,7 +10,13 @@
   "message": "FERenderer now checks standard, terrain and SSAO blur uniforms with FEShader::HasUniform, previously it used GetUniform, which logged a warning for every uniform a shader does not have, on every draw; FEShader::HasUniform now takes uniform name as const std::string&.",
   "url": "https://github.com/Azzinoth/FocalEngine/commit/0e74f68ba832f4707f976f13f08b273c922025ff"
  },
- "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects",
+   "ref": "master",
+   "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
+  }
+ ],
  "benchmark_commit": "5293ab1e3abfaca1b588f9b13c1180dbcd601c82",
  "machine": {
   "os": "Windows 11 Pro build 26100.8457",
@@ -30,105 +36,120 @@
    "status": "passed",
    "ms": 55604,
    "fps_avg": 2.325,
-   "frame_ms_p95": 434.608
+   "frame_ms_p95": 434.608,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Complex_Forest",
    "status": "passed",
    "ms": 37058,
    "fps_avg": 54.095,
-   "frame_ms_p95": 19.035
+   "frame_ms_p95": 19.035,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Corals",
    "status": "passed",
    "ms": 3353,
    "fps_avg": 211.698,
-   "frame_ms_p95": 5.227
+   "frame_ms_p95": 5.227,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "New_Sponza",
    "status": "passed",
    "ms": 12409,
    "fps_avg": 62.467,
-   "frame_ms_p95": 16.248
+   "frame_ms_p95": 16.248,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Forest",
    "status": "passed",
    "ms": 5678,
    "fps_avg": 133.549,
-   "frame_ms_p95": 7.957
+   "frame_ms_p95": 7.957,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene",
    "status": "passed",
    "ms": 971,
    "fps_avg": 438.184,
-   "frame_ms_p95": 2.621
+   "frame_ms_p95": 2.621,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_2",
    "status": "passed",
    "ms": 3623,
    "fps_avg": 377.382,
-   "frame_ms_p95": 3.142
+   "frame_ms_p95": 3.142,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_3",
    "status": "passed",
    "ms": 8902,
    "fps_avg": 380.986,
-   "frame_ms_p95": 3.121
+   "frame_ms_p95": 3.121,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Scene_4",
    "status": "passed",
    "ms": 1385,
    "fps_avg": 444.671,
-   "frame_ms_p95": 2.581
+   "frame_ms_p95": 2.581,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain",
    "status": "passed",
    "ms": 735,
    "fps_avg": 373.438,
-   "frame_ms_p95": 3.185
+   "frame_ms_p95": 3.185,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_2",
    "status": "passed",
    "ms": 5607,
    "fps_avg": 355.449,
-   "frame_ms_p95": 3.163
+   "frame_ms_p95": 3.163,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Simple_Terrrain_Layers",
    "status": "passed",
    "ms": 1905,
    "fps_avg": 336.122,
-   "frame_ms_p95": 3.428
+   "frame_ms_p95": 3.428,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Sponza_OLD_without_graph",
    "status": "passed",
    "ms": 486,
    "fps_avg": 316.811,
-   "frame_ms_p95": 3.693
+   "frame_ms_p95": 3.693,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Tower Defence_Scripts",
    "status": "passed",
    "ms": 231,
    "fps_avg": 448.733,
-   "frame_ms_p95": 2.599
+   "frame_ms_p95": 2.599,
+   "source": "Azzinoth/FocalEngineProjects"
   },
   {
    "name": "Volumetric",
    "status": "passed",
    "ms": 171,
    "fps_avg": 355.364,
-   "frame_ms_p95": 3.205
+   "frame_ms_p95": 3.205,
+   "source": "Azzinoth/FocalEngineProjects"
   }
  ],
  "screenshots": [
