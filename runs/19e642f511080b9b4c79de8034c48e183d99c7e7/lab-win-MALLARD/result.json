@@ -1,0 +1,269 @@
+{
+ "status": "passed",
+ "started": "2026-11-09T16:40:15Z",
+ "finished": "2026-11-09T16:48:03Z",
+ "duration_sec": 468,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42657093642",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-08T05:04:32Z",
+  "message": "FEEntity::IsVisible now walks up the scene graph once and checks visibility components of the entity and its parents directly, previously it called IsVisible recursively for every parent, which searched the scene graph again for each of them.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/19e642f511080b9b4c79de8034c48e183d99c7e7"
+ },
+ "projects_commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea",
+ "benchmark_commit": "5293ab1e3abfaca1b588f9b13c1180dbcd601c82",
+ "machine": {
+  "os": "Windows 11 Pro build 26100.8457",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700KF",
+  "gpu": "NVIDIA RTX A5000",
+  "driver": "553.62",
+  "ram_gb": 128
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 30680
+  },
+  {
+   "name": "Bistro",
+   "status": "passed",
+   "ms": 71325,
+   "fps_avg": 1.687,
+   "frame_ms_p95": 595.101
+  },
+  {
+   "name": "Complex_Forest",
+   "status": "passed",
+   "ms": 37025,
+   "fps_avg": 53.995,
+   "frame_ms_p95": 18.914
+  },
+  {
+   "name": "Corals",
+   "status": "passed",
+   "ms": 3340,
+   "fps_avg": 210.766,
+   "frame_ms_p95": 5.263
+  },
+  {
+   "name": "New_Sponza",
+   "status": "passed",
+   "ms": 12933,
+   "fps_avg": 31.225,
+   "frame_ms_p95": 32.413
+  },
+  {
+   "name": "Simple_Forest",
+   "status": "passed",
+   "ms": 5597,
+   "fps_avg": 134.397,
+   "frame_ms_p95": 7.926
+  },
+  {
+   "name": "Simple_Scene",
+   "status": "passed",
+   "ms": 965,
+   "fps_avg": 438.603,
+   "frame_ms_p95": 2.61
+  },
+  {
+   "name": "Simple_Scene_2",
+   "status": "passed",
+   "ms": 3577,
+   "fps_avg": 377.43,
+   "frame_ms_p95": 3.038
+  },
+  {
+   "name": "Simple_Scene_3",
+   "status": "passed",
+   "ms": 8861,
+   "fps_avg": 379.552,
+   "frame_ms_p95": 3.144
+  },
+  {
+   "name": "Simple_Scene_4",
+   "status": "passed",
+   "ms": 1412,
+   "fps_avg": 439.827,
+   "frame_ms_p95": 2.607
+  },
+  {
+   "name": "Simple_Terrrain",
+   "status": "passed",
+   "ms": 766,
+   "fps_avg": 374.426,
+   "frame_ms_p95": 3.148
+  },
+  {
+   "name": "Simple_Terrrain_2",
+   "status": "passed",
+   "ms": 5612,
+   "fps_avg": 355.121,
+   "frame_ms_p95": 3.238
+  },
+  {
+   "name": "Simple_Terrrain_Layers",
+   "status": "passed",
+   "ms": 1910,
+   "fps_avg": 336.53,
+   "frame_ms_p95": 3.452
+  },
+  {
+   "name": "Sponza_OLD_without_graph",
+   "status": "passed",
+   "ms": 500,
+   "fps_avg": 317.915,
+   "frame_ms_p95": 3.598
+  },
+  {
+   "name": "Tower Defence_Scripts",
+   "status": "passed",
+   "ms": 226,
+   "fps_avg": 448.559,
+   "frame_ms_p95": 2.621
+  },
+  {
+   "name": "Volumetric",
+   "status": "passed",
+   "ms": 168,
+   "fps_avg": 354.914,
+   "frame_ms_p95": 3.196
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "Bistro",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Bistro.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Bistro.jpg",
+   "status": "passed",
+   "diff_pct": 1.817,
+   "reference": "references/fedb1b0f-f19a-4359-b8fb-e968bb1c1cd8.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Bistro.jpg"
+  },
+  {
+   "scene": "Complex_Forest",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Complex_Forest.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Complex_Forest.jpg",
+   "status": "passed",
+   "diff_pct": 3.328,
+   "reference": "references/3a1fbe3f-0a31-5be7-8df6-2fb56dca5a2f.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Complex_Forest.jpg"
+  },
+  {
+   "scene": "Corals",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Corals.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Corals.jpg",
+   "status": "passed",
+   "diff_pct": 6.563,
+   "reference": "references/77a800b2-2dd4-57bc-b959-6014ff15067d.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Corals.jpg"
+  },
+  {
+   "scene": "New_Sponza",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/New_Sponza.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/New_Sponza.jpg",
+   "status": "passed",
+   "diff_pct": 1.313,
+   "reference": "references/fda7bff8-eb89-485c-af08-14f2fe389e4d.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/New_Sponza.jpg"
+  },
+  {
+   "scene": "Simple_Forest",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Forest.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Forest.jpg",
+   "status": "passed",
+   "diff_pct": 9.588,
+   "reference": "references/e22ce3e4-0b29-5ff8-bf22-3ec74d6763d3.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Forest.jpg"
+  },
+  {
+   "scene": "Simple_Scene",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Scene.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Scene.jpg",
+   "status": "passed",
+   "diff_pct": 0.626,
+   "reference": "references/b684c5a5-085b-57c4-8889-0478963ac05d.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Scene.jpg"
+  },
+  {
+   "scene": "Simple_Scene_2",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Scene_2.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Scene_2.jpg",
+   "status": "passed",
+   "diff_pct": 5.203,
+   "reference": "references/1e093847-a671-561f-ae87-f4fb241025d3.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Scene_2.jpg"
+  },
+  {
+   "scene": "Simple_Scene_3",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Scene_3.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Scene_3.jpg",
+   "status": "passed",
+   "diff_pct": 4.013,
+   "reference": "references/cf1e1b35-79f9-5d4a-a578-73112e029ceb.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Scene_3.jpg"
+  },
+  {
+   "scene": "Simple_Scene_4",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Scene_4.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Scene_4.jpg",
+   "status": "passed",
+   "diff_pct": 6.302,
+   "reference": "references/eb47de18-dce6-5e2c-979f-676cfba338e9.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Scene_4.jpg"
+  },
+  {
+   "scene": "Simple_Terrrain",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Terrrain.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Terrrain.jpg",
+   "status": "passed",
+   "diff_pct": 3.298,
+   "reference": "references/045cd749-fd86-524d-ab5f-dcc32a2bbb30.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Terrrain.jpg"
+  },
+  {
+   "scene": "Simple_Terrrain_2",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Terrrain_2.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Terrrain_2.jpg",
+   "status": "passed",
+   "diff_pct": 4.524,
+   "reference": "references/2460e420-8cb8-5553-8da6-878789ada998.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Terrrain_2.jpg"
+  },
+  {
+   "scene": "Simple_Terrrain_Layers",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Simple_Terrrain_Layers.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Simple_Terrrain_Layers.jpg",
+   "status": "passed",
+   "diff_pct": 4.159,
+   "reference": "references/e3b6cc59-71f7-59b0-aac9-1739d8e9db60.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Simple_Terrrain_Layers.jpg"
+  },
+  {
+   "scene": "Sponza_OLD_without_graph",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Sponza_OLD_without_graph.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Sponza_OLD_without_graph.jpg",
+   "status": "passed",
+   "diff_pct": 1.727,
+   "reference": "references/18c74324-89ca-5f4b-974a-fd136924c6a0.png",
+   "difference": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/differences/Sponza_OLD_without_graph.jpg"
+  },
+  {
+   "scene": "Tower Defence_Scripts",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Tower_Defence_Scripts.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Tower_Defence_Scripts.jpg",
+   "status": "passed",
+   "diff_pct": 0,
+   "reference": "references/30e57a71-2894-57a8-96f6-6062efa9596f.png"
+  },
+  {
+   "scene": "Volumetric",
+   "file": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/Volumetric.jpg",
+   "thumb": "runs/19e642f511080b9b4c79de8034c48e183d99c7e7/lab-win-MALLARD/thumbs/Volumetric.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "reference": "references/269bb469-b8e0-4034-ba32-cecfbc076e21.png"
+  }
+ ]
+}
