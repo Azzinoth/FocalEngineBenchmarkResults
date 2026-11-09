@@ -1,8 +1,8 @@
 {
  "status": "failed",
- "started": "2026-11-09T13:53:16Z",
- "finished": "2026-11-09T13:56:23Z",
- "duration_sec": 187,
+ "started": "2026-11-09T14:12:49Z",
+ "finished": "2026-11-09T14:13:47Z",
+ "duration_sec": 58,
  "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42628740135",
  "commit": {
   "author": "Azzinoth",
@@ -23,7 +23,7 @@
   {
    "name": "Build (Release)",
    "status": "failed",
-   "ms": 28395
+   "ms": 29610
   }
  ],
  "screenshots": []
