@@ -54,8 +54,6 @@ const CONFIG = {
   // references folder is left out of the site (see _config.yml), so reference PNGs are read straight from the repo.
   pngBase: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/master/',
   maxCommits: 100,
-  // Written by .github/workflows/runner-status.yml. Empty string hides the "Test machines" row.
-  runnersUrl: 'https://raw.githubusercontent.com/Azzinoth/FocalEngineBenchmarkResults/status/runners.json',
 };
 
 // Page address ?view=editor opens editor view, any other address opens engine view.
@@ -106,8 +104,8 @@ function machineMark(i, size = 10) {
 }
 
 const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-function ago(iso, now = refNow()) {
-  const s = (new Date(iso) - now) / 1000;
+function ago(iso) {
+  const s = (new Date(iso) - refNow()) / 1000;
   const units = [['year', 31536000], ['month', 2592000], ['week', 604800], ['day', 86400], ['hour', 3600], ['minute', 60]];
   for (const [u, n] of units) if (Math.abs(s) >= n) return rtf.format(Math.round(s / n), u);
   return 'just now';
@@ -336,56 +334,6 @@ function renderHeader() {
   $('#foot').innerHTML = CONFIG.source === 'sample'
     ? 'This page shows sample data from <code>sample-data.js</code>. To show real results, set <code>source</code> to <code>\'live\'</code> in <code>app.js</code> and point <code>resultsBase</code> at the folder that holds <code>index.json</code>.'
     : `Commits from GitHub, results from <code>${esc(CONFIG.resultsBase)}${esc(VIEW.index)}</code>.`;
-}
-
-/* ============================================================================
-   Test machines
-============================================================================ */
-const RUNNER_LABEL = { idle: 'Idle', busy: 'Running a job', offline: 'Offline' };
-const RUNNER_STALE_MIN = 40;
-const RUNNER_REFRESH_MS = 2 * 60 * 1000;
-let runnerStatus = null;
-let runnersTried = false;
-
-const runnerState = (r) => (r.status !== 'online' ? 'offline' : r.busy ? 'busy' : 'idle');
-
-async function loadRunners() {
-  try {
-    const res = await fetch(CONFIG.runnersUrl, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    runnerStatus = await res.json();
-  } catch (err) {
-    // A failed refresh keeps the last good status; its age shows how old it is.
-  }
-  runnersTried = true;
-  renderRunners();
-}
-
-function renderRunners() {
-  if (!runnersTried) return;
-  const list = $('#runner-list');
-  const note = $('#runners-checked');
-  $('#runners').hidden = false;
-  if (!runnerStatus) {
-    list.innerHTML = '';
-    note.textContent = 'Machine status could not be loaded.';
-    note.classList.add('is-stale');
-    return;
-  }
-  list.innerHTML = runnerStatus.runners.length
-    ? runnerStatus.runners.map((r) => {
-      const st = runnerState(r);
-      return `<li class="runner r-${st}" title="${esc(`Labels: ${r.labels.join(', ')}`)}">
-        <span class="runner-dot" aria-hidden="true"></span>
-        <span class="runner-name">${esc(r.name)}</span><span class="runner-state">${RUNNER_LABEL[st]}</span></li>`;
-    }).join('')
-    : '<li class="runner-none">No runners registered</li>';
-  // Runner status is real time even when the results are sample data, so it never uses refNow.
-  const now = new Date();
-  const stale = (now - new Date(runnerStatus.checked_at)) / 60000 > RUNNER_STALE_MIN;
-  note.textContent = `Checked ${ago(runnerStatus.checked_at, now)}.`
-    + (stale ? ' The Runner status workflow may have stopped, or its token expired.' : '');
-  note.classList.toggle('is-stale', stale);
 }
 
 /* ============================================================================
@@ -1004,10 +952,6 @@ function bindEvents() {
    Start
 ============================================================================ */
 (async function start() {
-  if (CONFIG.runnersUrl) {
-    loadRunners();
-    setInterval(loadRunners, RUNNER_REFRESH_MS);
-  }
   try {
     DATA = prepare(await loadData());
   } catch (err) {
@@ -1023,7 +967,6 @@ function bindEvents() {
   if (firstFinished) state.open.add(firstFinished.sha);
 
   renderHeader();
-  renderRunners();
   renderMetricSwitch();
   renderLegend();
   renderMatrixHead();
