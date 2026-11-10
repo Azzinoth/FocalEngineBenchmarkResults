@@ -312,6 +312,8 @@ h3 .count { font-weight: 400; }
 .projects .change { display: block; margin-top: 1px; font-size: 11.5px; font-weight: 400; color: var(--muted); }
 .projects .change.better { color: var(--good-text); }
 .projects .change.worse { color: var(--critical-text); }
+/* Change bigger than the fixed threshold, left gray because the runs of the project spread even more. */
+.is-noisy { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .projects-note { color: var(--muted); font-size: 12.5px; margin: -4px 0 6px; }
 /* Shown only when a run used more than one project repo. */
 .projects tr.p-group th { text-align: left; padding: 12px 0 5px; font-size: 12.5px; font-weight: 650; color: var(--ink); border-bottom: 1px solid var(--rule-strong); }

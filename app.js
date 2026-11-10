@@ -178,6 +178,9 @@ function mergeCommits(branchCommits, resultCommits) {
   return merged.concat(extra.slice(k));
 }
 
+// Value of a project result and the name of the same value in each of its runs.
+const PASS_VALUE_KEYS = [['fps_avg', 'fps_avg'], ['frame_ms_median', 'frame_ms_median'], ['frame_ms_p95', 'frame_ms_p95'], ['ms', 'load_ms']];
+
 function prepare(raw) {
   const base = CONFIG.source === 'sample' ? '' : CONFIG.resultsBase;
   const abs = (p) => (!p || /^https?:\/\//.test(p) || !base ? p : new URL(p, base).href);
@@ -190,6 +193,18 @@ function prepare(raw) {
         reference: s.reference ? new URL(s.reference, CONFIG.pngBase).href : null,
       }));
       r.tests = r.tests || [];
+      // Values of a project are averages of its runs, computed here from the runs, so results published with medians compare the same way.
+      for (const t of r.tests) {
+        if (!t.passes || t.passes.length < 2) continue;
+
+        for (const [testKey, passKey] of PASS_VALUE_KEYS) {
+          const values = t.passes.map((p) => p[passKey]).filter((v) => v != null);
+          if (!values.length) continue;
+
+          const average = values.reduce((sum, v) => sum + v, 0) / values.length;
+          t[testKey] = testKey === 'ms' ? Math.round(average) : average;
+        }
+      }
       // Screenshots follow the order of project repos, as they are grouped on the page and in the screenshot viewer.
       const sourceOrder = (r.project_sources || []).map((s) => s.repository);
       if (sourceOrder.length > 1) {
@@ -641,21 +656,34 @@ function buildHTML(run) {
     ${t.message ? `<p class="build-msg">${esc(t.message)}</p>` : ''}`).join('');
 }
 
-// Changes under these are left gray, they are within run to run noise of a median of 3 runs, measured on Simple_Scene.
+// Changes under these are left gray, they are within run to run noise of 3 runs, measured on Simple_Scene.
 const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4 };
 
-// Change from the previous result of the project on this machine.
-function changeHTML(value, previousValue, previousSha, higherIsBetter, grayBelowPct, fmt) {
+// Difference between the slowest and the fastest run of a project result, in % of their average.
+function runSpreadPct(t, passKey) {
+  const values = (t?.passes || []).map((p) => p[passKey]).filter((v) => v != null);
+  if (values.length < 2) return 0;
+
+  const average = values.reduce((sum, v) => sum + v, 0) / values.length;
+  return ((Math.max(...values) - Math.min(...values)) / average) * 100;
+}
+
+// Change from the previous result of the project on this machine. A change smaller than the spread of the runs
+// of either result is left gray too, light scenes vary much more between runs than the fixed threshold.
+function changeHTML(value, previousValue, previousSha, higherIsBetter, grayBelowPct, noisePct, fmt) {
   if (value == null || previousValue == null) return '';
 
   const pct = Math.round(((value - previousValue) / previousValue) * 1000) / 10;
   const better = higherIsBetter ? pct > 0 : pct < 0;
-  const tone = Math.abs(pct) < grayBelowPct ? '' : better ? ' better' : ' worse';
+  const withinNoise = Math.abs(pct) >= grayBelowPct && Math.abs(pct) < noisePct;
+  const tone = Math.abs(pct) < Math.max(grayBelowPct, noisePct) ? '' : better ? ' better' : ' worse';
   const sign = pct > 0 ? '+' : pct < 0 ? '−' : '±';
-  return `<span class="change${tone}" title="${esc(fmt(previousValue))} in ${short(previousSha)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
+  const title = `${fmt(previousValue)} in ${short(previousSha)}`
+    + (withinNoise ? `. Not colored: runs of this project spread by ${noisePct.toFixed(1)}%, more than this change.` : '');
+  return `<span class="change${tone}${withinNoise ? ' is-noisy' : ''}" title="${esc(title)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
 }
 
-// Values of a project are medians of its runs, this tooltip shows the range of the runs.
+// Values of a project are averages of its runs, this tooltip shows the range of the runs.
 function rangeTitle(t, key, fmt) {
   const values = (t.passes || []).map((p) => p[key]).filter((v) => v != null);
   if (values.length < 2) return '';
@@ -692,9 +720,10 @@ function projectsHTML(run) {
       ? ` <span class="p-changed" title="Files of this project changed since ${short(previous.sha)}">changed</span>` : '';
     const fmtFps = (v) => `${v.toFixed(1)} fps`;
     const fmtFrameMs = (v) => `${v.toFixed(2)} ms`;
-    const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, GRAY_BELOW_PCT.fps, fmtFps);
-    const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, GRAY_BELOW_PCT.frameP95, fmtFrameMs);
-    const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, GRAY_BELOW_PCT.load, fmtMs);
+    const noisePct = (passKey) => Math.max(runSpreadPct(t, passKey), runSpreadPct(previous, passKey));
+    const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, GRAY_BELOW_PCT.fps, noisePct('fps_avg'), fmtFps);
+    const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, GRAY_BELOW_PCT.frameP95, noisePct('frame_ms_p95'), fmtFrameMs);
+    const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, GRAY_BELOW_PCT.load, noisePct('load_ms'), fmtMs);
     // Message of a passed project is a note, for example that frame time did not settle.
     const message = t.message
       ? `<tr class="p-message-row"><td></td><td colspan="4" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
@@ -715,10 +744,13 @@ function projectsHTML(run) {
   }).join('');
 
   const passCount = Math.max(0, ...projects.map((t) => t.passes?.length || 0));
-  const medians = passCount > 1 ? ` Values are medians of ${passCount} runs, hover a value to see the range.` : '';
+  const averages = passCount > 1
+    ? ` Values are averages of ${passCount} runs, hover a value to see the range.`
+      + (run.previousSha ? ' A change smaller than the spread of the runs is <span class="is-noisy">not colored</span>.' : '')
+    : '';
   const note = (run.previousSha
     ? `Changes are compared with the previous run on this machine, <span class="sha">${short(run.previousSha)}</span>.`
-    : 'First run on this machine, there is nothing to compare with yet.') + medians;
+    : 'First run on this machine, there is nothing to compare with yet.') + averages;
   return `<h3>Projects <span class="count">${count}</span></h3>
     <p class="projects-note">${note}</p>
     <div class="projects-wrap"><table class="projects">
