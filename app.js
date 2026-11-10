@@ -693,15 +693,26 @@ function buildHTML(run) {
     ${t.message ? `<p class="build-msg">${esc(t.message)}</p>` : ''}`).join('');
 }
 
-// Change from the previous result of the project on this machine. Changes under 1% are left uncolored as noise.
-function changeHTML(value, previousValue, previousSha, higherIsBetter, fmt) {
+// Changes under these are left gray, they are within run to run noise of a median of 3 runs, measured on Simple_Scene.
+const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4 };
+
+// Change from the previous result of the project on this machine.
+function changeHTML(value, previousValue, previousSha, higherIsBetter, grayBelowPct, fmt) {
   if (value == null || previousValue == null) return '';
 
   const pct = Math.round(((value - previousValue) / previousValue) * 1000) / 10;
   const better = higherIsBetter ? pct > 0 : pct < 0;
-  const tone = Math.abs(pct) < 1 ? '' : better ? ' better' : ' worse';
+  const tone = Math.abs(pct) < grayBelowPct ? '' : better ? ' better' : ' worse';
   const sign = pct > 0 ? '+' : pct < 0 ? '−' : '±';
   return `<span class="change${tone}" title="${esc(fmt(previousValue))} in ${short(previousSha)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
+}
+
+// Values of a project are medians of its runs, this tooltip shows the range of the runs.
+function rangeTitle(t, key, fmt) {
+  const values = (t.passes || []).map((p) => p[key]).filter((v) => v != null);
+  if (values.length < 2) return '';
+
+  return ` title="${esc(`${fmt(Math.min(...values))} to ${fmt(Math.max(...values))} over ${values.length} runs`)}"`;
 }
 
 // With several project repos, projects and screenshots are grouped by repo, in the order of project_sources.
@@ -731,9 +742,11 @@ function projectsHTML(run) {
     // Files of the project differ from its previous result, so a change in numbers may come from the project, not from the engine.
     const changed = previous?.tree && t.tree && previous.tree !== t.tree
       ? ` <span class="p-changed" title="Files of this project changed since ${short(previous.sha)}">changed</span>` : '';
-    const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, (v) => `${v.toFixed(1)} fps`);
-    const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, (v) => `${v.toFixed(2)} ms`);
-    const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, fmtMs);
+    const fmtFps = (v) => `${v.toFixed(1)} fps`;
+    const fmtFrameMs = (v) => `${v.toFixed(2)} ms`;
+    const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, GRAY_BELOW_PCT.fps, fmtFps);
+    const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, GRAY_BELOW_PCT.frameP95, fmtFrameMs);
+    const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, GRAY_BELOW_PCT.load, fmtMs);
     // Message of a passed project is a note, for example that frame time did not settle.
     const message = t.message
       ? `<tr class="p-message-row"><td></td><td colspan="4" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
@@ -741,9 +754,9 @@ function projectsHTML(run) {
     return `<tr class="p-${t.status}${t.message ? ' has-message' : ''}">
       <td class="p-icon">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span></td>
       <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}${changed}</th>
-      <td class="p-fps">${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}${fpsChange}</td>
-      <td>${t.frame_ms_p95 != null ? `${t.frame_ms_p95.toFixed(2)} ms` : '–'}${p95Change}</td>
-      <td>${load}${loadChange}</td></tr>${message}`;
+      <td class="p-fps"${rangeTitle(t, 'fps_avg', fmtFps)}>${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}${fpsChange}</td>
+      <td${rangeTitle(t, 'frame_ms_p95', fmtFrameMs)}>${t.frame_ms_p95 != null ? fmtFrameMs(t.frame_ms_p95) : '–'}${p95Change}</td>
+      <td${rangeTitle(t, 'load_ms', fmtMs)}>${load}${loadChange}</td></tr>${message}`;
   };
   const body = sourceGroups(run, projects, (t) => t.source).map((g) => {
     const header = g.source
@@ -753,9 +766,11 @@ function projectsHTML(run) {
     return `<tbody>${header}${g.items.map(projectRow).join('')}</tbody>`;
   }).join('');
 
-  const note = run.previousSha
+  const passCount = Math.max(0, ...projects.map((t) => t.passes?.length || 0));
+  const medians = passCount > 1 ? ` Values are medians of ${passCount} runs, hover a value to see the range.` : '';
+  const note = (run.previousSha
     ? `Changes are compared with the previous run on this machine, <span class="sha">${short(run.previousSha)}</span>.`
-    : 'First run on this machine, there is nothing to compare with yet.';
+    : 'First run on this machine, there is nothing to compare with yet.') + medians;
   return `<h3>Projects <span class="count">${count}</span></h3>
     <p class="projects-note">${note}</p>
     <div class="projects-wrap"><table class="projects">
