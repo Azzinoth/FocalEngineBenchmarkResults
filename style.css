@@ -229,20 +229,24 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .matrix th .th-machine { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 14px; }
 .matrix th .th-spec { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.35; margin-top: 2px; }
 .matrix td { padding: 13px 14px; vertical-align: top; border-bottom: 1px solid var(--rule); }
-.matrix tbody tr:last-child td { border-bottom: 0; }
+.matrix > tbody > tr:last-child > td { border-bottom: 0; }
 
 .commit-row { cursor: pointer; }
 .commit-row:hover td { background: var(--surface-2); }
 .commit-row.is-open td { background: var(--surface-2); border-bottom-color: transparent; }
 
 .row-toggle {
-  display: grid; grid-template-columns: 14px auto 1fr; align-items: baseline; column-gap: 8px;
+  display: grid; grid-template-columns: 14px 1fr; align-items: start; column-gap: 8px;
   width: 100%; text-align: left; background: none; border: 0; padding: 0; color: var(--ink);
 }
-.row-toggle .chev { width: 12px; height: 12px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s ease; align-self: center; }
+.row-toggle .chev { width: 12px; height: 12px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s ease; margin-top: 5px; }
 .commit-row.is-open .chev { transform: rotate(90deg); }
-.row-toggle .sha { color: var(--ink-2); }
-.row-toggle .msg { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-toggle .sha { color: var(--ink-2); margin-right: 8px; }
+/* Commit column is narrow, so the row shows three lines of the message, starting next to the SHA, and details of the commit show all of it. */
+.row-toggle .msg {
+  font-weight: 500; overflow: hidden; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+}
 .meta { color: var(--muted); font-size: 13px; margin: 2px 0 0 22px; }
 
 .c-status .status { display: flex; align-items: center; gap: 7px; font-size: 14px; color: var(--ink-2); }
@@ -268,6 +272,7 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .detail { padding: 2px 22px 26px 36px; animation: reveal .18s ease-out; }
 @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } }
 @media (prefers-reduced-motion: reduce) { .detail { animation: none; } }
+.detail-msg { font-size: 14px; color: var(--ink); max-width: 110ch; margin: 0; padding: 10px 0 6px; overflow-wrap: anywhere; }
 .detail-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--rule); margin-bottom: 18px; }
 .tabs { display: flex; flex-wrap: wrap; }
 .tab {
@@ -345,12 +350,29 @@ h3 .count { font-weight: 400; }
 .shot-pending { display: grid; place-items: center; aspect-ratio: 16 / 9; border: 1px dashed var(--rule-strong); border-radius: 6px; color: var(--muted); font-size: 13px; }
 
 .compare-wrap { overflow-x: auto; padding-bottom: 4px; }
-.compare { display: grid; grid-template-columns: 110px repeat(var(--cols), minmax(190px, 300px)); gap: 12px 14px; align-items: center; }
+.compare-modes { margin-bottom: 16px; }
+/* Project names that are longer than their column wrap after an underscore. */
+.compare { display: grid; grid-template-columns: 150px repeat(var(--cols), minmax(190px, 300px)); gap: 12px 14px; align-items: center; }
 .compare .c-head { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 14px; }
 .compare .c-head small { color: var(--muted); font-weight: 400; font-size: 12.5px; }
-.compare .c-scene { font-size: 13.5px; color: var(--ink-2); }
+.compare .c-scene { font-size: 13.5px; color: var(--ink-2); overflow-wrap: anywhere; }
 .compare .c-missing { aspect-ratio: 16 / 9; display: grid; place-items: center; border: 1px dashed var(--rule-strong); border-radius: 6px; color: var(--muted); font-size: 13px; }
 .compare .shot figcaption { margin-top: 4px; justify-content: flex-end; }
+
+.cmp-metrics { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+/* Table sits inside the commit matrix, so sticky header cells of the matrix are reset. */
+.cmp-metrics th, .cmp-metrics td { position: static; background: none; border-radius: 0; padding: 6px 0 6px 24px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; vertical-align: baseline; }
+.cmp-metrics th:first-child { text-align: left; padding-left: 0; }
+.cmp-metrics thead th { font-size: 13.5px; font-weight: 600; color: var(--ink); vertical-align: bottom; padding-bottom: 8px; border-bottom-color: var(--rule-strong); }
+.cmp-metrics thead th .mk { margin-right: 7px; }
+.cmp-metrics thead th small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+.cmp-metrics tbody th { font-weight: 500; white-space: normal; min-width: 150px; max-width: 240px; }
+.cmp-metrics td { color: var(--ink-2); min-width: 150px; }
+.cmp-metrics td.is-best { color: var(--ink); font-weight: 650; }
+.cmp-metrics .cm-rel { display: inline-block; min-width: 56px; margin-left: 4px; font-size: 12px; font-weight: 400; color: var(--muted); }
+.cmp-metrics .cm-failed .si { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; }
+.cmp-metrics tr.cm-group th { padding: 20px 0 6px; font-size: 13px; font-weight: 650; color: var(--ink); border-bottom-color: var(--rule-strong); }
+.cmp-metrics tbody:first-of-type tr.cm-group th { padding-top: 8px; }
 
 .detail-empty { padding: 18px 22px 22px 36px; }
 
@@ -401,7 +423,8 @@ h3 .count { font-weight: 400; }
   .commit-row.is-open { background: var(--surface-2); border-bottom-color: transparent; }
   .commit-row:hover { background: var(--surface-2); }
   .c-commit, .c-film { grid-column: 1 / -1; }
-  .row-toggle .msg { white-space: normal; }
+  .row-toggle .msg { display: block; }
+  .detail-msg { display: none; }
   .cell-machine { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); margin-bottom: 2px; }
   .c-status .status { font-size: 13.5px; }
   .c-status .status-sub { margin-left: 23px; }

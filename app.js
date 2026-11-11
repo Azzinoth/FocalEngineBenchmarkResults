@@ -264,6 +264,8 @@ const state = {
   open: new Set(),
   tab: {},
   compare: {},
+  // What Compare machines shows, kept for all commits: 'screenshots' or 'metrics'.
+  compareMode: 'screenshots',
   metric: 'fps_avg',
   project: null,
 };
@@ -592,7 +594,7 @@ function rowHTML(c) {
   let html = `<tr class="commit-row${open ? ' is-open' : ''}" data-sha="${c.sha}">
     <td class="c-commit">
       <button class="row-toggle" type="button" aria-expanded="${open}" aria-controls="${id}" data-toggle="${c.sha}">
-        ${chevron}<span class="sha">${short(c.sha)}</span><span class="msg" title="${esc(c.message)}">${esc(c.message)}</span>
+        ${chevron}<span class="msg" title="${esc(c.message)}"><span class="sha">${short(c.sha)}</span>${esc(c.message)}</span>
       </button>
       <div class="meta">${esc(c.author)}, <time datetime="${c.date}" title="${esc(fmtDate(c.date))}">${ago(c.date)}</time></div>
     </td>
@@ -628,13 +630,15 @@ function defaultTab(c) {
 }
 
 function detailHTML(c) {
+  // Row of the commit shows only three lines of its message.
+  const message = `<p class="detail-msg">${esc(c.message)}</p>`;
   if (!Object.keys(c.runs).length) {
-    return `<div class="detail detail-empty"><p class="notice">No runs for this commit.
+    return `<div class="detail detail-empty">${message}<p class="notice">No runs for this commit.
       <span class="sub">To get results for it, start the workflow by hand from the Actions tab of the private repo and enter this SHA.</span></p></div>`;
   }
   const compare = !!state.compare[c.sha];
   const active = state.tab[c.sha] || defaultTab(c);
-  const canCompare = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length).length >= 2;
+  const canCompare = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length || hasProjectResults(c.runs[m.id])).length >= 2;
   const tabs = DATA.machines.map((m) => {
     const st = c.runs[m.id]?.status || 'none';
     const sel = !compare && m.id === active;
@@ -642,13 +646,16 @@ function detailHTML(c) {
       ${machineMark(m.index)}<span>${esc(m.id)}</span>${statusIcon(st)}<span class="sr-only">${STATUS_LABEL[st]}</span></button>`;
   }).join('');
   const btn = `<button class="compare-btn" type="button" aria-pressed="${compare}" data-compare="${c.sha}"
-    ${canCompare ? '' : 'disabled title="Needs screenshots from at least two machines"'}>Compare machines</button>`;
+    ${canCompare ? '' : 'disabled title="Needs results from at least two machines"'}>Compare machines</button>`;
   const body = compare ? compareHTML(c) : machineHTML(c, DATA.machines.find((m) => m.id === active));
-  return `<div class="detail"><div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
+  return `<div class="detail">${message}<div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
 }
 
 // Publish job names the build test "Build (Release)", every other test is a project.
 const isBuildTest = (t) => t.name.startsWith('Build (');
+const hasProjectResults = (run) => !!run?.tests?.some((t) => !isBuildTest(t));
+// For a project that did not load, ms is its run time, not load time. A project that failed only on its screenshot has values of its runs.
+const loadMsOf = (t) => (t.status === 'passed' || t.passes ? t.ms ?? null : null);
 
 function buildHTML(run) {
   return run.tests.filter(isBuildTest).map((t) => `<p class="build-line">${statusIcon(t.status)}<span>${esc(t.name)}</span>
@@ -711,8 +718,7 @@ function projectsHTML(run) {
   if (pending) count += `, ${pending} pending`;
 
   const projectRow = (t) => {
-    // For a project that did not load, ms is its run time, not load time.
-    const loadMs = t.status === 'passed' ? t.ms : null;
+    const loadMs = loadMsOf(t);
     const load = loadMs != null ? fmtMs(loadMs) : '–';
     const previous = run.previous?.[t.name];
     // Files of the project differ from its previous result, so a change in numbers may come from the project, not from the engine.
@@ -826,17 +832,95 @@ function compareItems(c) {
   return { ms, scenes, grid, flat: grid.flat().filter(Boolean) };
 }
 
+const COMPARE_MODES = [['screenshots', 'Screenshots'], ['metrics', 'Metrics']];
+
 function compareHTML(c) {
+  const modes = COMPARE_MODES.map(([id, title]) => `<button type="button" aria-pressed="${state.compareMode === id}" data-compare-mode="${c.sha}|${id}">${title}</button>`).join('');
+  return `<div class="segmented compare-modes" role="group" aria-label="What to compare">${modes}</div>`
+    + (state.compareMode === 'metrics' ? compareMetricsHTML(c) : compareShotsHTML(c));
+}
+
+function compareShotsHTML(c) {
   const { ms, scenes, grid, flat } = compareItems(c);
+  if (!ms.length) return '<p class="notice">No screenshots for this commit yet.</p>';
+
   const key = `${c.sha}|compare`;
   let html = '<div></div>' + ms.map((m) => `<div class="c-head">${machineMark(m.index)}${esc(m.id)} <small>${esc(m.gpu)}</small></div>`).join('');
   scenes.forEach((scene, r) => {
-    html += `<div class="c-scene">${esc(scene)}</div>`;
+    html += `<div class="c-scene">${esc(scene).replace(/_/g, '_<wbr>')}</div>`;
     grid[r].forEach((s, k) => {
       html += s ? shotFigure(s, key, flat.indexOf(s), ms[k], false) : '<div class="c-missing">Not captured</div>';
     });
   });
   return `<div class="compare-wrap"><div class="compare" style="--cols:${ms.length}">${html}</div></div>`;
+}
+
+// Values that Metrics mode of Compare machines shows, passKey is the name of the value in each run of a project.
+const COMPARE_METRICS = [
+  // Rows of this one are builds, not projects. Time of a failed build is shown too, with its message.
+  { title: 'Build time', hint: 'lower is better', higherIsBetter: false, ofBuild: true, get: (t) => t.ms, fmt: fmtMs, fmtFull: fmtMs },
+  { title: 'Average FPS', hint: 'higher is better', higherIsBetter: true, passKey: 'fps_avg',
+    get: (t) => t.fps_avg, fmt: (v) => v.toFixed(1), fmtFull: (v) => `${v.toFixed(1)} fps` },
+  { title: 'p95 frame time', hint: 'lower is better', higherIsBetter: false, passKey: 'frame_ms_p95',
+    get: (t) => t.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, fmtFull: (v) => `${v.toFixed(2)} ms` },
+  { title: 'Load time', hint: 'lower is better', higherIsBetter: false, passKey: 'load_ms', get: loadMsOf, fmt: fmtMs, fmtFull: fmtMs },
+];
+
+// One row for every project in each metric, one column for every machine, so a row compares the machines.
+function compareMetricsHTML(c) {
+  const ms = DATA.machines.filter((m) => hasProjectResults(c.runs[m.id]));
+  if (!ms.length) return '<p class="notice">No project results for this commit yet.</p>';
+
+  // Projects follow the order of project repos, as in the projects table of a machine.
+  const sourceOrder = [...new Set(ms.flatMap((m) => (c.runs[m.id].project_sources || []).map((s) => s.repository)))];
+  const sourceOfProject = new Map();
+  for (const m of ms) {
+    for (const t of c.runs[m.id].tests) {
+      if (!isBuildTest(t) && !sourceOfProject.has(t.name)) sourceOfProject.set(t.name, t.source);
+    }
+  }
+  const names = [...sourceOfProject.keys()].sort((a, b) => sourceOrder.indexOf(sourceOfProject.get(a)) - sourceOrder.indexOf(sourceOfProject.get(b)));
+  const buildNames = [...new Set(ms.flatMap((m) => c.runs[m.id].tests.filter(isBuildTest).map((t) => t.name)))];
+
+  const rowHTMLOf = (metric, name) => {
+    const tests = ms.map((m) => projectTest(c.runs[m.id], name));
+    const values = tests.map((t) => (t ? metric.get(t) ?? null : null));
+    const present = values.filter((v) => v != null);
+    const best = present.length > 1 ? (metric.higherIsBetter ? Math.max(...present) : Math.min(...present)) : null;
+    const cells = tests.map((t, k) => {
+      const v = values[k];
+      const failed = t?.status === 'failed'
+        ? `<span class="cm-failed" title="${esc(t.message || 'Failed')}">${statusIcon('failed')}<span class="sr-only">Failed</span></span>` : '';
+      if (v == null) return `<td>${failed}–<span class="cm-rel"></span></td>`;
+
+      const isBest = best != null && v === best;
+      let relative = isBest ? 'best' : '';
+      if (best != null && !isBest && best > 0) {
+        const pct = ((v - best) / best) * 100;
+        relative = `${pct > 0 ? '+' : '−'}${Math.abs(pct).toFixed(1)}%`;
+      }
+      return `<td${isBest ? ' class="is-best"' : ''}${rangeTitle(t, metric.passKey, metric.fmtFull)}>${failed}${metric.fmt(v)}<span class="cm-rel">${relative}</span></td>`;
+    }).join('');
+    return `<tr><th scope="row">${esc(name).replace(/_/g, '_<wbr>')}</th>${cells}</tr>`;
+  };
+
+  const head = ms.map((m) => `<th scope="col">${machineMark(m.index)}${esc(m.id)}<small>${esc(m.gpu)}</small></th>`).join('');
+  const body = COMPARE_METRICS.map((metric) => {
+    const rowNames = metric.ofBuild ? buildNames : names;
+    if (!rowNames.length) return '';
+
+    return `<tbody>
+    <tr class="cm-group"><th colspan="${ms.length + 1}" scope="rowgroup">${metric.title}<span class="count">${metric.hint}</span></th></tr>
+    ${rowNames.map((name) => rowHTMLOf(metric, name)).join('')}</tbody>`;
+  }).join('');
+  const note = ms.length > 1
+    ? 'The best value of each row is bold, the other machines show how far they are from it.'
+    : 'Only one machine has results for this commit.';
+  return `<p class="projects-note">${note}</p>
+    <div class="compare-wrap"><table class="cmp-metrics">
+      <thead><tr><th scope="col">Project</th>${head}</tr></thead>
+      ${body}
+    </table></div>`;
 }
 
 /* ============================================================================
@@ -903,6 +987,11 @@ function bindEvents() {
       const [sha, mid] = tab.dataset.tab.split('|');
       state.tab[sha] = mid; state.compare[sha] = false;
       renderRows(`[data-tab="${sha}|${mid}"]`); return;
+    }
+    const mode = e.target.closest('[data-compare-mode]');
+    if (mode) {
+      state.compareMode = mode.dataset.compareMode.split('|')[1];
+      renderRows(`[data-compare-mode="${mode.dataset.compareMode}"]`); return;
     }
     const cmp = e.target.closest('[data-compare]');
     if (cmp) {
