@@ -92,15 +92,30 @@ function statusIcon(status) {
 }
 
 // Each machine gets a color and a marker shape, so it is never told apart by color alone.
+// There are 8 colors, --series-1 to --series-8 of style.css, and 8 shapes, so the first 8 machines differ in both.
+// From the 9th machine on colors repeat, with the shape shifted by one, so a machine still has its own pair.
+const SERIES_COUNT = 8;
+const seriesColor = (i) => `var(--series-${(i % SERIES_COUNT) + 1})`;
+
 function shapePath(i, cx, cy, s) {
-  const k = i % 3;
-  if (k === 0) return `<circle cx="${cx}" cy="${cy}" r="${s / 2}"/>`;
-  if (k === 1) return `<rect x="${cx - s * 0.43}" y="${cy - s * 0.43}" width="${s * 0.86}" height="${s * 0.86}" rx="1"/>`;
-  const r = s * 0.6;
-  return `<polygon points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}"/>`;
+  const k = (i + Math.floor(i / SERIES_COUNT)) % SERIES_COUNT;
+  const points = (list) => `<polygon points="${list.map(([px, py]) => `${(cx + px * s).toFixed(2)},${(cy + py * s).toFixed(2)}`).join(' ')}"/>`;
+  // Half of arm length and half of arm width of plus and cross.
+  const a = 0.6, w = 0.23;
+  const plus = [[-w, -a], [w, -a], [w, -w], [a, -w], [a, w], [w, w], [w, a], [-w, a], [-w, w], [-a, w], [-a, -w], [-w, -w]];
+  switch (k) {
+    case 0: return `<circle cx="${cx}" cy="${cy}" r="${s / 2}"/>`;
+    case 1: return `<rect x="${cx - s * 0.43}" y="${cy - s * 0.43}" width="${s * 0.86}" height="${s * 0.86}" rx="1"/>`;
+    case 2: return points([[0, -0.6], [0.6, 0], [0, 0.6], [-0.6, 0]]);
+    case 3: return points([[0, -0.58], [0.6, 0.46], [-0.6, 0.46]]);
+    case 4: return points([[0, 0.58], [0.6, -0.46], [-0.6, -0.46]]);
+    case 5: return points(plus);
+    case 6: return `<g transform="rotate(45 ${cx} ${cy})">${points(plus)}</g>`;
+    default: return points([0, 1, 2, 3, 4].map((n) => [0.58 * Math.sin((n * 2 * Math.PI) / 5), -0.58 * Math.cos((n * 2 * Math.PI) / 5)]));
+  }
 }
 function machineMark(i, size = 10) {
-  return `<svg class="mk" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true" style="fill:var(--series-${(i % 3) + 1})">${shapePath(i, size / 2, size / 2, size - 1)}</svg>`;
+  return `<svg class="mk" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true" style="fill:${seriesColor(i)}">${shapePath(i, size / 2, size / 2, size - 1)}</svg>`;
 }
 
 const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
@@ -435,7 +450,7 @@ function renderChart() {
 
   const ends = [];
   for (const m of DATA.machines) {
-    const color = `var(--series-${(m.index % 3) + 1})`;
+    const color = seriesColor(m.index);
     const pts = list.map((c, i) => ({ i, v: val(c, m) })).filter((p) => p.v != null);
     for (let k = 1; k < pts.length; k++) {
       const a = pts[k - 1], b = pts[k];
@@ -448,7 +463,7 @@ function renderChart() {
     ends.sort((a, b) => a.y - b.y);
     for (let k = 1; k < ends.length; k++) ends[k].y = Math.max(ends[k].y, ends[k - 1].y + 16);
     for (const e of ends) {
-      svg += `<g style="fill:var(--series-${(e.m.index % 3) + 1})">${shapePath(e.m.index, M.l + pw + 16, e.y, 8)}</g>`;
+      svg += `<g style="fill:${seriesColor(e.m.index)}">${shapePath(e.m.index, M.l + pw + 16, e.y, 8)}</g>`;
       svg += `<text class="end-label" x="${M.l + pw + 26}" y="${e.y}" dy="0.33em">${esc(e.m.id)}</text>`;
     }
   }
@@ -476,7 +491,7 @@ function bindChart() {
     for (const m of DATA.machines) {
       const v = ctx.val(c, m);
       const r = c.runs[m.id];
-      if (v != null) dots += `<g class="mk-svg" style="fill:var(--series-${(m.index % 3) + 1})">${shapePath(m.index, ctx.x(i), ctx.y(v), 12)}</g>`;
+      if (v != null) dots += `<g class="mk-svg" style="fill:${seriesColor(m.index)}">${shapePath(m.index, ctx.x(i), ctx.y(v), 12)}</g>`;
       const valText = v != null ? ctx.metric.fmt(v) : r ? STATUS_LABEL[r.status] : 'Not run';
       rows += `<div class="tip-row">${machineMark(m.index)}<span>${esc(m.id)}</span>${r?.status === 'failed' ? '<span class="tip-fail">failed</span>' : ''}<b>${valText}</b></div>`;
     }
