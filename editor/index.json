@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-11T03:16:57Z",
+ "generated_at": "2026-11-11T03:19:27Z",
  "machines": [
   {
    "id": "lab-win-FLIER",
@@ -66,10 +66,10 @@
   "83c201e515caf87b943d4795779a8788dbba32cc": {
    "lab-win-MALLARD": {
     "status": "passed",
-    "started": "2026-11-09T17:59:04Z",
-    "finished": "2026-11-09T18:08:14Z",
-    "duration_sec": 550,
-    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42669844390",
+    "started": "2026-11-11T02:48:22Z",
+    "finished": "2026-11-11T03:18:59Z",
+    "duration_sec": 1837,
+    "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/42948488341",
     "commit": {
      "author": "Azzinoth",
      "date": "2026-11-08T19:49:50Z",
@@ -81,9 +81,14 @@
       "repository": "Azzinoth/FocalEngineProjects",
       "ref": "master",
       "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
+     },
+     {
+      "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+      "ref": "master",
+      "commit": "90de5cc71abf4c229cbf19f9b2ecdd0abeb1b4b7"
      }
     ],
-    "benchmark_commit": "9d11da2beb8abb6ec1ca85ec297d0e571c2b5448",
+    "benchmark_commit": "a051968ed4dfe598a51590494bbbd9701f2b49d9",
     "machine": {
      "os": "Windows 11 Pro build 26100.8457",
      "cpu": "12th Gen Intel(R) Core(TM) i7-12700KF",
@@ -95,142 +100,487 @@
      {
       "name": "Build (Release)",
       "status": "passed",
-      "ms": 43526
+      "ms": 42925
      },
      {
       "name": "Bistro",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "9d695d9899b2de98d9541c3518bc6907a6bdbbd1",
-      "ms": 97449,
-      "fps_avg": 2.699,
-      "frame_ms_p95": 373.569
+      "ms": 98315,
+      "fps_avg": 2.6553333333333335,
+      "frame_ms_median": 376.27133333333336,
+      "frame_ms_p95": 381.23633333333333,
+      "passes": [
+       {
+        "load_ms": 96887,
+        "fps_avg": 2.692,
+        "frame_ms_median": 370.766,
+        "frame_ms_p95": 376.686
+       },
+       {
+        "load_ms": 100338,
+        "fps_avg": 2.566,
+        "frame_ms_median": 389.051,
+        "frame_ms_p95": 394.796
+       },
+       {
+        "load_ms": 97720,
+        "fps_avg": 2.708,
+        "frame_ms_median": 368.997,
+        "frame_ms_p95": 372.227
+       }
+      ]
      },
      {
       "name": "Complex_Forest",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "401a6ef3c08372b9e63f0470159fb57d7a08616e",
-      "ms": 51037,
-      "fps_avg": 55.427,
-      "frame_ms_p95": 18.285
+      "ms": 51188,
+      "fps_avg": 55.349333333333334,
+      "frame_ms_median": 18.09,
+      "frame_ms_p95": 18.385666666666665,
+      "passes": [
+       {
+        "load_ms": 51120,
+        "fps_avg": 55.467,
+        "frame_ms_median": 18.025,
+        "frame_ms_p95": 18.328
+       },
+       {
+        "load_ms": 51145,
+        "fps_avg": 55.258,
+        "frame_ms_median": 18.129,
+        "frame_ms_p95": 18.277
+       },
+       {
+        "load_ms": 51298,
+        "fps_avg": 55.323,
+        "frame_ms_median": 18.116,
+        "frame_ms_p95": 18.552
+       }
+      ]
      },
      {
       "name": "Corals",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "26166e1ce2969aba9677e258cec8501d0d53d81a",
-      "ms": 3557,
-      "fps_avg": 238.847,
-      "frame_ms_p95": 4.706
+      "ms": 3559,
+      "fps_avg": 238.588,
+      "frame_ms_median": 4.087,
+      "frame_ms_p95": 4.69,
+      "passes": [
+       {
+        "load_ms": 3559,
+        "fps_avg": 239.24,
+        "frame_ms_median": 4.079,
+        "frame_ms_p95": 4.665
+       },
+       {
+        "load_ms": 3561,
+        "fps_avg": 238.394,
+        "frame_ms_median": 4.09,
+        "frame_ms_p95": 4.69
+       },
+       {
+        "load_ms": 3558,
+        "fps_avg": 238.13,
+        "frame_ms_median": 4.092,
+        "frame_ms_p95": 4.715
+       }
+      ]
      },
      {
       "name": "New_Sponza",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "2a06c245c53def2ca797397205577a32f88e6b12",
-      "ms": 16708,
-      "fps_avg": 60.964,
-      "frame_ms_p95": 16.752
+      "ms": 16973,
+      "fps_avg": 60.812333333333335,
+      "frame_ms_median": 16.173333333333332,
+      "frame_ms_p95": 18.029999999999998,
+      "passes": [
+       {
+        "load_ms": 17021,
+        "fps_avg": 60.273,
+        "frame_ms_median": 16.085,
+        "frame_ms_p95": 19.15
+       },
+       {
+        "load_ms": 17017,
+        "fps_avg": 61.28,
+        "frame_ms_median": 16.089,
+        "frame_ms_p95": 18.048
+       },
+       {
+        "load_ms": 16880,
+        "fps_avg": 60.884,
+        "frame_ms_median": 16.346,
+        "frame_ms_p95": 16.892
+       }
+      ]
+     },
+     {
+      "name": "POLYGON_Dwarven_Dungeon_Map",
+      "status": "passed",
+      "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+      "tree": "78bd4b92904eff1604ac8d13c32e451621e16040",
+      "ms": 11385,
+      "fps_avg": 0.9856666666666666,
+      "frame_ms_median": 1008.1156666666667,
+      "frame_ms_p95": 1031.3533333333335,
+      "passes": [
+       {
+        "load_ms": 11349,
+        "fps_avg": 1.003,
+        "frame_ms_median": 996.639,
+        "frame_ms_p95": 999.371
+       },
+       {
+        "load_ms": 11506,
+        "fps_avg": 0.962,
+        "frame_ms_median": 1021.92,
+        "frame_ms_p95": 1076.121
+       },
+       {
+        "load_ms": 11301,
+        "fps_avg": 0.992,
+        "frame_ms_median": 1005.788,
+        "frame_ms_p95": 1018.568
+       }
+      ]
      },
      {
       "name": "Simple_Forest",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "cc08baee61594be127925b319b052c8ad3fa6e98",
-      "ms": 5827,
-      "fps_avg": 150.319,
-      "frame_ms_p95": 7.079
+      "ms": 5809,
+      "fps_avg": 149.973,
+      "frame_ms_median": 6.541666666666667,
+      "frame_ms_p95": 7.112333333333333,
+      "passes": [
+       {
+        "load_ms": 5840,
+        "fps_avg": 150.135,
+        "frame_ms_median": 6.522,
+        "frame_ms_p95": 7.088
+       },
+       {
+        "load_ms": 5808,
+        "fps_avg": 150.187,
+        "frame_ms_median": 6.555,
+        "frame_ms_p95": 7.119
+       },
+       {
+        "load_ms": 5779,
+        "fps_avg": 149.597,
+        "frame_ms_median": 6.548,
+        "frame_ms_p95": 7.13
+       }
+      ]
      },
      {
       "name": "Simple_Scene",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "3c0222ece26cfded866cfb69e1599a7a1914f262",
-      "ms": 1202,
-      "fps_avg": 503.758,
-      "frame_ms_p95": 2.286
+      "ms": 1216,
+      "fps_avg": 502.109,
+      "frame_ms_median": 1.9683333333333333,
+      "frame_ms_p95": 2.306,
+      "passes": [
+       {
+        "load_ms": 1211,
+        "fps_avg": 503.856,
+        "frame_ms_median": 1.969,
+        "frame_ms_p95": 2.302
+       },
+       {
+        "load_ms": 1218,
+        "fps_avg": 504.018,
+        "frame_ms_median": 1.966,
+        "frame_ms_p95": 2.305
+       },
+       {
+        "load_ms": 1220,
+        "fps_avg": 498.453,
+        "frame_ms_median": 1.97,
+        "frame_ms_p95": 2.311
+       }
+      ]
      },
      {
       "name": "Simple_Scene_2",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "67a47adea9cf70963ef8a0063e72d4aff8ae4fd0",
-      "ms": 3819,
-      "fps_avg": 437.747,
-      "frame_ms_p95": 2.619
+      "ms": 3867,
+      "fps_avg": 437.4596666666667,
+      "frame_ms_median": 2.2626666666666666,
+      "frame_ms_p95": 2.622333333333333,
+      "passes": [
+       {
+        "load_ms": 3863,
+        "fps_avg": 438.133,
+        "frame_ms_median": 2.257,
+        "frame_ms_p95": 2.607
+       },
+       {
+        "load_ms": 3839,
+        "fps_avg": 437.458,
+        "frame_ms_median": 2.265,
+        "frame_ms_p95": 2.621
+       },
+       {
+        "load_ms": 3899,
+        "fps_avg": 436.788,
+        "frame_ms_median": 2.266,
+        "frame_ms_p95": 2.639
+       }
+      ]
      },
      {
       "name": "Simple_Scene_3",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "f8c71362f7a621faf2dce7f10040bd175feb8f97",
-      "ms": 9242,
-      "fps_avg": 438.298,
-      "frame_ms_p95": 2.65
+      "ms": 9136,
+      "fps_avg": 438.008,
+      "frame_ms_median": 2.255,
+      "frame_ms_p95": 2.5883333333333334,
+      "passes": [
+       {
+        "load_ms": 9184,
+        "fps_avg": 438.52,
+        "frame_ms_median": 2.252,
+        "frame_ms_p95": 2.591
+       },
+       {
+        "load_ms": 9109,
+        "fps_avg": 437.743,
+        "frame_ms_median": 2.257,
+        "frame_ms_p95": 2.582
+       },
+       {
+        "load_ms": 9115,
+        "fps_avg": 437.761,
+        "frame_ms_median": 2.256,
+        "frame_ms_p95": 2.592
+       }
+      ]
      },
      {
       "name": "Simple_Scene_4",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "d78586e4a5ade831d64dfd1a36694d336ceb06f7",
-      "ms": 1603,
-      "fps_avg": 508.297,
-      "frame_ms_p95": 2.311
+      "ms": 1585,
+      "fps_avg": 507.756,
+      "frame_ms_median": 1.9276666666666666,
+      "frame_ms_p95": 2.3013333333333335,
+      "passes": [
+       {
+        "load_ms": 1597,
+        "fps_avg": 509.074,
+        "frame_ms_median": 1.918,
+        "frame_ms_p95": 2.296
+       },
+       {
+        "load_ms": 1584,
+        "fps_avg": 507.765,
+        "frame_ms_median": 1.922,
+        "frame_ms_p95": 2.31
+       },
+       {
+        "load_ms": 1574,
+        "fps_avg": 506.429,
+        "frame_ms_median": 1.943,
+        "frame_ms_p95": 2.298
+       }
+      ]
      },
      {
       "name": "Simple_Terrrain",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "a6d79edff311e0e891ee42f9b17a9af32b7983c2",
-      "ms": 807,
-      "fps_avg": 434.067,
-      "frame_ms_p95": 2.656
+      "ms": 809,
+      "fps_avg": 434.061,
+      "frame_ms_median": 2.260333333333333,
+      "frame_ms_p95": 2.6616666666666666,
+      "passes": [
+       {
+        "load_ms": 813,
+        "fps_avg": 435.483,
+        "frame_ms_median": 2.252,
+        "frame_ms_p95": 2.646
+       },
+       {
+        "load_ms": 806,
+        "fps_avg": 433.191,
+        "frame_ms_median": 2.268,
+        "frame_ms_p95": 2.69
+       },
+       {
+        "load_ms": 808,
+        "fps_avg": 433.509,
+        "frame_ms_median": 2.261,
+        "frame_ms_p95": 2.649
+       }
+      ]
      },
      {
       "name": "Simple_Terrrain_2",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "41d4cac26b897868948b6e1942482c150e62455c",
-      "ms": 5820,
-      "fps_avg": 402.849,
-      "frame_ms_p95": 2.792
+      "ms": 5817,
+      "fps_avg": 402.992,
+      "frame_ms_median": 2.421,
+      "frame_ms_p95": 2.824666666666667,
+      "passes": [
+       {
+        "load_ms": 5825,
+        "fps_avg": 406.361,
+        "frame_ms_median": 2.42,
+        "frame_ms_p95": 2.815
+       },
+       {
+        "load_ms": 5798,
+        "fps_avg": 401.547,
+        "frame_ms_median": 2.416,
+        "frame_ms_p95": 2.829
+       },
+       {
+        "load_ms": 5827,
+        "fps_avg": 401.068,
+        "frame_ms_median": 2.427,
+        "frame_ms_p95": 2.83
+       }
+      ]
      },
      {
       "name": "Simple_Terrrain_Layers",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "de9d2bac9f93adf4afe131b2edf84acb7d3d96bc",
-      "ms": 2026,
-      "fps_avg": 383.504,
-      "frame_ms_p95": 2.964
+      "ms": 2024,
+      "fps_avg": 382.7,
+      "frame_ms_median": 2.56,
+      "frame_ms_p95": 2.994,
+      "passes": [
+       {
+        "load_ms": 2023,
+        "fps_avg": 384.168,
+        "frame_ms_median": 2.556,
+        "frame_ms_p95": 2.953
+       },
+       {
+        "load_ms": 2039,
+        "fps_avg": 380.945,
+        "frame_ms_median": 2.557,
+        "frame_ms_p95": 3.091
+       },
+       {
+        "load_ms": 2009,
+        "fps_avg": 382.987,
+        "frame_ms_median": 2.567,
+        "frame_ms_p95": 2.938
+       }
+      ]
      },
      {
       "name": "Sponza_OLD_without_graph",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "b7e1d1b782915f0399ab2d58d63e9fac8b987144",
-      "ms": 804,
-      "fps_avg": 360.015,
-      "frame_ms_p95": 3.113
+      "ms": 800,
+      "fps_avg": 359.7823333333333,
+      "frame_ms_median": 2.7103333333333333,
+      "frame_ms_p95": 3.146333333333333,
+      "passes": [
+       {
+        "load_ms": 812,
+        "fps_avg": 360.121,
+        "frame_ms_median": 2.708,
+        "frame_ms_p95": 3.135
+       },
+       {
+        "load_ms": 794,
+        "fps_avg": 359.783,
+        "frame_ms_median": 2.711,
+        "frame_ms_p95": 3.128
+       },
+       {
+        "load_ms": 795,
+        "fps_avg": 359.443,
+        "frame_ms_median": 2.712,
+        "frame_ms_p95": 3.176
+       }
+      ]
      },
      {
       "name": "Tower Defence_Scripts",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "7ae57cf5eb95731a6402a9a8ff1ec818909474b8",
-      "ms": 975,
-      "fps_avg": 324.935,
-      "frame_ms_p95": 3.517
+      "ms": 932,
+      "fps_avg": 323.01966666666664,
+      "frame_ms_median": 3.012,
+      "frame_ms_p95": 3.542,
+      "passes": [
+       {
+        "load_ms": 934,
+        "fps_avg": 322.804,
+        "frame_ms_median": 3.013,
+        "frame_ms_p95": 3.549
+       },
+       {
+        "load_ms": 926,
+        "fps_avg": 323.313,
+        "frame_ms_median": 3.011,
+        "frame_ms_p95": 3.533
+       },
+       {
+        "load_ms": 937,
+        "fps_avg": 322.942,
+        "frame_ms_median": 3.012,
+        "frame_ms_p95": 3.544
+       }
+      ]
      },
      {
       "name": "Volumetric",
       "status": "passed",
       "source": "Azzinoth/FocalEngineProjects",
       "tree": "cfe73e72bb4eaba76f3f51da5e22f8b7f218343d",
-      "ms": 104,
-      "fps_avg": 415.371,
-      "frame_ms_p95": 2.761
+      "ms": 101,
+      "fps_avg": 413.99266666666665,
+      "frame_ms_median": 2.3673333333333333,
+      "frame_ms_p95": 2.7853333333333334,
+      "passes": [
+       {
+        "load_ms": 101,
+        "fps_avg": 414.744,
+        "frame_ms_median": 2.361,
+        "frame_ms_p95": 2.795
+       },
+       {
+        "load_ms": 102,
+        "fps_avg": 413.472,
+        "frame_ms_median": 2.371,
+        "frame_ms_p95": 2.774
+       },
+       {
+        "load_ms": 101,
+        "fps_avg": 413.762,
+        "frame_ms_median": 2.37,
+        "frame_ms_p95": 2.787
+       }
+      ]
      }
     ],
     "screenshots": [
@@ -239,16 +589,15 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Bistro.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Bistro.jpg",
       "status": "passed",
-      "diff_pct": 1.121,
-      "reference": "references/editor/fedb1b0f-f19a-4359-b8fb-e968bb1c1cd8.png",
-      "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Bistro.jpg"
+      "diff_pct": 0.174,
+      "reference": "references/editor/fedb1b0f-f19a-4359-b8fb-e968bb1c1cd8.png"
      },
      {
       "scene": "Complex_Forest",
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Complex_Forest.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Complex_Forest.jpg",
       "status": "passed",
-      "diff_pct": 99.979,
+      "diff_pct": 1.054,
       "reference": "references/editor/3a1fbe3f-0a31-5be7-8df6-2fb56dca5a2f.png",
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Complex_Forest.jpg"
      },
@@ -257,7 +606,7 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Corals.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Corals.jpg",
       "status": "passed",
-      "diff_pct": 4.191,
+      "diff_pct": 0.703,
       "reference": "references/editor/77a800b2-2dd4-57bc-b959-6014ff15067d.png",
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Corals.jpg"
      },
@@ -271,11 +620,19 @@
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/New_Sponza.jpg"
      },
      {
+      "scene": "POLYGON_Dwarven_Dungeon_Map",
+      "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/POLYGON_Dwarven_Dungeon_Map.jpg",
+      "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+      "status": "passed",
+      "diff_pct": 0.026,
+      "reference": "references/editor/001bc0a8-e135-4da8-b095-979aabf50746.png"
+     },
+     {
       "scene": "Simple_Forest",
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Simple_Forest.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Simple_Forest.jpg",
       "status": "passed",
-      "diff_pct": 2.581,
+      "diff_pct": 2.582,
       "reference": "references/editor/e22ce3e4-0b29-5ff8-bf22-3ec74d6763d3.png",
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Simple_Forest.jpg"
      },
@@ -284,7 +641,7 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Simple_Scene.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Simple_Scene.jpg",
       "status": "passed",
-      "diff_pct": 0.19,
+      "diff_pct": 0.006,
       "reference": "references/editor/b684c5a5-085b-57c4-8889-0478963ac05d.png"
      },
      {
@@ -310,7 +667,7 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Simple_Scene_4.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Simple_Scene_4.jpg",
       "status": "passed",
-      "diff_pct": 1.101,
+      "diff_pct": 1.102,
       "reference": "references/editor/eb47de18-dce6-5e2c-979f-676cfba338e9.png",
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Simple_Scene_4.jpg"
      },
@@ -327,7 +684,7 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Simple_Terrrain_2.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Simple_Terrrain_2.jpg",
       "status": "passed",
-      "diff_pct": 4.843,
+      "diff_pct": 0.56,
       "reference": "references/editor/2460e420-8cb8-5553-8da6-878789ada998.png",
       "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Simple_Terrrain_2.jpg"
      },
@@ -336,9 +693,8 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Simple_Terrrain_Layers.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Simple_Terrrain_Layers.jpg",
       "status": "passed",
-      "diff_pct": 3.381,
-      "reference": "references/editor/e3b6cc59-71f7-59b0-aac9-1739d8e9db60.png",
-      "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Simple_Terrrain_Layers.jpg"
+      "diff_pct": 0.014,
+      "reference": "references/editor/e3b6cc59-71f7-59b0-aac9-1739d8e9db60.png"
      },
      {
       "scene": "Sponza_OLD_without_graph",
@@ -353,9 +709,8 @@
       "file": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/Tower_Defence_Scripts.jpg",
       "thumb": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/thumbs/Tower_Defence_Scripts.jpg",
       "status": "passed",
-      "diff_pct": 11.226,
-      "reference": "references/editor/30e57a71-2894-57a8-96f6-6062efa9596f.png",
-      "difference": "editor/runs/83c201e515caf87b943d4795779a8788dbba32cc/lab-win-MALLARD/differences/Tower_Defence_Scripts.jpg"
+      "diff_pct": 0,
+      "reference": "references/editor/30e57a71-2894-57a8-96f6-6062efa9596f.png"
      },
      {
       "scene": "Volumetric",
