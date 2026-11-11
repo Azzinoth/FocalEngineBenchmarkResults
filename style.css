@@ -383,7 +383,9 @@ h3 .count { font-weight: 400; }
 .cmp-metrics thead th small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
 .cmp-metrics tbody th { font-weight: 500; white-space: normal; min-width: 150px; max-width: 240px; }
 .cmp-metrics td { color: var(--ink-2); min-width: 150px; }
-.cmp-metrics td.is-best { color: var(--ink); font-weight: 650; }
+/* The best value is also bold and labeled, so it is not told apart by color alone. */
+.cmp-metrics td.is-best, .cmp-metrics td.is-best .cm-rel { color: var(--good-text); }
+.cmp-metrics td.is-best { font-weight: 650; }
 .cmp-metrics .cm-rel { display: inline-block; min-width: 56px; margin-left: 4px; font-size: 12px; font-weight: 400; color: var(--muted); }
 .cmp-metrics .cm-failed .si { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; }
 .cmp-metrics tr.cm-group th { padding: 20px 0 6px; font-size: 13px; font-weight: 650; color: var(--ink); border-bottom-color: var(--rule-strong); }

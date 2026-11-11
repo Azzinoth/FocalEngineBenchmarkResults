@@ -929,7 +929,7 @@ function compareMetricsHTML(c) {
     ${rowNames.map((name) => rowHTMLOf(metric, name)).join('')}</tbody>`;
   }).join('');
   const note = ms.length > 1
-    ? 'The best value of each row is bold, the other machines show how far they are from it.'
+    ? 'The best value of each row is green, the other machines show how far they are from it.'
     : 'Only one machine has results for this commit.';
   return `<p class="projects-note">${note}</p>
     <div class="compare-wrap"><table class="cmp-metrics">
