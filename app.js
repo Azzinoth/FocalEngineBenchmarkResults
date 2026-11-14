@@ -280,6 +280,8 @@ const state = {
   open: new Set(),
   tab: {},
   compare: {},
+  // SHA of the commit that an open commit is compared with, by SHA of the open commit.
+  against: {},
   // What Compare machines shows, kept for all commits: 'screenshots' or 'metrics'.
   compareMode: 'screenshots',
   metric: 'fps_avg',
@@ -669,6 +671,7 @@ function detailHTML(c) {
       <span class="sub">To get results for it, start the workflow by hand from the Actions tab of the private repo and enter this SHA.</span></p></div>`;
   }
   const compare = !!state.compare[c.sha];
+  const other = DATA.commits.find((x) => x.sha === state.against[c.sha]);
   const active = state.tab[c.sha] || defaultTab(c);
   const canCompare = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length || hasProjectResults(c.runs[m.id])).length >= 2;
   const tabs = DATA.machines.map((m) => {
@@ -679,8 +682,20 @@ function detailHTML(c) {
   }).join('');
   const btn = `<button class="compare-btn" type="button" aria-pressed="${compare}" data-compare="${c.sha}"
     ${canCompare ? '' : 'disabled title="Needs results from at least two machines"'}>Compare machines</button>`;
-  const body = compare ? compareHTML(c) : machineHTML(c, DATA.machines.find((m) => m.id === active));
-  return `<div class="detail">${message}<div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>${btn}</div>${body}</div>`;
+  const machine = DATA.machines.find((m) => m.id === active);
+  const body = compare ? compareHTML(c) : other ? againstHTML(c, other, machine) : machineHTML(c, machine);
+  return `<div class="detail">${message}<div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>
+    <div class="detail-actions">${againstPickHTML(c, other)}${btn}</div></div>${body}</div>`;
+}
+
+// List of commits that a commit can be compared with, every other commit that has project results.
+function againstPickHTML(c, other) {
+  const commits = DATA.commits.filter((x) => x.sha !== c.sha && Object.values(x.runs).some(hasProjectResults));
+  const text = (x) => `${short(x.sha)} ${x.message.length > 70 ? `${x.message.slice(0, 69)}…` : x.message}`;
+  return `<select class="against-pick${other ? ' is-on' : ''}" data-against="${c.sha}" aria-label="Compare with another commit"
+    ${commits.length ? '' : 'disabled title="No other commit has results"'}>
+    <option value="">${other ? 'Stop comparing commits' : 'Compare with commit…'}</option>
+    ${commits.map((x) => `<option value="${x.sha}"${x.sha === other?.sha ? ' selected' : ''}>${esc(text(x))}</option>`).join('')}</select>`;
 }
 
 // Publish job names the build test "Build (Release)", every other test is a project.
@@ -798,7 +813,8 @@ function projectsHTML(run) {
     </table></div>`;
 }
 
-function shotFigure(s, key, i, m, showScene = true) {
+// label is shown in place of the project name when showScene is false.
+function shotFigure(s, key, i, m, showScene = true, label = '') {
   const failed = s.status === 'failed';
   const diffTitle = s.diff_against ? ` title="Compared with ${short(s.diff_against)}"` : s.reference ? ' title="Compared with the reference image"' : '';
   const diffText = s.reference_created ? 'New reference' : s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different`
@@ -806,7 +822,7 @@ function shotFigure(s, key, i, m, showScene = true) {
   return `<figure class="shot${failed ? ' is-failed' : ''}">
     <button type="button" class="shot-btn" data-shots="${key}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}">
       <img src="${esc(s.file)}" alt="${esc(s.scene)} on ${esc(m.id)}" loading="lazy" width="960" height="540"></button>
-    <figcaption>${showScene ? `<span>${esc(s.scene)}</span>` : ''}
+    <figcaption>${showScene ? `<span>${esc(s.scene)}</span>` : label}
       <span class="diff${failed ? ' is-failed' : ''}"${diffTitle}>${failed ? statusIcon('failed') : ''}${diffText}</span></figcaption>
   </figure>`;
 }
@@ -892,11 +908,12 @@ function compareShotsHTML(c) {
 const COMPARE_METRICS = [
   // Rows of this one are builds, not projects. Time of a failed build is shown too, with its message.
   { title: 'Build time', hint: 'lower is better', higherIsBetter: false, ofBuild: true, get: (t) => t.ms, fmt: fmtMs, fmtFull: fmtMs },
-  { title: 'Average FPS', hint: 'higher is better', higherIsBetter: true, passKey: 'fps_avg',
+  { title: 'Average FPS', hint: 'higher is better', higherIsBetter: true, passKey: 'fps_avg', grayBelowPct: GRAY_BELOW_PCT.fps,
     get: (t) => t.fps_avg, fmt: (v) => v.toFixed(1), fmtFull: (v) => `${v.toFixed(1)} fps` },
-  { title: 'p95 frame time', hint: 'lower is better', higherIsBetter: false, passKey: 'frame_ms_p95',
+  { title: 'p95 frame time', hint: 'lower is better', higherIsBetter: false, passKey: 'frame_ms_p95', grayBelowPct: GRAY_BELOW_PCT.frameP95,
     get: (t) => t.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, fmtFull: (v) => `${v.toFixed(2)} ms` },
-  { title: 'Load time', hint: 'lower is better', higherIsBetter: false, passKey: 'load_ms', get: loadMsOf, fmt: fmtMs, fmtFull: fmtMs },
+  { title: 'Load time', hint: 'lower is better', higherIsBetter: false, passKey: 'load_ms', grayBelowPct: GRAY_BELOW_PCT.load,
+    get: loadMsOf, fmt: fmtMs, fmtFull: fmtMs },
 ];
 
 // One row for every project in each metric, one column for every machine, so a row compares the machines.
@@ -957,12 +974,125 @@ function compareMetricsHTML(c) {
 }
 
 /* ============================================================================
+   Comparison of two commits
+
+   Opened commit c is compared with commit other, on the machine of the selected tab.
+   Changes go from other to c, whichever of them is newer.
+============================================================================ */
+// Screenshots of both commits on a machine, by project. In flat the two screenshots of a project follow each other,
+// so arrow keys of the screenshot viewer switch between the commits.
+function againstItems(c, other, m) {
+  const shots = (commit) => (commit.runs[m.id]?.screenshots || []).map((s) => ({ ...s, machine: m.id, sha: commit.sha }));
+  const otherShots = shots(other), ownShots = shots(c);
+  const scenes = [...new Set([...ownShots, ...otherShots].map((s) => s.scene))];
+  const pairs = scenes.map((scene) => ({
+    scene,
+    other: otherShots.find((s) => s.scene === scene),
+    own: ownShots.find((s) => s.scene === scene),
+  }));
+  return { pairs, flat: pairs.flatMap((p) => [p.other, p.own]).filter(Boolean) };
+}
+
+function againstMetricsHTML(c, other, m) {
+  const run = c.runs[m.id], otherRun = other.runs[m.id];
+  const metrics = COMPARE_METRICS.filter((metric) => !metric.ofBuild);
+  // Projects of the opened commit first, then those that only the other commit has.
+  const names = [...new Set([...run.tests, ...otherRun.tests].filter((t) => !isBuildTest(t)).map((t) => t.name))];
+  const items = names.map((name) => ({ name, own: projectTest(run, name), other: projectTest(otherRun, name) }));
+
+  const valueCell = (t, metric, classes) => {
+    const v = t ? metric.get(t) ?? null : null;
+    const failed = t?.status === 'failed'
+      ? `<span class="cm-failed" title="${esc(t.message || 'Failed')}">${statusIcon('failed')}<span class="sr-only">Failed</span></span>` : '';
+    return `<td class="${classes}"${v != null ? rangeTitle(t, metric.passKey, metric.fmtFull) : ''}>${failed}${v != null ? metric.fmt(v) : '–'}</td>`;
+  };
+  const projectRow = (it) => {
+    // Files of the project differ between the two results, so a change in numbers may come from the project, not from the engine.
+    const changed = it.own?.tree && it.other?.tree && it.own.tree !== it.other.tree
+      ? ' <span class="p-changed" title="Files of this project differ between the two commits">changed</span>' : '';
+    const cells = metrics.map((metric) => {
+      const ownValue = it.own ? metric.get(it.own) ?? null : null;
+      const otherValue = it.other ? metric.get(it.other) ?? null : null;
+      const noisePct = Math.max(runSpreadPct(it.own, metric.passKey), runSpreadPct(it.other, metric.passKey));
+      const change = changeHTML(ownValue, otherValue, other.sha, metric.higherIsBetter, metric.grayBelowPct, noisePct, metric.fmtFull);
+      return `${valueCell(it.other, metric, 'cc-first')}${valueCell(it.own, metric, 'cc-own')}<td class="cc-change">${change || '–'}</td>`;
+    }).join('');
+    return `<tr><th scope="row" class="cc-name">${esc(it.name).replace(/_/g, '_<wbr>')}${changed}</th>${cells}</tr>`;
+  };
+
+  // Project repos of both runs, a repo that both used shows its two commits when they differ.
+  const sources = [...(run.project_sources || [])];
+  for (const s of otherRun.project_sources || []) if (!sources.some((x) => x.repository === s.repository)) sources.push(s);
+  const columnCount = 1 + metrics.length * 3;
+  const body = sourceGroups({ project_sources: sources }, items, (it) => (it.own || it.other).source).map((g) => {
+    let header = '';
+    if (g.source) {
+      const ownCommit = (run.project_sources || []).find((s) => s.repository === g.source.repository)?.commit;
+      const otherCommit = (otherRun.project_sources || []).find((s) => s.repository === g.source.repository)?.commit;
+      const commits = ownCommit && otherCommit && ownCommit !== otherCommit
+        ? `${short(otherCommit)} → ${short(ownCommit)}` : short(ownCommit || otherCommit);
+      header = `<tr class="p-group"><th colspan="${columnCount}" scope="rowgroup">${esc(repoName(g.source.repository))}<span class="sha">${commits}</span>`
+        + `<span class="count">${g.items.length} ${g.items.length === 1 ? 'project' : 'projects'}</span></th></tr>`;
+    }
+    return `<tbody>${header}${g.items.map(projectRow).join('')}</tbody>`;
+  }).join('');
+
+  const passCount = Math.max(0, ...items.flatMap((it) => [it.own, it.other]).map((t) => t?.passes?.length || 0));
+  const note = `Change is from <span class="sha">${short(other.sha)}</span> to <span class="sha">${short(c.sha)}</span> on ${esc(m.id)}.`
+    + (passCount > 1 ? ` Values are averages of ${passCount} runs, hover a value to see the range.`
+      + ' A change smaller than the spread of the runs is <span class="is-noisy">not colored</span>.' : '');
+  const groupHead = metrics.map((metric) => `<th colspan="3" scope="colgroup" class="cc-first">${metric.title}<span class="count">${metric.hint}</span></th>`).join('');
+  const columnHead = metrics.map(() => `<th scope="col" class="cc-first"><span class="sha">${short(other.sha)}</span></th>`
+    + `<th scope="col" class="cc-own"><span class="sha">${short(c.sha)}</span></th><th scope="col">Change</th>`).join('');
+  return `<h3>Projects <span class="count">${items.length}</span></h3>
+    <p class="projects-note">${note}</p>
+    <div class="projects-wrap"><table class="cmp-commits">
+      <thead><tr><th rowspan="2" scope="col" class="cc-name">Project</th>${groupHead}</tr><tr>${columnHead}</tr></thead>
+      ${body}
+    </table></div>`;
+}
+
+function againstShotsHTML(c, other, m) {
+  const { pairs, flat } = againstItems(c, other, m);
+  if (!flat.length) return '';
+
+  const key = `${c.sha}|${m.id}|${other.sha}`;
+  const side = (s, sha) => {
+    const label = `<span class="sha">${short(sha)}</span>`;
+    return s ? shotFigure(s, key, flat.indexOf(s), m, false, label)
+      : `<figure class="shot"><div class="shot-pending">Not captured</div><figcaption>${label}</figcaption></figure>`;
+  };
+  return `<h3 class="against-shots">Screenshots <span class="count">${pairs.length}</span></h3>
+    <p class="projects-note">Open a screenshot and use the arrow keys to switch between the two commits.</p>
+    <div class="pairs">${pairs.map((p) => `<div class="pair"><h4>${esc(p.scene)}</h4>
+      <div class="pair-shots">${side(p.other, other.sha)}${side(p.own, c.sha)}</div></div>`).join('')}</div>`;
+}
+
+function againstHTML(c, other, m) {
+  const run = c.runs[m.id], otherRun = other.runs[m.id];
+  const engines = run?.engine_commit && otherRun?.engine_commit
+    ? ` Engine is at <span class="sha">${short(otherRun.engine_commit)}</span> in <span class="sha">${short(other.sha)}</span>`
+      + ` and at <span class="sha">${short(run.engine_commit)}</span> in <span class="sha">${short(c.sha)}</span>.`
+    : '';
+  const intro = `<p class="against-line">Compared with ${shaLink(other.sha)} ${esc(other.message)}
+    <span class="against-when">${esc(other.author)}, ${ago(other.date)}.</span>${engines}</p>`;
+  if (!hasProjectResults(run) || !hasProjectResults(otherRun)) {
+    const missing = hasProjectResults(run) ? other : c;
+    const both = DATA.machines.filter((x) => hasProjectResults(c.runs[x.id]) && hasProjectResults(other.runs[x.id])).map((x) => x.id);
+    return `${intro}<p class="notice"><span class="sha">${short(missing.sha)}</span> has no project results on ${esc(m.id)}.
+      <span class="sub">${both.length ? `Both commits have results on ${esc(joinList(both))}.` : 'No machine has results for both commits.'}</span></p>`;
+  }
+  return intro + againstMetricsHTML(c, other, m) + againstShotsHTML(c, other, m);
+}
+
+/* ============================================================================
    Lightbox
 ============================================================================ */
 const lb = { items: [], i: 0 };
 function itemsFor(key) {
-  const [sha, mid] = key.split('|');
+  const [sha, mid, otherSha] = key.split('|');
   const c = DATA.commits.find((x) => x.sha === sha);
+  if (otherSha) return againstItems(c, DATA.commits.find((x) => x.sha === otherSha), DATA.machines.find((m) => m.id === mid)).flat;
   if (mid === 'compare') return compareItems(c).flat;
   return c.runs[mid].screenshots.map((s) => ({ ...s, machine: mid, sha }));
 }
@@ -1031,6 +1161,8 @@ function bindEvents() {
     if (cmp) {
       const sha = cmp.dataset.compare;
       state.compare[sha] = !state.compare[sha];
+      // Details of a commit show one comparison at a time.
+      if (state.compare[sha]) delete state.against[sha];
       renderRows(`[data-compare="${sha}"]`); return;
     }
     if (e.target.closest('[data-clear]')) {
@@ -1044,6 +1176,26 @@ function bindEvents() {
       state.open.has(sha) ? state.open.delete(sha) : state.open.add(sha);
       renderRows(`[data-toggle="${sha}"]`);
     }
+  });
+
+  $('#rows').addEventListener('change', (e) => {
+    const pick = e.target.closest('[data-against]');
+    if (!pick) return;
+
+    const sha = pick.dataset.against;
+    if (pick.value) {
+      state.against[sha] = pick.value;
+      state.compare[sha] = false;
+      // Selected machine may have no results for one of the commits, then the first machine that has both is selected.
+      const c = DATA.commits.find((x) => x.sha === sha);
+      const other = DATA.commits.find((x) => x.sha === pick.value);
+      const hasBoth = (m) => hasProjectResults(c.runs[m.id]) && hasProjectResults(other.runs[m.id]);
+      const active = DATA.machines.find((m) => m.id === (state.tab[sha] || defaultTab(c)));
+      if (!hasBoth(active)) state.tab[sha] = (DATA.machines.find(hasBoth) || active).id;
+    } else {
+      delete state.against[sha];
+    }
+    renderRows(`[data-against="${sha}"]`);
   });
 
   $('#filters').addEventListener('click', (e) => {

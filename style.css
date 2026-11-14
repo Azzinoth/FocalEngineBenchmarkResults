@@ -343,7 +343,7 @@ h3 .count { font-weight: 400; }
 .projects tbody:first-of-type tr.p-group th { padding-top: 2px; }
 .projects tr.p-group .sha { margin-left: 8px; color: var(--muted); font-weight: 500; }
 .projects tr.p-group .count { margin-left: 8px; }
-.projects .p-changed {
+.projects .p-changed, .cmp-commits .p-changed {
   display: inline-block; margin-left: 6px; padding: 0 7px; border-radius: 999px; font-size: 11px; font-weight: 600; line-height: 1.6;
   color: var(--warning-text); background: color-mix(in srgb, var(--warning) 16%, transparent); vertical-align: 1px;
 }
@@ -390,9 +390,46 @@ h3 .count { font-weight: 400; }
 .cmp-metrics td.is-best, .cmp-metrics td.is-best .cm-rel { color: var(--good-text); }
 .cmp-metrics td.is-best { font-weight: 650; }
 .cmp-metrics .cm-rel { display: inline-block; min-width: 56px; margin-left: 4px; font-size: 12px; font-weight: 400; color: var(--muted); }
-.cmp-metrics .cm-failed .si { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; }
+.cmp-metrics .cm-failed .si, .cmp-commits .cm-failed .si { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; }
 .cmp-metrics tr.cm-group th { padding: 20px 0 6px; font-size: 13px; font-weight: 650; color: var(--ink); border-bottom-color: var(--rule-strong); }
 .cmp-metrics tbody:first-of-type tr.cm-group th { padding-top: 8px; }
+
+/* ---------------------------------------------------------------- comparison of two commits */
+/* Stays at the right side when it does not fit next to the tabs. */
+.detail-actions { display: flex; align-items: flex-end; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.against-pick {
+  font: inherit; font-size: 13.5px; max-width: 220px; margin-bottom: 7px; padding: 5px 8px; border-radius: 6px;
+  background: var(--surface); border: 1px solid var(--rule-strong); color: var(--ink-2);
+}
+.against-pick.is-on { border-color: var(--ink); color: var(--ink); }
+.against-pick:disabled { opacity: .5; }
+.against-line { font-size: 14px; color: var(--ink-2); max-width: 110ch; margin: 0 0 18px; overflow-wrap: anywhere; }
+.against-when { color: var(--muted); }
+
+/* Each value has three columns: the other commit, the opened commit and the change between them. */
+.cmp-commits { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+/* Table sits inside the commit matrix, so sticky header cells of the matrix are reset. */
+.cmp-commits th, .cmp-commits td { position: static; background: none; border-radius: 0; padding: 7px 0 7px 16px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; vertical-align: baseline; }
+.cmp-commits .cc-name { text-align: left; padding-left: 0; }
+.cmp-commits tbody .cc-name { font-weight: 500; white-space: normal; min-width: 150px; max-width: 260px; }
+.cmp-commits .cc-first { padding-left: 44px; }
+.cmp-commits thead th { font-size: 12.5px; font-weight: 500; color: var(--muted); vertical-align: bottom; border-bottom-color: var(--rule-strong); }
+.cmp-commits thead th[colspan] { text-align: left; font-size: 13.5px; font-weight: 600; color: var(--ink); border-bottom: 0; padding-bottom: 0; }
+.cmp-commits td { color: var(--ink-2); }
+.cmp-commits .cc-own { color: var(--ink); font-weight: 650; }
+.cmp-commits .cc-change { font-size: 12.5px; color: var(--muted); min-width: 56px; }
+.cmp-commits .change.better { color: var(--good-text); }
+.cmp-commits .change.worse { color: var(--critical-text); }
+.cmp-commits tr.p-group th { text-align: left; padding: 14px 0 5px; font-size: 12.5px; font-weight: 650; color: var(--ink); border-bottom: 1px solid var(--rule-strong); }
+.cmp-commits tr.p-group .sha { margin-left: 8px; color: var(--muted); font-weight: 500; }
+.cmp-commits tr.p-group .count { margin-left: 8px; }
+.cmp-commits tbody tr:last-child th, .cmp-commits tbody tr:last-child td { border-bottom: 0; }
+
+/* The two screenshots of a project next to each other, the other commit on the left. */
+.against-shots { margin-top: 28px; }
+.pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(440px, 100%), 1fr)); gap: 22px 28px; }
+.pair h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 600; }
+.pair-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .detail-empty { padding: 18px 22px 22px 36px; }
 
