@@ -31,6 +31,7 @@
                               "status": "passed", "diff_pct": 0.3, "reference": "references/<project ID>.png",
                               "difference": "runs/<sha>/lab-win-01/differences/01.jpg" } ]
            ("reference_created": true instead of diff_pct when screenshot became the reference,
+            "size": "1920x1061", "reference_size": "1920x1080" instead of diff_pct when sizes differ and nothing was compared,
             older results have "diff_against": "<sha>" instead of "reference")
          }
        }
@@ -784,7 +785,8 @@ function projectsHTML(run) {
 function shotFigure(s, key, i, m, showScene = true) {
   const failed = s.status === 'failed';
   const diffTitle = s.diff_against ? ` title="Compared with ${short(s.diff_against)}"` : s.reference ? ' title="Compared with the reference image"' : '';
-  const diffText = s.reference_created ? 'New reference' : s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different` : '';
+  const diffText = s.reference_created ? 'New reference' : s.diff_pct != null ? `${s.diff_pct.toFixed(2)}% different`
+    : s.size ? `${esc(s.size)}, reference is ${esc(s.reference_size)}` : '';
   return `<figure class="shot${failed ? ' is-failed' : ''}">
     <button type="button" class="shot-btn" data-shots="${key}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}">
       <img src="${esc(s.file)}" alt="${esc(s.scene)} on ${esc(m.id)}" loading="lazy" width="960" height="540"></button>
@@ -959,6 +961,7 @@ function showLightboxItem() {
   const reference = it.diff_against ? `commit <span class="sha">${short(it.diff_against)}</span>` : 'the reference image';
   $('#lb-detail').innerHTML = `Commit <span class="sha">${short(it.sha)}</span>. `
     + (it.diff_pct != null ? `<span class="${failed ? 'bad' : ''}">${it.diff_pct.toFixed(2)}% of pixels different from ${reference}${failed ? ', failed' : ''}.</span>` : '')
+    + (it.size ? `<span class="bad">Screenshot is ${esc(it.size)}, the reference image is ${esc(it.reference_size)}, they were not compared, failed.</span>` : '')
     + (it.reference_created ? 'This screenshot became the reference image of the project.' : '')
     + (it.difference ? ` <a href="${esc(it.difference)}" target="_blank" rel="noopener">Show changed pixels</a>.` : '')
     + (it.reference ? ` <a href="${esc(it.reference)}" target="_blank" rel="noopener">Open reference</a>.` : '')
