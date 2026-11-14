@@ -111,7 +111,8 @@ a { color: var(--accent); }
 }
 .sha { font-family: var(--mono); font-size: 0.86em; font-weight: 500; letter-spacing: 0; }
 
-.page { max-width: 1280px; margin: 0 auto; padding: 32px 28px 48px; }
+/* Page gets wider with the number of machines, so commit matrix keeps full width of its commit and screenshots columns: 730px is page padding, panel border and these two columns, see MATRIX in app.js. */
+.page { max-width: max(1280px, calc(730px + var(--m, 0) * 140px)); margin: 0 auto; padding: 32px 28px 48px; }
 .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; }
 
 /* ---------------------------------------------------------------- header */
@@ -232,7 +233,9 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .search svg { width: 15px; height: 15px; fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-linecap: round; flex: none; }
 .search input { border: 0; background: transparent; padding: 7px 0; width: 100%; outline: none; font-size: 14px; }
 
-.matrix { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+/* fitMatrix of app.js sets --matrix-min and is-scroll. */
+.matrix-wrap.is-scroll { overflow-x: auto; }
+.matrix { width: 100%; min-width: var(--matrix-min, 0); border-collapse: separate; border-spacing: 0; table-layout: fixed; }
 .matrix th {
   position: sticky; top: 0; z-index: 1; background: var(--surface);
   text-align: left; vertical-align: bottom; font-weight: 400;
@@ -352,13 +355,13 @@ h3 .count { font-weight: 400; }
 .projects td.p-message.is-note { color: var(--warning-text); }
 .projects tbody tr:last-child th, .projects tbody tr:last-child td { border-bottom: 0; }
 
-.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px 14px; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px 14px; }
 .shot { margin: 0; }
 .shot-btn { display: block; width: 100%; padding: 0; border: 0; background: var(--surface-3); border-radius: 6px; line-height: 0; }
 .shot-btn img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 6px; display: block; }
 .shot-btn:hover img { filter: brightness(1.08); }
 .shot.is-failed .shot-btn { outline: 2px solid var(--critical); outline-offset: 2px; }
-.shot figcaption { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; margin-top: 7px; }
+.shot figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 8px; font-size: 13px; margin-top: 7px; }
 .shot .diff { color: var(--muted); font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 .shot .diff.is-failed { color: var(--critical-text); font-weight: 600; }
 .shot .diff .si { width: 14px; height: 14px; }
@@ -433,7 +436,8 @@ h3 .count { font-weight: 400; }
   .search { margin-left: 0; width: 100%; min-width: 0; }
   .projects th, .projects td { padding-left: 8px; }
 
-  .matrix, .matrix > tbody { display: block; }
+  .matrix-wrap.is-scroll { overflow-x: visible; }
+  .matrix, .matrix > tbody { display: block; min-width: 0; }
   .matrix > thead, .matrix > colgroup { display: none; }
   .commit-row { display: grid; grid-template-columns: repeat(var(--m, 3), minmax(0, 1fr)); gap: 10px 8px; padding: 14px 14px 12px; border-bottom: 1px solid var(--rule); }
   .commit-row td { display: block; padding: 0; border: 0; background: none !important; }

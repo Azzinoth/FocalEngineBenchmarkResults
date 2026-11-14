@@ -541,10 +541,26 @@ function renderChartTable(list, val, metric) {
 /* ============================================================================
    Commit matrix
 ============================================================================ */
+// Column widths in pixels, style.css has the same numbers in max-width of .page.
+const MATRIX = { commitMin: 280, machine: 140, film: 392, filmMin: 212 };
+
+// Commit column takes what is left, but never less than commitMin: screenshots column gets narrower first, then the matrix scrolls sideways.
+function fitMatrix() {
+  const wrap = $('.matrix-wrap');
+  const fixed = MATRIX.commitMin + DATA.machines.length * MATRIX.machine;
+  const film = clamp(wrap.clientWidth - fixed, MATRIX.filmMin, MATRIX.film);
+  $('#matrix-cols').lastElementChild.style.width = `${film}px`;
+  wrap.style.setProperty('--matrix-min', `${fixed + film}px`);
+  // Only when it is needed, because a scrolling box stops the header from sticking to the top of the page.
+  wrap.classList.toggle('is-scroll', wrap.clientWidth < fixed + film);
+}
+
 function renderMatrixHead() {
   const n = DATA.machines.length;
-  $('#matrix').style.setProperty('--m', n);
-  $('#matrix-cols').innerHTML = `<col>${'<col style="width:140px">'.repeat(n)}<col style="width:392px">`;
+  // Page gets wider with it, see .page in style.css.
+  document.documentElement.style.setProperty('--m', n);
+  $('#matrix-cols').innerHTML = `<col>${`<col style="width:${MATRIX.machine}px">`.repeat(n)}<col>`;
+  fitMatrix();
   $('#matrix-head').innerHTML = `<tr>
     <th scope="col"><span class="th-title">Commit</span></th>
     ${DATA.machines.map((m) => `<th scope="col" title="${esc(`${m.os}, ${m.cpu}, ${m.gpu}, ${m.ram_gb} GB RAM`)}">
@@ -1085,6 +1101,8 @@ function bindEvents() {
     cancelAnimationFrame(raf);
     raf = requestAnimationFrame(renderChart);
   }).observe($('#chart'));
+
+  new ResizeObserver(fitMatrix).observe($('.matrix-wrap'));
 }
 
 /* ============================================================================
