@@ -40,10 +40,11 @@
    }
    Editor view reads editor/index.json in the same format, its commits are editor commits
    and each run has "engine_commit", the engine commit that editor commit was built with.
-   Results of a commit on a machine are kept by suite, "runs" has a list of them: [ { "suite": "<repo name>", "kind": "projects" | "scripted", ... } ].
-   A suite is a repo with projects, which are opened and measured, or with scripted tests. A scripted test has
+   Results of a commit on a machine are kept by suite, "runs" has a list of them: [ { "suite": "<name>", "kind": "projects" | "scripted" | "gtest", ... } ].
+   A suite is a repo with projects, which are opened and measured, a repo with scripted tests, or console tests of the commit itself. A scripted test has
    "checks": [ { "name", "status", "actual", "expected", "message" } ] and "metrics": { name: number } instead of measured values,
-   images that tests captured are in "screenshots" with "test" and "image" names. The page shows the suites as one run.
+   images that tests captured are in "screenshots" with "test" and "image" names. Console tests are shown as tests too:
+   every group of tests is a test, its tests are checks with only "name", "status" and "message". The page shows the suites as one run.
    A result from before suites were kept apart is one object without "suite", it is shown the same way.
    Relative screenshot paths are read from resultsBase, reference PNGs from pngBase.
    Commits listed in "commits" are shown even when they are not among the newest
@@ -958,8 +959,10 @@ function testHTML(t, key, onlyTest) {
   const rows = checks.map((check) => {
     const failed = check.status !== 'passed';
     // Value of a passed check is shown when it says more than "true".
+    // A failed console test has only the message of its assertions.
+    const values = check.expected !== undefined ? `Expected ${esc(check.expected)}, got ${esc(check.actual)}.` : '';
     const detail = failed
-      ? `<span class="check-detail">Expected ${esc(check.expected)}, got ${esc(check.actual)}.${check.message ? ` ${esc(check.message)}` : ''}</span>`
+      ? `<span class="check-detail">${[values, check.message ? esc(check.message) : ''].filter(Boolean).join(' ')}</span>`
       : check.actual && check.actual !== 'true' ? `<span class="check-value">${esc(check.actual)}</span>` : '';
     return `<li class="check${failed ? ' is-failed' : ''}">${statusIcon(failed ? 'failed' : 'passed')}<span class="sr-only">${failed ? 'Failed' : 'Passed'}</span>
       <span class="check-name">${esc(check.name)}</span>${detail}</li>`;
