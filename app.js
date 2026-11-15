@@ -24,8 +24,9 @@
            "run_url": "https://github.com/.../actions/runs/...",
            "tests": [ { "name": "Build (Release)", "status": "passed", "ms": 412345 },
                       { "name": "Terrain", "status": "passed", "ms": 2900, "fps_avg": 164.2, "frame_ms_p95": 7.6,
-                        "message": "..." } ],
-           ("ms" of a project is its load time when it loaded, its run time when it did not)
+                        "memory_mb": 812.4, "memory_start_mb": 301.2, "memory_peak_mb": 954.0, "message": "..." } ],
+           ("ms" of a project is its load time when it loaded, its run time when it did not,
+            memory is of the process: with the project loaded, before loading, and the largest since start)
            "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
                               "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
                               "status": "passed", "diff_pct": 0.3, "reference": "references/<project ID>.png",
@@ -140,6 +141,10 @@ function fmtMs(ms) {
   if (ms < 60000) return `${(ms / 1000).toFixed(1)} s`;
   return fmtDur(ms / 1000);
 }
+// Megabytes, from 1024 on shown as gigabytes.
+function fmtMemory(megabytes) {
+  return megabytes < 1024 ? `${Math.round(megabytes)} MB` : `${(megabytes / 1024).toFixed(2)} GB`;
+}
 function joinList(items) {
   if (items.length <= 1) return items.join('');
   return items.slice(0, -1).join(', ') + ' and ' + items[items.length - 1];
@@ -195,7 +200,8 @@ function mergeCommits(branchCommits, resultCommits) {
 }
 
 // Value of a project result and the name of the same value in each of its runs.
-const PASS_VALUE_KEYS = [['fps_avg', 'fps_avg'], ['frame_ms_median', 'frame_ms_median'], ['frame_ms_p95', 'frame_ms_p95'], ['ms', 'load_ms']];
+const PASS_VALUE_KEYS = [['fps_avg', 'fps_avg'], ['frame_ms_median', 'frame_ms_median'], ['frame_ms_p95', 'frame_ms_p95'], ['ms', 'load_ms'],
+  ['memory_mb', 'memory_mb'], ['memory_start_mb', 'memory_start_mb'], ['memory_peak_mb', 'memory_peak_mb']];
 
 function prepare(raw) {
   const base = CONFIG.source === 'sample' ? '' : CONFIG.resultsBase;
@@ -306,6 +312,11 @@ const METRICS = {
     note: 'Time to load the project, in seconds. Lower is better.',
     get: (r, p) => { const t = projectTest(r, p); return t?.status === 'passed' && t.ms != null ? t.ms / 1000 : undefined; },
     fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
+  },
+  memory_mb: {
+    button: 'Memory', perProject: true,
+    note: 'Memory of the process with the project loaded, in megabytes. It includes memory of the graphics driver, so compare a machine only with itself. Lower is better.',
+    get: (r, p) => projectTest(r, p)?.memory_mb, fmt: fmtMemory, tick: (v) => `${v}`,
   },
   duration_min: {
     button: 'Run time', note: 'Total job time, from checkout to upload, in minutes. Lower is better.',
@@ -711,7 +722,8 @@ function buildHTML(run) {
 }
 
 // Changes under these are left gray, they are within run to run noise of 3 runs, measured on Simple_Scene.
-const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4 };
+// Memory of the same build of Simple_Scene varied over 5 runs by 2.6% in the engine benchmark and by 11% in the editor one.
+const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4, memory: VIEW_ID === 'editor' ? 12 : 4 };
 
 // Difference between the slowest and the fastest run of a project result, in % of their average.
 function runSpreadPct(t, passKey) {
@@ -737,12 +749,26 @@ function changeHTML(value, previousValue, previousSha, higherIsBetter, grayBelow
   return `<span class="change${tone}${withinNoise ? ' is-noisy' : ''}" title="${esc(title)}">${sign}${Math.abs(pct).toFixed(1)}%</span>`;
 }
 
-// Values of a project are averages of its runs, this tooltip shows the range of the runs.
-function rangeTitle(t, key, fmt) {
+// Values of a project are averages of its runs, this text shows the range of the runs.
+function rangeText(t, key, fmt) {
   const values = (t.passes || []).map((p) => p[key]).filter((v) => v != null);
   if (values.length < 2) return '';
 
-  return ` title="${esc(`${fmt(Math.min(...values))} to ${fmt(Math.max(...values))} over ${values.length} runs`)}"`;
+  return `${fmt(Math.min(...values))} to ${fmt(Math.max(...values))} over ${values.length} runs`;
+}
+
+function rangeTitle(t, key, fmt) {
+  const text = rangeText(t, key, fmt);
+  return text ? ` title="${esc(text)}"` : '';
+}
+
+// Tooltip of memory also has memory before loading and the largest value since start.
+function memoryTitle(t) {
+  const parts = [rangeText(t, 'memory_mb', fmtMemory)];
+  if (t.memory_start_mb != null) parts.push(`${fmtMemory(t.memory_start_mb)} before loading`);
+  if (t.memory_peak_mb != null) parts.push(`${fmtMemory(t.memory_peak_mb)} at its largest`);
+  const text = parts.filter(Boolean).join(', ');
+  return text ? ` title="${esc(text)}"` : '';
 }
 
 // With several project repos, projects and screenshots are grouped by repo, in the order of project_sources.
@@ -777,20 +803,22 @@ function projectsHTML(run) {
     const fpsChange = changeHTML(t.fps_avg, previous?.fps_avg, previous?.sha, true, GRAY_BELOW_PCT.fps, noisePct('fps_avg'), fmtFps);
     const p95Change = changeHTML(t.frame_ms_p95, previous?.frame_ms_p95, previous?.sha, false, GRAY_BELOW_PCT.frameP95, noisePct('frame_ms_p95'), fmtFrameMs);
     const loadChange = changeHTML(loadMs, previous?.ms, previous?.sha, false, GRAY_BELOW_PCT.load, noisePct('load_ms'), fmtMs);
+    const memoryChange = changeHTML(t.memory_mb, previous?.memory_mb, previous?.sha, false, GRAY_BELOW_PCT.memory, noisePct('memory_mb'), fmtMemory);
     // Message of a passed project is a note, for example that frame time did not settle.
     const message = t.message
-      ? `<tr class="p-message-row"><td></td><td colspan="4" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
+      ? `<tr class="p-message-row"><td></td><td colspan="5" class="p-message${t.status === 'passed' ? ' is-note' : ''}">${esc(t.message)}</td></tr>`
       : '';
     return `<tr class="p-${t.status}${t.message ? ' has-message' : ''}">
       <td class="p-icon">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span></td>
       <th scope="row">${esc(t.name).replace(/_/g, '_<wbr>')}${changed}</th>
       <td class="p-fps"${rangeTitle(t, 'fps_avg', fmtFps)}>${t.fps_avg != null ? t.fps_avg.toFixed(1) : '–'}${fpsChange}</td>
       <td${rangeTitle(t, 'frame_ms_p95', fmtFrameMs)}>${t.frame_ms_p95 != null ? fmtFrameMs(t.frame_ms_p95) : '–'}${p95Change}</td>
-      <td${rangeTitle(t, 'load_ms', fmtMs)}>${load}${loadChange}</td></tr>${message}`;
+      <td${rangeTitle(t, 'load_ms', fmtMs)}>${load}${loadChange}</td>
+      <td${memoryTitle(t)}>${t.memory_mb != null ? fmtMemory(t.memory_mb) : '–'}${memoryChange}</td></tr>${message}`;
   };
   const body = sourceGroups(run, projects, (t) => t.source).map((g) => {
     const header = g.source
-      ? `<tr class="p-group"><th colspan="5" scope="rowgroup">${esc(repoName(g.source.repository))}<span class="sha">${short(g.source.commit)}</span>`
+      ? `<tr class="p-group"><th colspan="6" scope="rowgroup">${esc(repoName(g.source.repository))}<span class="sha">${short(g.source.commit)}</span>`
         + `<span class="count">${g.items.length} ${g.items.length === 1 ? 'project' : 'projects'}</span></th></tr>`
       : '';
     return `<tbody>${header}${g.items.map(projectRow).join('')}</tbody>`;
@@ -808,7 +836,8 @@ function projectsHTML(run) {
     <p class="projects-note">${note}</p>
     <div class="projects-wrap"><table class="projects">
       <thead><tr><th><span class="sr-only">Status</span></th><th scope="col">Project</th><th scope="col">Average FPS</th>
-        <th scope="col" title="95th percentile frame time, 95% of frames were faster">p95 frame time</th><th scope="col">Load time</th></tr></thead>
+        <th scope="col" title="95th percentile frame time, 95% of frames were faster">p95 frame time</th><th scope="col">Load time</th>
+        <th scope="col" title="Memory of the process with the project loaded, with memory of the graphics driver">Memory</th></tr></thead>
       ${body}
     </table></div>`;
 }
@@ -914,6 +943,8 @@ const COMPARE_METRICS = [
     get: (t) => t.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, fmtFull: (v) => `${v.toFixed(2)} ms` },
   { title: 'Load time', hint: 'lower is better', higherIsBetter: false, passKey: 'load_ms', grayBelowPct: GRAY_BELOW_PCT.load,
     get: loadMsOf, fmt: fmtMs, fmtFull: fmtMs },
+  { title: 'Memory', hint: 'lower is better', higherIsBetter: false, passKey: 'memory_mb', grayBelowPct: GRAY_BELOW_PCT.memory,
+    get: (t) => t.memory_mb, fmt: fmtMemory, fmtFull: fmtMemory },
 ];
 
 // One row for every project in each metric, one column for every machine, so a row compares the machines.
