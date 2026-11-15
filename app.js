@@ -40,6 +40,11 @@
    }
    Editor view reads editor/index.json in the same format, its commits are editor commits
    and each run has "engine_commit", the engine commit that editor commit was built with.
+   Results of a commit on a machine are kept by suite, "runs" has a list of them: [ { "suite": "<repo name>", "kind": "projects" | "scripted", ... } ].
+   A suite is a repo with projects, which are opened and measured, or with scripted tests. A scripted test has
+   "checks": [ { "name", "status", "actual", "expected", "message" } ] and "metrics": { name: number } instead of measured values,
+   images that tests captured are in "screenshots" with "test" and "image" names. The page shows the suites as one run.
+   A result from before suites were kept apart is one object without "suite", it is shown the same way.
    Relative screenshot paths are read from resultsBase, reference PNGs from pngBase.
    Commits listed in "commits" are shown even when they are not among the newest
    maxCommits commits of branch, so results never drop off the page.
@@ -59,7 +64,8 @@ const CONFIG = {
 };
 
 // Page address ?view=editor opens editor view, any other address opens engine view.
-const VIEW_ID = new URLSearchParams(window.location.search).get('view') === 'editor' ? 'editor' : 'engine';
+const REQUESTED_VIEW = new URLSearchParams(window.location.search).get('view');
+const VIEW_ID = Object.hasOwn(CONFIG.views, REQUESTED_VIEW ?? '') ? REQUESTED_VIEW : 'engine';
 const VIEW = CONFIG.views[VIEW_ID];
 
 /* ============================================================================
@@ -203,12 +209,49 @@ function mergeCommits(branchCommits, resultCommits) {
 const PASS_VALUE_KEYS = [['fps_avg', 'fps_avg'], ['frame_ms_median', 'frame_ms_median'], ['frame_ms_p95', 'frame_ms_p95'], ['ms', 'load_ms'],
   ['memory_mb', 'memory_mb'], ['memory_start_mb', 'memory_start_mb'], ['memory_peak_mb', 'memory_peak_mb']];
 
+// Publish job names the build tests "Build (...)", every other test is a project or a scripted test.
+const isBuildTest = (t) => t.name.startsWith('Build (');
+// A scripted test has checks, a project has measured values.
+const isScripted = (t) => t.kind === 'scripted' || t.checks !== undefined;
+
+// Results of a commit on a machine are kept by suite, the page works with them as with one run.
+function mergeSuites(results) {
+  // A result from before suites were kept apart already has everything in it.
+  if (results.length === 1 && !results[0].suite) return results[0];
+
+  const byStart = [...results].sort((a, b) => new Date(a.started) - new Date(b.started));
+  const latest = byStart[byStart.length - 1];
+  // Suites that were run by one job have its times, so each job is counted once.
+  const jobs = [...new Map(results.map((r) => [r.run_url, r])).values()];
+  const tests = [];
+  for (const r of results) {
+    for (const t of r.tests || []) {
+      // Project suites of one job share a build.
+      if (isBuildTest(t) && tests.some((x) => x.name === t.name && x.ms === t.ms && x.status === t.status)) continue;
+
+      tests.push(isBuildTest(t) ? t : { ...t, kind: r.kind });
+    }
+  }
+
+  return {
+    ...latest,
+    status: results.some((r) => r.status === 'failed') ? 'failed' : latest.status,
+    started: byStart[0].started,
+    duration_sec: jobs.reduce((sum, r) => sum + (r.duration_sec || 0), 0),
+    project_sources: results.flatMap((r) => (r.project_sources || []).map((source) => ({ ...source, kind: r.kind }))),
+    // Builds first, as they are listed above projects and tests.
+    tests: [...tests.filter(isBuildTest), ...tests.filter((t) => !isBuildTest(t))],
+    screenshots: results.flatMap((r) => r.screenshots || []),
+  };
+}
+
 function prepare(raw) {
   const base = CONFIG.source === 'sample' ? '' : CONFIG.resultsBase;
   const abs = (p) => (!p || /^https?:\/\//.test(p) || !base ? p : new URL(p, base).href);
   const machines = raw.machines.map((m, index) => ({ ...m, index }));
   const commits = raw.commits.map((c) => {
-    const runs = raw.runs[c.sha] || {};
+    // An index from before suites were kept apart has one result for a machine, not a list.
+    const runs = Object.fromEntries(Object.entries(raw.runs[c.sha] || {}).map(([machine, results]) => [machine, mergeSuites([results].flat())]));
     for (const r of Object.values(runs)) {
       r.screenshots = (r.screenshots || []).map((s) => ({
         ...s, file: abs(s.file), thumb: abs(s.thumb || s.file), difference: abs(s.difference),
@@ -255,7 +298,10 @@ function prepare(raw) {
     }
   }
   // Every project has a screenshot when it ran, test names also include the build.
-  const projects = [...new Set(commits.flatMap((c) => Object.values(c.runs).flatMap((r) => r.screenshots.map((s) => s.scene))))].sort();
+  // What the chart can be of: every project and every scripted test that has a result.
+  const allTests = commits.flatMap((c) => Object.values(c.runs).flatMap((r) => r.tests.filter((t) => !isBuildTest(t))));
+  const projects = [...new Set(allTests.map((t) => t.name))].sort();
+  const scriptedNames = new Set(allTests.filter(isScripted).map((t) => t.name));
   // Repo of each project, from its newest result, for grouping the project picker of the chart.
   const projectSources = {};
   for (const c of commits) {
@@ -265,7 +311,7 @@ function prepare(raw) {
       }
     }
   }
-  return { ...raw, machines, commits, projects, projectSources };
+  return { ...raw, machines, commits, projects, projectSources, scriptedNames };
 }
 
 function commitState(c) {
@@ -291,32 +337,41 @@ const state = {
   // What Compare machines shows, kept for all commits: 'screenshots' or 'metrics'.
   compareMode: 'screenshots',
   metric: 'fps_avg',
+  // Tests that were opened or closed by hand, by commit SHA, machine and test name.
+  testOpen: {},
   project: null,
 };
 
 const projectTest = (r, project) => r?.tests?.find((t) => t.name === project);
 
+// kind says what a measure is of: 'projects', 'scripted', or both when it has none.
 const METRICS = {
+  test_s: {
+    button: 'Test time', perProject: true, kind: 'scripted',
+    note: 'Time the test took, without start of the editor, in seconds. Lower is better.',
+    get: (r, p) => { const t = projectTest(r, p); return t?.ms != null ? t.ms / 1000 : undefined; },
+    fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
+  },
   fps_avg: {
-    button: 'Average FPS', perProject: true,
+    button: 'Average FPS', perProject: true, kind: 'projects',
     note: 'Average frames per second of the project, measured after frame time settles. Higher is better.',
     get: (r, p) => projectTest(r, p)?.fps_avg, fmt: (v) => `${v.toFixed(1)} fps`, tick: (v) => `${v}`,
   },
   frame_ms_p95: {
-    button: 'Frame time', perProject: true,
+    button: 'Frame time', perProject: true, kind: 'projects',
     note: '95th percentile frame time of the project in milliseconds, 95% of frames were faster. Lower is better.',
     get: (r, p) => projectTest(r, p)?.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, tick: (v) => `${v}`,
   },
   load_s: {
-    button: 'Load time', perProject: true,
+    button: 'Load time', perProject: true, kind: 'projects',
     note: 'Time to load the project, in seconds. Lower is better.',
     get: (r, p) => { const t = projectTest(r, p); return t?.status === 'passed' && t.ms != null ? t.ms / 1000 : undefined; },
     fmt: (v) => `${v.toFixed(2)} s`, tick: (v) => `${v}`,
   },
   memory_mb: {
     button: 'Memory', perProject: true,
-    note: 'Memory of the process with the project loaded, in megabytes. It includes memory of the graphics driver, so compare a machine only with itself. Lower is better.',
-    get: (r, p) => projectTest(r, p)?.memory_mb, fmt: fmtMemory, tick: (v) => `${v}`,
+    note: 'Memory of the process with the project loaded, or after the test, in megabytes. It includes memory of the graphics driver, so compare a machine only with itself. Lower is better.',
+    get: (r, p) => { const t = projectTest(r, p); return t?.memory_mb ?? t?.metrics?.memory_mb; }, fmt: fmtMemory, tick: (v) => `${v}`,
   },
   duration_min: {
     button: 'Run time', note: 'Total job time, from checkout to upload, in minutes. Lower is better.',
@@ -346,16 +401,19 @@ function describe(c) {
 }
 const shaLink = (sha) => `<button class="sha-link sha" type="button" data-open="${sha}">${short(sha)}</button>`;
 
+// Drawn before results are loaded, so another view can be opened when results of this one can not be loaded.
+function renderViewSwitch() {
+  $('#view-switch').innerHTML = Object.entries(CONFIG.views)
+    .map(([id, view]) => `<a href="${id === 'engine' ? './' : `?view=${id}`}"${id === VIEW_ID ? ' aria-current="page"' : ''}>${esc(view.title)}</a>`)
+    .join('');
+}
+
 function renderHeader() {
   const [owner, name] = DATA.repo.split('/');
   $('#repo-name').innerHTML = `<span class="owner">${esc(owner)}/</span>${esc(name)}`;
   document.title = `${name} test results`;
   $('#branch-name').textContent = DATA.branch;
   $('#source-pill').hidden = CONFIG.source !== 'sample';
-  $('#view-switch').innerHTML = Object.entries(CONFIG.views)
-    .map(([id, view]) => `<a href="${id === 'engine' ? './' : `?view=${id}`}"${id === VIEW_ID ? ' aria-current="page"' : ''}>${esc(view.title)}</a>`)
-    .join('');
-
   const latest = DATA.commits[0];
   const finished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
   let s = '';
@@ -396,11 +454,17 @@ function niceTicks(lo, hi, n) {
 }
 
 function renderMetricSwitch() {
+  // A project and a scripted test have different measures, only those of the selected one are offered.
+  const kind = DATA.scriptedNames.has(state.project) ? 'scripted' : 'projects';
+  const offered = Object.entries(METRICS).filter(([, m]) => !m.kind || m.kind === kind);
+  if (!offered.some(([k]) => k === state.metric)) state.metric = offered[0][0];
+
   const metric = METRICS[state.metric];
-  $('#metric-switch').innerHTML = Object.entries(METRICS)
+  $('#metric-switch').innerHTML = offered
     .map(([k, m]) => `<button type="button" data-metric="${k}" aria-pressed="${k === state.metric}">${m.button}</button>`)
     .join('');
   $('#project-select').innerHTML = projectOptionsHTML();
+  $('#project-pick span').textContent = DATA.scriptedNames.size ? 'Project or test' : 'Project';
   $('#project-pick').hidden = !metric.perProject || !DATA.projects.length;
   $('#trend-note').textContent = metric.note;
 }
@@ -709,11 +773,10 @@ function againstPickHTML(c, other) {
     ${commits.map((x) => `<option value="${x.sha}"${x.sha === other?.sha ? ' selected' : ''}>${esc(text(x))}</option>`).join('')}</select>`;
 }
 
-// Publish job names the build test "Build (Release)", every other test is a project.
-const isBuildTest = (t) => t.name.startsWith('Build (');
 const hasProjectResults = (run) => !!run?.tests?.some((t) => !isBuildTest(t));
 // For a project that did not load, ms is its run time, not load time. A project that failed only on its screenshot has values of its runs.
-const loadMsOf = (t) => (t.status === 'passed' || t.passes ? t.ms ?? null : null);
+// For a scripted test ms is time of the test, it has no load time.
+const loadMsOf = (t) => (!isScripted(t) && (t.status === 'passed' || t.passes) ? t.ms ?? null : null);
 
 function buildHTML(run) {
   return run.tests.filter(isBuildTest).map((t) => `<p class="build-line">${statusIcon(t.status)}<span>${esc(t.name)}</span>
@@ -723,7 +786,8 @@ function buildHTML(run) {
 
 // Changes under these are left gray, they are within run to run noise of 3 runs, measured on Simple_Scene.
 // Memory of the same build of Simple_Scene varied over 5 runs by 2.6% in the engine benchmark and by 11% in the editor one.
-const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4, memory: VIEW_ID === 'editor' ? 12 : 4 };
+// A test takes about a second, its time was not measured for noise yet, so its limit is a guess.
+const GRAY_BELOW_PCT = { fps: 4, frameP95: 6, load: 4, memory: VIEW_ID === 'engine' ? 4 : 12, testTime: 15 };
 
 // Difference between the slowest and the fastest run of a project result, in % of their average.
 function runSpreadPct(t, passKey) {
@@ -780,7 +844,7 @@ function sourceGroups(run, items, sourceOf) {
 }
 
 function projectsHTML(run) {
-  const projects = run.tests.filter((t) => !isBuildTest(t));
+  const projects = run.tests.filter((t) => !isBuildTest(t) && !isScripted(t));
   if (!projects.length) return '';
 
   const passed = projects.filter((t) => t.status === 'passed').length;
@@ -856,12 +920,67 @@ function shotFigure(s, key, i, m, showScene = true, label = '') {
   </figure>`;
 }
 
+// Screenshots of projects, images of scripted tests follow them, grouped by test.
 function galleryHTML(run, key, m) {
   const sourceOfShot = (s) => run.tests.find((t) => t.name === s.scene)?.source;
-  const indexed = run.screenshots.map((s, i) => ({ s, i }));
+  const indexed = run.screenshots.map((s, i) => ({ s, i })).filter(({ s }) => !s.test);
   return sourceGroups(run, indexed, ({ s }) => sourceOfShot(s)).map((g) =>
     (g.source ? `<h4 class="gallery-group">${esc(repoName(g.source.repository))}</h4>` : '')
     + g.items.map(({ s, i }) => shotFigure(s, key, i, m)).join('')).join('');
+}
+
+// Images that tests captured, grouped by test.
+function testGalleryHTML(run, key, m) {
+  const testNames = [...new Set(run.screenshots.filter((s) => s.test).map((s) => s.test))];
+  return testNames.map((name) => `<h4 class="gallery-group">${esc(name)}</h4>`
+    + run.screenshots.map((s, i) => (s.test === name ? shotFigure(s, key, i, m, false, `<span>${esc(s.image)}</span>`) : '')).join('')).join('');
+}
+
+// Memory metrics that every test has are shown as one sentence, other metrics as name and value.
+function testMetricsHTML(t) {
+  const metrics = t.metrics || {};
+  const memory = metrics.memory_mb != null
+    ? `Memory: ${metrics.memory_start_mb != null ? `${fmtMemory(metrics.memory_start_mb)} before the test, ` : ''}${fmtMemory(metrics.memory_mb)} after it`
+      + `${metrics.memory_peak_mb != null ? `, ${fmtMemory(metrics.memory_peak_mb)} at its largest` : ''}.`
+    : '';
+  const other = Object.entries(metrics).filter(([name]) => !name.startsWith('memory_'))
+    .map(([name, value]) => `${esc(name)}: ${Number.isInteger(value) ? value : Number(value).toFixed(3)}`);
+  const text = [memory, ...other].filter(Boolean).join(' ');
+  return text ? `<p class="test-metrics">${text}</p>` : '';
+}
+
+function testHTML(t, key, onlyTest) {
+  const checks = t.checks || [];
+  const passedChecks = checks.filter((check) => check.status === 'passed').length;
+  const testKey = `${key}|${t.name}`;
+  // A failed test is opened, a passed one only when it is the only test, until it is opened or closed by hand.
+  const open = state.testOpen[testKey] ?? (t.status !== 'passed' || onlyTest);
+  const rows = checks.map((check) => {
+    const failed = check.status !== 'passed';
+    // Value of a passed check is shown when it says more than "true".
+    const detail = failed
+      ? `<span class="check-detail">Expected ${esc(check.expected)}, got ${esc(check.actual)}.${check.message ? ` ${esc(check.message)}` : ''}</span>`
+      : check.actual && check.actual !== 'true' ? `<span class="check-value">${esc(check.actual)}</span>` : '';
+    return `<li class="check${failed ? ' is-failed' : ''}">${statusIcon(failed ? 'failed' : 'passed')}<span class="sr-only">${failed ? 'Failed' : 'Passed'}</span>
+      <span class="check-name">${esc(check.name)}</span>${detail}</li>`;
+  }).join('');
+  const info = [checks.length ? `${passedChecks} of ${checks.length} checks` : '', t.ms != null ? fmtMs(t.ms) : ''].filter(Boolean).join(', ');
+  // Message of the run says why a test without a failed check failed, for example that it crashed or did not finish in time.
+  const message = t.message && passedChecks === checks.length ? `<p class="test-message">${esc(t.message)}</p>` : '';
+  return `<details class="test${t.status === 'passed' ? '' : ' is-failed'}" data-test="${esc(testKey)}"${open ? ' open' : ''}>
+    <summary><span class="test-head">${statusIcon(t.status)}<span class="sr-only">${STATUS_LABEL[t.status]}</span><span class="test-name">${esc(t.name)}</span><span class="test-info">${info}</span></span></summary>
+    ${message}${testMetricsHTML(t)}
+    ${rows ? `<ul class="checks">${rows}</ul>` : ''}
+  </details>`;
+}
+
+function testsHTML(run, key) {
+  const tests = run.tests.filter((t) => !isBuildTest(t) && isScripted(t));
+  if (!tests.length) return '';
+
+  const passed = tests.filter((t) => t.status === 'passed').length;
+  return `<h3 class="tests-title">Tests <span class="count">${passed} of ${tests.length} passed</span></h3>
+    ${tests.map((t) => testHTML(t, key, tests.length === 1)).join('')}`;
 }
 
 function machineHTML(c, m) {
@@ -878,12 +997,12 @@ function machineHTML(c, m) {
     : `Started ${fmtDate(run.started)}, took ${fmtDur(run.duration_sec)}.`;
   const sources = run.project_sources || [];
   const projects = sources.length
-    ? ` Projects: ${sources.map((s) => `${esc(repoName(s.repository))} at <span class="sha">${short(s.commit)}</span>`).join(', ')}.`
+    ? ` Suites: ${sources.map((s) => `${esc(repoName(s.repository))} at <span class="sha">${short(s.commit)}</span>`).join(', ')}.`
     : '';
   const engine = run.engine_commit ? ` Engine at <span class="sha">${short(run.engine_commit)}</span>.` : '';
   const key = `${c.sha}|${m.id}`;
   const pendingShots = run.tests.filter((t) => t.status === 'pending' && t.name.startsWith('Screenshot')).length;
-  const gallery = galleryHTML(run, key, m)
+  const gallery = galleryHTML(run, key, m) + testGalleryHTML(run, key, m)
     + Array.from({ length: pendingShots }, () => '<div class="shot"><div class="shot-pending">Not captured yet</div></div>').join('');
   return `<div class="machine-view">
     <div>
@@ -891,6 +1010,7 @@ function machineHTML(c, m) {
       <p class="run-line">${when}${projects}${engine}${link}</p>
       ${buildHTML(run)}
       ${projectsHTML(run)}
+      ${testsHTML(run, key)}
     </div>
     <div>
       <h3>Screenshots <span class="count">${run.screenshots.length}${pendingShots ? ` of ${run.screenshots.length + pendingShots}` : ''}</span></h3>
@@ -934,23 +1054,26 @@ function compareShotsHTML(c) {
 }
 
 // Values that Metrics mode of Compare machines shows, passKey is the name of the value in each run of a project.
+// kind says what a value is of: 'projects', 'scripted', or both when it has none.
 const COMPARE_METRICS = [
   // Rows of this one are builds, not projects. Time of a failed build is shown too, with its message.
   { title: 'Build time', hint: 'lower is better', higherIsBetter: false, ofBuild: true, get: (t) => t.ms, fmt: fmtMs, fmtFull: fmtMs },
-  { title: 'Average FPS', hint: 'higher is better', higherIsBetter: true, passKey: 'fps_avg', grayBelowPct: GRAY_BELOW_PCT.fps,
+  { title: 'Average FPS', hint: 'higher is better', higherIsBetter: true, kind: 'projects', passKey: 'fps_avg', grayBelowPct: GRAY_BELOW_PCT.fps,
     get: (t) => t.fps_avg, fmt: (v) => v.toFixed(1), fmtFull: (v) => `${v.toFixed(1)} fps` },
-  { title: 'p95 frame time', hint: 'lower is better', higherIsBetter: false, passKey: 'frame_ms_p95', grayBelowPct: GRAY_BELOW_PCT.frameP95,
+  { title: 'p95 frame time', hint: 'lower is better', higherIsBetter: false, kind: 'projects', passKey: 'frame_ms_p95', grayBelowPct: GRAY_BELOW_PCT.frameP95,
     get: (t) => t.frame_ms_p95, fmt: (v) => `${v.toFixed(2)} ms`, fmtFull: (v) => `${v.toFixed(2)} ms` },
-  { title: 'Load time', hint: 'lower is better', higherIsBetter: false, passKey: 'load_ms', grayBelowPct: GRAY_BELOW_PCT.load,
+  { title: 'Load time', hint: 'lower is better', higherIsBetter: false, kind: 'projects', passKey: 'load_ms', grayBelowPct: GRAY_BELOW_PCT.load,
     get: loadMsOf, fmt: fmtMs, fmtFull: fmtMs },
+  { title: 'Test time', hint: 'lower is better', higherIsBetter: false, kind: 'scripted', grayBelowPct: GRAY_BELOW_PCT.testTime,
+    get: (t) => (isScripted(t) ? t.ms : undefined), fmt: fmtMs, fmtFull: fmtMs },
   { title: 'Memory', hint: 'lower is better', higherIsBetter: false, passKey: 'memory_mb', grayBelowPct: GRAY_BELOW_PCT.memory,
-    get: (t) => t.memory_mb, fmt: fmtMemory, fmtFull: fmtMemory },
+    get: (t) => t.memory_mb ?? t.metrics?.memory_mb, fmt: fmtMemory, fmtFull: fmtMemory },
 ];
 
 // One row for every project in each metric, one column for every machine, so a row compares the machines.
 function compareMetricsHTML(c) {
   const ms = DATA.machines.filter((m) => hasProjectResults(c.runs[m.id]));
-  if (!ms.length) return '<p class="notice">No project results for this commit yet.</p>';
+  if (!ms.length) return '<p class="notice">No results of projects or tests for this commit yet.</p>';
 
   // Projects follow the order of project repos, as in the projects table of a machine.
   const sourceOrder = [...new Set(ms.flatMap((m) => (c.runs[m.id].project_sources || []).map((s) => s.repository)))];
@@ -987,7 +1110,8 @@ function compareMetricsHTML(c) {
 
   const head = ms.map((m) => `<th scope="col">${machineMark(m.index)}${esc(m.id)}<small>${esc(m.gpu)}</small></th>`).join('');
   const body = COMPARE_METRICS.map((metric) => {
-    const rowNames = metric.ofBuild ? buildNames : names;
+    // A value that only projects or only scripted tests have gets rows only for them.
+    const rowNames = (metric.ofBuild ? buildNames : names).filter((name) => ms.some((m) => { const t = projectTest(c.runs[m.id], name); return t && metric.get(t) != null; }));
     if (!rowNames.length) return '';
 
     return `<tbody>
@@ -999,7 +1123,7 @@ function compareMetricsHTML(c) {
     : 'Only one machine has results for this commit.';
   return `<p class="projects-note">${note}</p>
     <div class="compare-wrap"><table class="cmp-metrics">
-      <thead><tr><th scope="col">Project</th>${head}</tr></thead>
+      <thead><tr><th scope="col">Project or test</th>${head}</tr></thead>
       ${body}
     </table></div>`;
 }
@@ -1024,11 +1148,19 @@ function againstItems(c, other, m) {
   return { pairs, flat: pairs.flatMap((p) => [p.other, p.own]).filter(Boolean) };
 }
 
+// Projects and scripted tests have different values, so each kind has its own table.
 function againstMetricsHTML(c, other, m) {
+  return againstKindHTML(c, other, m, 'projects') + againstKindHTML(c, other, m, 'scripted');
+}
+
+function againstKindHTML(c, other, m, kind) {
   const run = c.runs[m.id], otherRun = other.runs[m.id];
-  const metrics = COMPARE_METRICS.filter((metric) => !metric.ofBuild);
-  // Projects of the opened commit first, then those that only the other commit has.
-  const names = [...new Set([...run.tests, ...otherRun.tests].filter((t) => !isBuildTest(t)).map((t) => t.name))];
+  const itemName = kind === 'scripted' ? 'Test' : 'Project';
+  const metrics = COMPARE_METRICS.filter((metric) => !metric.ofBuild && (!metric.kind || metric.kind === kind));
+  // Those of the opened commit first, then those that only the other commit has.
+  const names = [...new Set([...run.tests, ...otherRun.tests].filter((t) => !isBuildTest(t) && isScripted(t) === (kind === 'scripted')).map((t) => t.name))];
+  if (!names.length) return '';
+
   const items = names.map((name) => ({ name, own: projectTest(run, name), other: projectTest(otherRun, name) }));
 
   const valueCell = (t, metric, classes) => {
@@ -1075,10 +1207,10 @@ function againstMetricsHTML(c, other, m) {
   const groupHead = metrics.map((metric) => `<th colspan="3" scope="colgroup" class="cc-first">${metric.title}<span class="count">${metric.hint}</span></th>`).join('');
   const columnHead = metrics.map(() => `<th scope="col" class="cc-first"><span class="sha">${short(other.sha)}</span></th>`
     + `<th scope="col" class="cc-own"><span class="sha">${short(c.sha)}</span></th><th scope="col">Change</th>`).join('');
-  return `<h3>Projects <span class="count">${items.length}</span></h3>
+  return `<h3 class="against-kind">${itemName}s <span class="count">${items.length}</span></h3>
     <p class="projects-note">${note}</p>
     <div class="projects-wrap"><table class="cmp-commits">
-      <thead><tr><th rowspan="2" scope="col" class="cc-name">Project</th>${groupHead}</tr><tr>${columnHead}</tr></thead>
+      <thead><tr><th rowspan="2" scope="col" class="cc-name">${itemName}</th>${groupHead}</tr><tr>${columnHead}</tr></thead>
       ${body}
     </table></div>`;
 }
@@ -1110,7 +1242,7 @@ function againstHTML(c, other, m) {
   if (!hasProjectResults(run) || !hasProjectResults(otherRun)) {
     const missing = hasProjectResults(run) ? other : c;
     const both = DATA.machines.filter((x) => hasProjectResults(c.runs[x.id]) && hasProjectResults(other.runs[x.id])).map((x) => x.id);
-    return `${intro}<p class="notice"><span class="sha">${short(missing.sha)}</span> has no project results on ${esc(m.id)}.
+    return `${intro}<p class="notice"><span class="sha">${short(missing.sha)}</span> has no results of projects or tests on ${esc(m.id)}.
       <span class="sub">${both.length ? `Both commits have results on ${esc(joinList(both))}.` : 'No machine has results for both commits.'}</span></p>`;
   }
   return intro + againstMetricsHTML(c, other, m) + againstShotsHTML(c, other, m);
@@ -1174,6 +1306,11 @@ function openCommit(sha) {
 }
 
 function bindEvents() {
+  // Rows are rendered again after most clicks, so what was opened by hand is kept. A toggle event does not bubble, it is caught on its way down.
+  $('#rows').addEventListener('toggle', (e) => {
+    if (e.target.dataset?.test) state.testOpen[e.target.dataset.test] = e.target.open;
+  }, true);
+
   $('#rows').addEventListener('click', (e) => {
     const shot = e.target.closest('[data-shots]');
     if (shot) { openLightbox(shot.dataset.shots, +shot.dataset.i); return; }
@@ -1242,7 +1379,7 @@ function bindEvents() {
     state.metric = b.dataset.metric;
     renderMetricSwitch(); renderChart();
   });
-  $('#project-select').addEventListener('change', (e) => { state.project = e.target.value; renderChart(); });
+  $('#project-select').addEventListener('change', (e) => { state.project = e.target.value; renderMetricSwitch(); renderChart(); });
   document.addEventListener('click', (e) => {
     const o = e.target.closest('[data-open]');
     if (o) openCommit(o.dataset.open);
@@ -1292,6 +1429,7 @@ function bindEvents() {
    Start
 ============================================================================ */
 (async function start() {
+  renderViewSwitch();
   try {
     DATA = prepare(await loadData());
   } catch (err) {

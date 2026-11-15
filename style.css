@@ -431,6 +431,26 @@ h3 .count { font-weight: 400; }
 .pair h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 600; }
 .pair-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
+/* ---------------------------------------------------------------- scripted tests */
+/* A test is a row that opens to its checks. Tests are listed under projects when a run has both. */
+.projects-wrap + .tests-title { margin-top: 22px; }
+.against-kind:not(:first-of-type) { margin-top: 26px; }
+.test { border-top: 1px solid var(--rule); }
+.test:last-of-type { border-bottom: 1px solid var(--rule); }
+.test summary { padding: 8px 0; cursor: pointer; font-size: 14px; color: var(--muted); }
+.test-head { display: inline-flex; align-items: center; gap: 9px; width: calc(100% - 22px); vertical-align: middle; color: var(--ink); }
+.test-name { font-weight: 600; overflow-wrap: anywhere; }
+.test-info { margin-left: auto; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.test-metrics, .test-message { font-size: 13px; color: var(--ink-2); margin: 0 0 8px 22px; }
+.test-message { color: var(--critical-text); }
+.checks { list-style: none; margin: 0 0 12px 22px; padding: 0; font-size: 13px; }
+.check { display: grid; grid-template-columns: 14px 1fr auto; gap: 2px 8px; align-items: start; padding: 3px 0; color: var(--ink-2); }
+.check .si { width: 14px; height: 14px; margin-top: 2px; }
+.check-value { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+/* A failed check is also bold and has its expected and actual values under it, so it is not told apart by color alone. */
+.check.is-failed .check-name { color: var(--critical-text); font-weight: 600; }
+.check-detail { grid-column: 2 / -1; color: var(--critical-text); overflow-wrap: anywhere; }
+
 .detail-empty { padding: 18px 22px 22px 36px; }
 
 /* ---------------------------------------------------------------- lightbox */
