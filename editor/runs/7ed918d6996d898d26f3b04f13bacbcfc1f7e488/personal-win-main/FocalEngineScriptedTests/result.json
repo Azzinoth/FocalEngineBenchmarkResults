@@ -1,0 +1,260 @@
+{
+ "suite": "FocalEngineScriptedTests",
+ "kind": "scripted",
+ "passes": 1,
+ "status": "passed",
+ "started": "2026-11-15T21:17:24Z",
+ "finished": "2026-11-15T21:38:41Z",
+ "duration_sec": 1277,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/43762831883",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-15T20:11:03Z",
+  "message": "Updated Focal Engine submodule to the latest version; FEProject now creates Shaders directory of virtual file system when it is missing, previously a new project logged an error for every shader; Debug window and Temporary debug window are now hidden until turned on in Window > Debug; Game mode is now run with a play button at the top center of the main window, previously with a button in Debug window; Gizmo buttons are moved to the top right corner of scene window; Added Project menu with Build executable, Build button is removed from main.cpp.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/7ed918d6996d898d26f3b04f13bacbcfc1f7e488"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineScriptedTests",
+   "ref": "master",
+   "commit": "d641186f7f0e4fbd04dc544f228495d634f9fee7"
+  }
+ ],
+ "benchmark_commit": "9ed3b02d29fff16307902a0b1ed8824be02c0ebb",
+ "machine": {
+  "os": "Windows 11 Home build 26200.9974",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release, scripted tests)",
+   "status": "passed",
+   "ms": 30800
+  },
+  {
+   "name": "ImportAndPlace",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineScriptedTests",
+   "ms": 1455,
+   "checks": [
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "New project is in the project list",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "New project is opened with one scene window",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after the project is created and opened",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Scene of the new project has an editor camera",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "OBJ file is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Imported object is a mesh",
+     "status": "passed"
+    },
+    {
+     "actual": "5024",
+     "expected": "5024",
+     "name": "Mesh has all triangles of the file",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Albedo PNG is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Normal PNG is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Albedo texture was read from its file",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Normal texture was read from its file",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Albedo texture width",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Albedo texture height",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Normal texture width",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Normal texture height",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Material has the albedo texture",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Material has the normal texture",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game model has the mesh",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game model has the material",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut.obj_0 is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut_Albedo is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut_Normal is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut material is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "18",
+     "expected": "18",
+     "name": "Scene has one more entity",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Entity has a game model component",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Loading finished",
+     "status": "passed"
+    },
+    {
+     "actual": "11.40% of pixels different",
+     "expected": "at least 5.00% of pixels different",
+     "name": "Model is visible in the scene",
+     "status": "passed"
+    },
+    {
+     "actual": "0.00% of pixels different from reference",
+     "expected": "at most 2.00% of pixels different from reference",
+     "name": "Editor window looks like its reference",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after import and placing the model",
+     "status": "passed"
+    }
+   ],
+   "metrics": {
+    "memory_mb": 792.371,
+    "memory_peak_mb": 945.793,
+    "memory_start_mb": 253.281
+   }
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "ImportAndPlace: EmptyScene",
+   "test": "ImportAndPlace",
+   "image": "EmptyScene",
+   "file": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EmptyScene.jpg",
+   "thumb": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EmptyScene.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: SceneWithModel",
+   "test": "ImportAndPlace",
+   "image": "SceneWithModel",
+   "file": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneWithModel.jpg",
+   "thumb": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneWithModel.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: EditorWithModel",
+   "test": "ImportAndPlace",
+   "image": "EditorWithModel",
+   "file": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorWithModel.jpg",
+   "thumb": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorWithModel.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 2.0
+  }
+ ],
+ "engine_commit": "c47148cac7073ffe032fc43c8deaf96d80566633"
+}

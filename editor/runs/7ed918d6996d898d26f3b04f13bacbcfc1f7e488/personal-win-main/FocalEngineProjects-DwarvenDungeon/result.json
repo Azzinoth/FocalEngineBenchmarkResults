@@ -1,0 +1,90 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-15T21:17:24Z",
+ "finished": "2026-11-15T21:38:41Z",
+ "duration_sec": 1277,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/43762831883",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-15T20:11:03Z",
+  "message": "Updated Focal Engine submodule to the latest version; FEProject now creates Shaders directory of virtual file system when it is missing, previously a new project logged an error for every shader; Debug window and Temporary debug window are now hidden until turned on in Window > Debug; Game mode is now run with a play button at the top center of the main window, previously with a button in Debug window; Gizmo buttons are moved to the top right corner of scene window; Added Project menu with Build executable, Build button is removed from main.cpp.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/7ed918d6996d898d26f3b04f13bacbcfc1f7e488"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "90de5cc71abf4c229cbf19f9b2ecdd0abeb1b4b7"
+  }
+ ],
+ "benchmark_commit": "9ed3b02d29fff16307902a0b1ed8824be02c0ebb",
+ "machine": {
+  "os": "Windows 11 Home build 26200.9974",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 31310
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "78bd4b92904eff1604ac8d13c32e451621e16040",
+   "ms": 3701,
+   "fps_avg": 17.163333333333334,
+   "frame_ms_median": 57.83266666666667,
+   "frame_ms_p95": 61.592,
+   "memory_mb": 960.2863333333333,
+   "memory_start_mb": 262.9546666666667,
+   "memory_peak_mb": 1188.6913333333332,
+   "passes": [
+    {
+     "load_ms": 5600,
+     "fps_avg": 17.176,
+     "frame_ms_median": 58.087,
+     "frame_ms_p95": 61.495,
+     "memory_mb": 970.156,
+     "memory_start_mb": 254.637,
+     "memory_peak_mb": 1223.926
+    },
+    {
+     "load_ms": 2761,
+     "fps_avg": 17.14,
+     "frame_ms_median": 57.767,
+     "frame_ms_p95": 61.466,
+     "memory_mb": 952.98,
+     "memory_start_mb": 267.223,
+     "memory_peak_mb": 1165.281
+    },
+    {
+     "load_ms": 2743,
+     "fps_avg": 17.174,
+     "frame_ms_median": 57.644,
+     "frame_ms_p95": 61.815,
+     "memory_mb": 957.723,
+     "memory_start_mb": 267.004,
+     "memory_peak_mb": 1176.867
+    }
+   ]
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "editor/runs/7ed918d6996d898d26f3b04f13bacbcfc1f7e488/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "reference_created": true
+  }
+ ],
+ "engine_commit": "c47148cac7073ffe032fc43c8deaf96d80566633"
+}
