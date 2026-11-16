@@ -3,10 +3,10 @@
  "kind": "gtest",
  "passes": 1,
  "status": "passed",
- "started": "2026-11-16T02:06:58Z",
- "finished": "2026-11-16T02:30:37Z",
- "duration_sec": 1419,
- "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/43790165704",
+ "started": "2026-11-16T14:21:21Z",
+ "finished": "2026-11-16T14:41:32Z",
+ "duration_sec": 1211,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/43884822785",
  "commit": {
   "author": "Azzinoth",
   "date": "2026-11-16T01:53:26Z",
@@ -26,7 +26,7 @@
   {
    "name": "Build (Release, console tests)",
    "status": "passed",
-   "ms": 127697
+   "ms": 27570
   },
   {
    "name": "SceneGraph",
@@ -46,7 +46,7 @@
   {
    "name": "SceneGraphTest",
    "status": "passed",
-   "ms": 164,
+   "ms": 150,
    "checks": [
     {
      "name": "Check_GetNodeCount_AND_ChildCount_Functions",
