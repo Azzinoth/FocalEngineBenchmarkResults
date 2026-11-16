@@ -1,0 +1,281 @@
+{
+ "suite": "ConsoleTests",
+ "kind": "gtest",
+ "passes": 1,
+ "status": "passed",
+ "started": "2026-11-16T15:03:05Z",
+ "finished": "2026-11-16T15:26:26Z",
+ "duration_sec": 1401,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/43892180765",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-16T01:55:15Z",
+  "message": "Updated Focal Engine submodule to the latest version.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/20905ca3c55b404215c24ef3061037ee9fec84a9"
+ },
+ "project_sources": [],
+ "benchmark_commit": "a591f9855c583fa4af3af4ae9e207280e102f5a4",
+ "machine": {
+  "os": "Windows 11 Pro build 26100.8457",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700KF",
+  "gpu": "NVIDIA RTX A5000",
+  "driver": "553.62",
+  "ram_gb": 128
+ },
+ "tests": [
+  {
+   "name": "Build (Release, console tests)",
+   "status": "passed",
+   "ms": 52300
+  },
+  {
+   "name": "VirtualFileSystem",
+   "status": "passed",
+   "ms": 74,
+   "checks": [
+    {
+     "name": "AcceptableName_RejectsEmptyAndSlashesAndDots",
+     "status": "passed"
+    },
+    {
+     "name": "RootPathIsValidAndIsTheDefault",
+     "status": "passed"
+    },
+    {
+     "name": "CreateDirectory_AddsRemovableSubdirectoryAtRoot",
+     "status": "passed"
+    },
+    {
+     "name": "SetCurrentPath_RejectsInvalidAndAcceptsCreatedSubdirectory",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_RejectsSiblingNameCollision",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_RejectsMovingIntoOwnDescendant",
+     "status": "passed"
+    },
+    {
+     "name": "Root_HasNoParent",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_RejectsRenamingRoot",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_CompletesLegitimateMove",
+     "status": "passed"
+    },
+    {
+     "name": "LoadState_ReplacesExistingState",
+     "status": "passed"
+    },
+    {
+     "name": "CreateDirectory_RejectsReadOnlyParent",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_RejectsReadOnlyTarget",
+     "status": "passed"
+    },
+    {
+     "name": "SaveState_PersistsFileReadOnlyFlag",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_RejectsReadOnlyParent",
+     "status": "passed"
+    },
+    {
+     "name": "DoesFileExist_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "GetDirectoryContentIDs_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "SubDirectoriesCount_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "GetDirectoryParent_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "IsDirectoryReadOnly_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteFile_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsSubdirectoryNameCollision",
+     "status": "passed"
+    },
+    {
+     "name": "MoveFile_RejectsSubdirectoryNameCollisionInTarget",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_RejectsFileNameCollisionInParent",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_RejectsFileNameCollisionInTarget",
+     "status": "passed"
+    },
+    {
+     "name": "CreateDirectory_RejectsFileNameCollision",
+     "status": "passed"
+    },
+    {
+     "name": "CreateDirectoryAutoName_SkipsFileNameCollision",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsDuplicateNameInSameDirectory",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsDuplicateInDifferentDirectory",
+     "status": "passed"
+    },
+    {
+     "name": "IsReadOnly_DefensiveOnInvalidPath",
+     "status": "passed"
+    },
+    {
+     "name": "MoveFile_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "SetFileReadOnly_IgnoresNullData",
+     "status": "passed"
+    },
+    {
+     "name": "IsReadOnly_HandlesNullDataAcrossPaths",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsFilePathAsTarget",
+     "status": "passed"
+    },
+    {
+     "name": "CreateDirectory_RejectsFilePathAsParent",
+     "status": "passed"
+    },
+    {
+     "name": "SetDirectoryReadOnly_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_RejectsFilePathAsDestination",
+     "status": "passed"
+    },
+    {
+     "name": "Clear_ResetsCurrentPathToRoot",
+     "status": "passed"
+    },
+    {
+     "name": "SetCurrentPath_RejectsFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsReadOnlyDirectory",
+     "status": "passed"
+    },
+    {
+     "name": "MoveFile_RejectsReadOnlyTarget",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteFile_ReportsFailureOnReadOnlyFile",
+     "status": "passed"
+    },
+    {
+     "name": "SaveState_PersistsReadOnlyFlag",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteEmptyDirectory_RejectsReadOnlyParent",
+     "status": "passed"
+    },
+    {
+     "name": "MoveDirectory_RejectsReadOnlySourceParent",
+     "status": "passed"
+    },
+    {
+     "name": "SaveLoad_FidelityRoundTripWithMixedTree",
+     "status": "passed"
+    },
+    {
+     "name": "PathFormEquivalence_AcceptsCanonicalRejectsMalformed",
+     "status": "passed"
+    },
+    {
+     "name": "ManySiblings_FlatLargeDirectoryRoundTrips",
+     "status": "passed"
+    },
+    {
+     "name": "DeepNesting_PathOperationsHandleLongChains",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteEmptyDirectory_RejectsRoot",
+     "status": "passed"
+    },
+    {
+     "name": "Clear_ResetsRootReadOnlyFlag",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsNameContainingSlash",
+     "status": "passed"
+    },
+    {
+     "name": "CreateFile_RejectsEmptyName",
+     "status": "passed"
+    },
+    {
+     "name": "ReadOnly_AncestorBlocksCreateInDescendant",
+     "status": "passed"
+    },
+    {
+     "name": "ReadOnly_AncestorBlocksMoveOutOfLockedSubtree",
+     "status": "passed"
+    },
+    {
+     "name": "SetCurrentPath_CanonicalizesTrailingSlash",
+     "status": "passed"
+    },
+    {
+     "name": "IsPathCorrect_RejectsTrailingSlashOnFilePath",
+     "status": "passed"
+    },
+    {
+     "name": "LocateAndDeleteFile_HonorsReadOnlyAncestor",
+     "status": "passed"
+    },
+    {
+     "name": "CurrentPath_StaysValidAfterDeletingCurrentDirectory",
+     "status": "passed"
+    },
+    {
+     "name": "RenameDirectory_OnReadOnlyDirectory_ReportsFailure",
+     "status": "passed"
+    }
+   ]
+  }
+ ],
+ "screenshots": [],
+ "engine_commit": "9c15e9b3d5cff14e4e9e88a5db165a95da0732bf"
+}
