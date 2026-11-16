@@ -26,7 +26,8 @@
                       { "name": "Terrain", "status": "passed", "ms": 2900, "fps_avg": 164.2, "frame_ms_p95": 7.6,
                         "memory_mb": 812.4, "memory_start_mb": 301.2, "memory_peak_mb": 954.0, "message": "..." } ],
            ("ms" of a project is its load time when it loaded, its run time when it did not,
-            memory is of the process: with the project loaded, before loading, and the largest since start)
+            memory is of the process: with the project loaded, before loading, and the largest since start,
+            newer results also have "gpu_load_before_pct" and "cpu_load_before_pct", load of the machine before the runs, the highest of them)
            "screenshots": [ { "scene": "Terrain", "file": "runs/<sha>/lab-win-01/01.jpg",
                               "thumb": "runs/<sha>/lab-win-01/thumbs/01.jpg",
                               "status": "passed", "diff_pct": 0.3, "reference": "references/<project ID>.png",
@@ -822,8 +823,27 @@ function rangeText(t, key, fmt) {
   return `${fmt(Math.min(...values))} to ${fmt(Math.max(...values))} over ${values.length} runs`;
 }
 
+// Load of the machine is measured before every run of a project, results from before it was measured have none.
+// A busy machine gives lower values, so tooltips of the values show it.
+function machineLoadText(t) {
+  const runs = t.passes || [];
+  const range = (key) => {
+    const values = runs.map((p) => p[key]).filter((v) => v != null);
+    if (!values.length && t[key] != null) values.push(t[key]);
+    if (!values.length) return '';
+
+    const lowest = Math.round(Math.min(...values));
+    const highest = Math.round(Math.max(...values));
+    return lowest === highest ? `${highest}%` : `${lowest}% to ${highest}%`;
+  };
+  const gpu = range('gpu_load_before_pct');
+  const cpu = range('cpu_load_before_pct');
+  const parts = [gpu ? `GPU ${gpu}` : '', cpu ? `CPU ${cpu}` : ''].filter(Boolean);
+  return parts.length ? `Load of the machine before the ${runs.length > 1 ? 'runs' : 'run'}: ${parts.join(', ')}` : '';
+}
+
 function rangeTitle(t, key, fmt) {
-  const text = rangeText(t, key, fmt);
+  const text = [rangeText(t, key, fmt), machineLoadText(t)].filter(Boolean).join('. ');
   return text ? ` title="${esc(text)}"` : '';
 }
 
@@ -832,7 +852,7 @@ function memoryTitle(t) {
   const parts = [rangeText(t, 'memory_mb', fmtMemory)];
   if (t.memory_start_mb != null) parts.push(`${fmtMemory(t.memory_start_mb)} before loading`);
   if (t.memory_peak_mb != null) parts.push(`${fmtMemory(t.memory_peak_mb)} at its largest`);
-  const text = parts.filter(Boolean).join(', ');
+  const text = [parts.filter(Boolean).join(', '), machineLoadText(t)].filter(Boolean).join('. ');
   return text ? ` title="${esc(text)}"` : '';
 }
 
@@ -937,16 +957,19 @@ function testGalleryHTML(run, key, m) {
     + run.screenshots.map((s, i) => (s.test === name ? shotFigure(s, key, i, m, false, `<span>${esc(s.image)}</span>`) : '')).join('')).join('');
 }
 
-// Memory metrics that every test has are shown as one sentence, other metrics as name and value.
+// Memory and load of the machine, which every test has, are shown as sentences, other metrics as name and value.
 function testMetricsHTML(t) {
   const metrics = t.metrics || {};
   const memory = metrics.memory_mb != null
     ? `Memory: ${metrics.memory_start_mb != null ? `${fmtMemory(metrics.memory_start_mb)} before the test, ` : ''}${fmtMemory(metrics.memory_mb)} after it`
       + `${metrics.memory_peak_mb != null ? `, ${fmtMemory(metrics.memory_peak_mb)} at its largest` : ''}.`
     : '';
-  const other = Object.entries(metrics).filter(([name]) => !name.startsWith('memory_'))
+  const loadMetrics = [['GPU', 'gpu_load_before_pct'], ['CPU', 'cpu_load_before_pct']];
+  const loadParts = loadMetrics.filter(([, name]) => metrics[name] != null).map(([title, name]) => `${title} ${Math.round(metrics[name])}%`);
+  const load = loadParts.length ? `Load of the machine before the test: ${loadParts.join(', ')}.` : '';
+  const other = Object.entries(metrics).filter(([name]) => !name.startsWith('memory_') && !loadMetrics.some(([, loadName]) => loadName === name))
     .map(([name, value]) => `${esc(name)}: ${Number.isInteger(value) ? value : Number(value).toFixed(3)}`);
-  const text = [memory, ...other].filter(Boolean).join(' ');
+  const text = [memory, load, ...other].filter(Boolean).join(' ');
   return text ? `<p class="test-metrics">${text}</p>` : '';
 }
 
