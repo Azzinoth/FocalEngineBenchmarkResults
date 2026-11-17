@@ -185,6 +185,10 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
 .legend { list-style: none; margin: 0 0 6px; padding: 0; display: flex; gap: 6px 22px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-2); }
 .legend li { display: inline-flex; align-items: center; gap: 7px; }
 .legend .gpu { color: var(--muted); }
+.legend-machine { display: inline-flex; align-items: center; gap: 7px; background: none; border: 0; padding: 2px 6px; margin: -2px -6px; border-radius: 6px; }
+.legend-machine:hover:not(:disabled) { background: var(--surface-2); }
+.legend-machine[aria-pressed="false"] { opacity: 0.45; }
+.legend-machine[aria-pressed="false"] .legend-id { text-decoration: line-through; }
 .legend .legend-gap { color: var(--muted); margin-left: auto; }
 .legend .legend-gap line { stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 2 4; stroke-linecap: round; }
 
@@ -209,7 +213,11 @@ h2 { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; }
   box-shadow: 0 6px 20px rgba(10, 25, 32, 0.14);
 }
 .chart-tip[hidden] { display: none; }
-.chart-tip .tip-msg { color: var(--ink-2); margin: 2px 0 7px; line-height: 1.35; }
+/* Three lines of the message, as in the commit row, the full message is in details of the commit. */
+.chart-tip .tip-msg {
+  color: var(--ink-2); margin: 2px 0 7px; line-height: 1.35; overflow: hidden; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+}
 .chart-tip .tip-row { display: flex; align-items: center; gap: 7px; padding: 1px 0; }
 .chart-tip .tip-row b { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; }
 .chart-tip .tip-row .tip-fail { color: var(--critical-text); font-size: 12px; }

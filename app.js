@@ -281,7 +281,6 @@ function prepare(raw) {
     }
     return { ...c, runs };
   });
-  for (const c of commits) c.state = commitState(c);
   // Commits go from newest to oldest. Each finished run gets the previous finished run on its machine,
   // and for every project the newest older passed result on that machine, for the change shown in projects table.
   for (const m of machines) {
@@ -316,8 +315,9 @@ function prepare(raw) {
   return { ...raw, machines, commits, projects, projectSources, scriptedNames };
 }
 
+// Of shown machines only, so a commit that failed only on a hidden machine is not counted as failed.
 function commitState(c) {
-  const s = Object.values(c.runs).map((r) => r.status);
+  const s = visibleRuns(c).map((r) => r.status);
   if (!s.length) return 'none';
   if (s.includes('failed')) return 'failed';
   if (s.includes('running') || s.includes('queued')) return 'running';
@@ -328,6 +328,18 @@ const isFinished = (r) => r && (r.status === 'passed' || r.status === 'failed');
 /* ============================================================================
    State
 ============================================================================ */
+// Machines hidden from the chart and the commits table with the machine buttons of the legend, by id.
+// Saved in the browser, so they stay hidden on the next visit. Engine and editor views share the list.
+const HIDDEN_MACHINES_KEY = 'ci-hidden-machines';
+
+function loadHiddenMachines() {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(HIDDEN_MACHINES_KEY)) || []);
+  } catch (err) {
+    return new Set();
+  }
+}
+
 const state = {
   filter: 'all',
   query: '',
@@ -342,7 +354,23 @@ const state = {
   // Tests that were opened or closed by hand, by commit SHA, machine and test name.
   testOpen: {},
   project: null,
+  hidden: loadHiddenMachines(),
 };
+
+// A view whose machines were all hidden from the other view shows them all.
+function visibleMachines() {
+  const shown = DATA.machines.filter((m) => !state.hidden.has(m.id));
+  return shown.length ? shown : DATA.machines;
+}
+const visibleRuns = (c) => visibleMachines().map((m) => c.runs[m.id]).filter(Boolean);
+
+function toggleMachine(id) {
+  // When every machine of this view is shown, those that the other view hid are cleared first, so only this one gets hidden.
+  if (visibleMachines().length === DATA.machines.length) for (const m of DATA.machines) state.hidden.delete(m.id);
+  if (state.hidden.has(id)) state.hidden.delete(id);
+  else state.hidden.add(id);
+  try { localStorage.setItem(HIDDEN_MACHINES_KEY, JSON.stringify([...state.hidden])); } catch (err) { /* storage can be blocked; machines stay hidden until the page is closed */ }
+}
 
 const projectTest = (r, project) => r?.tests?.find((t) => t.name === project);
 
@@ -385,12 +413,13 @@ const METRICS = {
    Header and footer
 ============================================================================ */
 function describe(c) {
+  const machines = visibleMachines();
   const by = {};
-  for (const m of DATA.machines) {
+  for (const m of machines) {
     const st = c.runs[m.id]?.status;
     if (st) (by[st] ||= []).push(m.id);
   }
-  const total = DATA.machines.length;
+  const total = machines.length;
   if ((by.passed || []).length === total) return total === 1 ? `passed on ${by.passed[0]}` : `passed on all ${total} machines`;
   const parts = [];
   if (by.running) parts.push(`running on ${joinList(by.running)}`);
@@ -417,13 +446,14 @@ function renderHeader() {
   $('#branch-name').textContent = DATA.branch;
   $('#source-pill').hidden = CONFIG.source !== 'sample';
   const latest = DATA.commits[0];
-  const finished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
+  const finished = DATA.commits.find((c) => visibleRuns(c).some(isFinished));
   let s = '';
   if (latest) {
-    s = Object.keys(latest.runs).length
+    const latestState = commitState(latest);
+    s = visibleRuns(latest).length
       ? `Latest commit ${shaLink(latest.sha)} ${describe(latest)}.`
       : `Latest commit ${shaLink(latest.sha)} has no runs.`;
-    if (finished && finished !== latest && latest.state !== 'passed' && latest.state !== 'failed') {
+    if (finished && finished !== latest && latestState !== 'passed' && latestState !== 'failed') {
       s += ` The last finished commit, ${shaLink(finished.sha)}, ${describe(finished)}.`;
     }
   }
@@ -431,7 +461,7 @@ function renderHeader() {
 
   const weekAgo = refNow() - 7 * 86400000;
   let runs = 0, failed = 0;
-  for (const c of DATA.commits) for (const r of Object.values(c.runs)) {
+  for (const c of DATA.commits) for (const r of visibleRuns(c)) {
     if (isFinished(r) && new Date(r.started) >= weekAgo) { runs++; if (r.status === 'failed') failed++; }
   }
   $('#summary-sub').textContent =
@@ -481,9 +511,17 @@ function projectOptionsHTML() {
 
 const chartTitle = (metric) => (metric.perProject ? `${metric.button} of ${state.project}` : metric.button);
 
+// Machines are buttons that hide or show them. The last shown machine can not be hidden.
 function renderLegend() {
+  const shown = visibleMachines();
   $('#legend').innerHTML = DATA.machines
-    .map((m) => `<li>${machineMark(m.index, 11)}<span>${esc(m.id)}</span><span class="gpu">${esc(m.gpu)}</span></li>`)
+    .map((m) => {
+      const isShown = shown.includes(m);
+      const isLast = isShown && shown.length === 1;
+      const title = isLast ? 'At least one machine stays shown' : `${isShown ? 'Hide' : 'Show'} ${m.id} in the chart and the commits table`;
+      return `<li><button class="legend-machine" type="button" data-machine="${esc(m.id)}" aria-pressed="${isShown}" title="${esc(title)}"${isLast ? ' disabled' : ''}>
+        ${machineMark(m.index, 11)}<span class="legend-id">${esc(m.id)}</span><span class="gpu">${esc(m.gpu)}</span></button></li>`;
+    })
     .join('')
     + '<li class="legend-gap"><svg width="22" height="10" aria-hidden="true"><line x1="1" y1="5" x2="21" y2="5"/></svg>Dotted: commits in between were not run</li>';
 }
@@ -492,9 +530,10 @@ let chartCtx = null;
 function renderChart() {
   const box = $('#chart');
   const metric = METRICS[state.metric];
+  const machines = visibleMachines();
   const val = (c, m) => (isFinished(c.runs[m.id]) ? metric.get(c.runs[m.id], state.project) : undefined);
-  const list = DATA.commits.slice().reverse().filter((c) => DATA.machines.some((m) => val(c, m) != null));
-  renderChartTable(list, val, metric);
+  const list = DATA.commits.slice().reverse().filter((c) => machines.some((m) => val(c, m) != null));
+  renderChartTable(list, val, metric, machines);
   if (!list.length) {
     box.innerHTML = `<p class="chart-empty">${metric.perProject && state.project
       ? `No finished run has ${esc(metric.button.toLowerCase())} of ${esc(state.project)} yet.`
@@ -508,7 +547,7 @@ function renderChart() {
   const pw = W - M.l - M.r, ph = H - M.t - M.b;
 
   const vals = [];
-  list.forEach((c) => DATA.machines.forEach((m) => { const v = val(c, m); if (v != null) vals.push(v); }));
+  list.forEach((c) => machines.forEach((m) => { const v = val(c, m); if (v != null) vals.push(v); }));
   let lo = Math.min(...vals), hi = Math.max(...vals);
   const pad = (hi - lo) * 0.08 || Math.abs(hi) * 0.1 || 1;
   const ticks = niceTicks(Math.max(0, lo - pad), hi + pad, 4);
@@ -529,7 +568,7 @@ function renderChart() {
   });
 
   const ends = [];
-  for (const m of DATA.machines) {
+  for (const m of machines) {
     const color = seriesColor(m.index);
     const pts = list.map((c, i) => ({ i, v: val(c, m) })).filter((p) => p.v != null);
     for (let k = 1; k < pts.length; k++) {
@@ -554,7 +593,7 @@ function renderChart() {
   box.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" tabindex="0" role="img"
       aria-label="${esc(chartTitle(metric))} per commit for each machine. Use left and right arrow keys to read values, Enter to open the commit.">${svg}</svg>
     <div class="chart-tip" id="chart-tip" hidden></div>`;
-  chartCtx = { list, x, y, val, metric, M, pw, dx, W, hovered: null };
+  chartCtx = { list, machines, x, y, val, metric, M, pw, dx, W, hovered: null };
   bindChart();
 }
 
@@ -568,7 +607,7 @@ function bindChart() {
     const xh = $('#xh');
     xh.setAttribute('x1', ctx.x(i)); xh.setAttribute('x2', ctx.x(i)); xh.setAttribute('visibility', 'visible');
     let dots = '', rows = '';
-    for (const m of DATA.machines) {
+    for (const m of ctx.machines) {
       const v = ctx.val(c, m);
       const r = c.runs[m.id];
       if (v != null) dots += `<g class="mk-svg" style="fill:${seriesColor(m.index)}">${shapePath(m.index, ctx.x(i), ctx.y(v), 12)}</g>`;
@@ -608,10 +647,10 @@ function bindChart() {
   });
 }
 
-function renderChartTable(list, val, metric) {
-  const head = `<tr><th>Commit</th>${DATA.machines.map((m) => `<th>${esc(m.id)}</th>`).join('')}</tr>`;
+function renderChartTable(list, val, metric, machines) {
+  const head = `<tr><th>Commit</th>${machines.map((m) => `<th>${esc(m.id)}</th>`).join('')}</tr>`;
   const body = list.slice().reverse()
-    .map((c) => `<tr><td><span class="sha">${short(c.sha)}</span> ${esc(c.message)}</td>${DATA.machines
+    .map((c) => `<tr><td><span class="sha">${short(c.sha)}</span> ${esc(c.message)}</td>${machines
       .map((m) => { const v = val(c, m); return `<td>${v != null ? metric.fmt(v) : '–'}</td>`; }).join('')}</tr>`)
     .join('');
   $('#chart-table').innerHTML = `<table><caption class="sr-only">${esc(chartTitle(metric))} per commit</caption><thead>${head}</thead><tbody>${body}</tbody></table>`;
@@ -626,7 +665,7 @@ const MATRIX = { commitMin: 280, machine: 140, film: 392, filmMin: 212 };
 // Commit column takes what is left, but never less than commitMin: screenshots column gets narrower first, then the matrix scrolls sideways.
 function fitMatrix() {
   const wrap = $('.matrix-wrap');
-  const fixed = MATRIX.commitMin + DATA.machines.length * MATRIX.machine;
+  const fixed = MATRIX.commitMin + visibleMachines().length * MATRIX.machine;
   const film = clamp(wrap.clientWidth - fixed, MATRIX.filmMin, MATRIX.film);
   $('#matrix-cols').lastElementChild.style.width = `${film}px`;
   wrap.style.setProperty('--matrix-min', `${fixed + film}px`);
@@ -635,14 +674,15 @@ function fitMatrix() {
 }
 
 function renderMatrixHead() {
-  const n = DATA.machines.length;
+  const machines = visibleMachines();
+  const n = machines.length;
   // Page gets wider with it, see .page in style.css.
   document.documentElement.style.setProperty('--m', n);
   $('#matrix-cols').innerHTML = `<col>${`<col style="width:${MATRIX.machine}px">`.repeat(n)}<col>`;
   fitMatrix();
   $('#matrix-head').innerHTML = `<tr>
     <th scope="col"><span class="th-title">Commit</span></th>
-    ${DATA.machines.map((m) => `<th scope="col" title="${esc(`${m.os}, ${m.cpu}, ${m.gpu}, ${m.ram_gb} GB RAM`)}">
+    ${machines.map((m) => `<th scope="col" title="${esc(`${m.os}, ${m.cpu}, ${m.gpu}, ${m.ram_gb} GB RAM`)}">
       <span class="th-machine">${machineMark(m.index, 11)}${esc(m.id)}</span>
       <span class="th-spec">${esc(m.gpu)}</span></th>`).join('')}
     <th scope="col"><span class="th-title">Screenshots</span></th></tr>`;
@@ -651,8 +691,8 @@ function renderMatrixHead() {
 function filtered() {
   const q = state.query.trim().toLowerCase();
   return DATA.commits.filter((c) => {
-    if (state.filter === 'runs' && !Object.keys(c.runs).length) return false;
-    if (state.filter === 'failed' && c.state !== 'failed') return false;
+    if (state.filter === 'runs' && !visibleRuns(c).length) return false;
+    if (state.filter === 'failed' && commitState(c) !== 'failed') return false;
     if (!q) return true;
     return c.message.toLowerCase().includes(q) || c.sha.startsWith(q) || c.author.toLowerCase().includes(q);
   });
@@ -661,8 +701,8 @@ function filtered() {
 function renderFilters() {
   const counts = {
     all: DATA.commits.length,
-    runs: DATA.commits.filter((c) => Object.keys(c.runs).length).length,
-    failed: DATA.commits.filter((c) => c.state === 'failed').length,
+    runs: DATA.commits.filter((c) => visibleRuns(c).length).length,
+    failed: DATA.commits.filter((c) => commitState(c) === 'failed').length,
   };
   const label = { all: 'All commits', runs: 'With runs', failed: 'Failed' };
   $('#filters').innerHTML = Object.keys(label)
@@ -683,13 +723,13 @@ function statusCell(c, m) {
 }
 
 function filmMachine(c) {
-  const withShots = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length);
+  const withShots = visibleMachines().filter((m) => c.runs[m.id]?.screenshots?.length);
   return withShots.find((m) => c.runs[m.id].screenshots.some((s) => s.status === 'failed')) || withShots[0];
 }
 
 function filmstrip(c) {
   const m = filmMachine(c);
-  if (!m) return `<span class="film-empty">${Object.keys(c.runs).length ? 'Not captured yet' : '–'}</span>`;
+  if (!m) return `<span class="film-empty">${visibleRuns(c).length ? 'Not captured yet' : '–'}</span>`;
   const shots = c.runs[m.id].screenshots;
   return `<div class="film">${shots.map((s, i) => `<button class="thumb${s.status === 'failed' ? ' is-failed' : ''}" type="button"
       data-shots="${c.sha}|${m.id}" data-i="${i}" aria-label="Open ${esc(s.scene)} screenshot from ${esc(m.id)}${s.status === 'failed' ? ', failed' : ''}"
@@ -700,6 +740,7 @@ function filmstrip(c) {
 const chevron = '<svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5L8 6l-3.5 3.5"/></svg>';
 
 function rowHTML(c) {
+  const machines = visibleMachines();
   const open = state.open.has(c.sha);
   const id = `detail-${short(c.sha)}`;
   let html = `<tr class="commit-row${open ? ' is-open' : ''}" data-sha="${c.sha}">
@@ -709,10 +750,10 @@ function rowHTML(c) {
       </button>
       <div class="meta">${esc(c.author)}, <time datetime="${c.date}" title="${esc(fmtDate(c.date))}">${ago(c.date)}</time></div>
     </td>
-    ${DATA.machines.map((m) => statusCell(c, m)).join('')}
+    ${machines.map((m) => statusCell(c, m)).join('')}
     <td class="c-film">${filmstrip(c)}</td>
   </tr>`;
-  if (open) html += `<tr class="detail-row" id="${id}"><td colspan="${DATA.machines.length + 2}">${detailHTML(c)}</td></tr>`;
+  if (open) html += `<tr class="detail-row" id="${id}"><td colspan="${machines.length + 2}">${detailHTML(c)}</td></tr>`;
   return html;
 }
 
@@ -720,7 +761,7 @@ function renderRows(focusSel) {
   const rows = filtered();
   const tbody = $('#rows');
   if (!rows.length) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="${DATA.machines.length + 2}">
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="${visibleMachines().length + 2}">
       ${state.query ? `No commits match “${esc(state.query)}”.` : 'No commits match this filter.'}
       <button class="theme-btn" type="button" data-clear>Show all commits</button></td></tr>`;
     return;
@@ -733,25 +774,34 @@ function renderRows(focusSel) {
    Detail panel
 ============================================================================ */
 function defaultTab(c) {
-  const ms = DATA.machines;
+  const ms = visibleMachines();
   return (ms.find((m) => c.runs[m.id]?.status === 'failed')
     || ms.find((m) => isFinished(c.runs[m.id]))
     || ms.find((m) => c.runs[m.id])
     || ms[0]).id;
 }
 
+// A tab selected before its machine was hidden falls back to the default one.
+const activeTab = (c) => (visibleMachines().some((m) => m.id === state.tab[c.sha]) ? state.tab[c.sha] : defaultTab(c));
+
 function detailHTML(c) {
   // Row of the commit shows only three lines of its message.
   const message = `<p class="detail-msg">${esc(c.message)}</p>`;
-  if (!Object.keys(c.runs).length) {
-    return `<div class="detail detail-empty">${message}<p class="notice">No runs for this commit.
-      <span class="sub">To get results for it, start the workflow by hand from the Actions tab of the private repo and enter this SHA.</span></p></div>`;
+  if (!visibleRuns(c).length) {
+    const ranOn = Object.keys(c.runs);
+    const notice = ranOn.length
+      ? `This commit was run only on hidden machines, ${esc(joinList(ranOn))}.
+        <span class="sub">Click a machine above the chart to show it again.</span>`
+      : `No runs for this commit.
+        <span class="sub">To get results for it, start the workflow by hand from the Actions tab of the private repo and enter this SHA.</span>`;
+    return `<div class="detail detail-empty">${message}<p class="notice">${notice}</p></div>`;
   }
+  const machines = visibleMachines();
   const compare = !!state.compare[c.sha];
   const other = DATA.commits.find((x) => x.sha === state.against[c.sha]);
-  const active = state.tab[c.sha] || defaultTab(c);
-  const canCompare = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length || hasProjectResults(c.runs[m.id])).length >= 2;
-  const tabs = DATA.machines.map((m) => {
+  const active = activeTab(c);
+  const canCompare = machines.filter((m) => c.runs[m.id]?.screenshots?.length || hasProjectResults(c.runs[m.id])).length >= 2;
+  const tabs = machines.map((m) => {
     const st = c.runs[m.id]?.status || 'none';
     const sel = !compare && m.id === active;
     return `<button class="tab${sel ? ' is-active' : ''}" type="button" role="tab" aria-selected="${sel}" data-tab="${c.sha}|${m.id}">
@@ -759,7 +809,7 @@ function detailHTML(c) {
   }).join('');
   const btn = `<button class="compare-btn" type="button" aria-pressed="${compare}" data-compare="${c.sha}"
     ${canCompare ? '' : 'disabled title="Needs results from at least two machines"'}>Compare machines</button>`;
-  const machine = DATA.machines.find((m) => m.id === active);
+  const machine = machines.find((m) => m.id === active);
   const body = compare ? compareHTML(c) : other ? againstHTML(c, other, machine) : machineHTML(c, machine);
   return `<div class="detail">${message}<div class="detail-bar"><div class="tabs" role="tablist" aria-label="Machines">${tabs}</div>
     <div class="detail-actions">${againstPickHTML(c, other)}${btn}</div></div>${body}</div>`;
@@ -767,7 +817,7 @@ function detailHTML(c) {
 
 // List of commits that a commit can be compared with, every other commit that has project results.
 function againstPickHTML(c, other) {
-  const commits = DATA.commits.filter((x) => x.sha !== c.sha && Object.values(x.runs).some(hasProjectResults));
+  const commits = DATA.commits.filter((x) => x.sha !== c.sha && visibleRuns(x).some(hasProjectResults));
   const text = (x) => `${short(x.sha)} ${x.message.length > 70 ? `${x.message.slice(0, 69)}…` : x.message}`;
   return `<select class="against-pick${other ? ' is-on' : ''}" data-against="${c.sha}" aria-label="Compare with another commit"
     ${commits.length ? '' : 'disabled title="No other commit has results"'}>
@@ -1046,7 +1096,7 @@ function machineHTML(c, m) {
 }
 
 function compareItems(c) {
-  const ms = DATA.machines.filter((m) => c.runs[m.id]?.screenshots?.length);
+  const ms = visibleMachines().filter((m) => c.runs[m.id]?.screenshots?.length);
   const scenes = [];
   for (const m of ms) for (const s of c.runs[m.id].screenshots) if (!scenes.includes(s.scene)) scenes.push(s.scene);
   const grid = scenes.map((scene) => ms.map((m) => {
@@ -1098,7 +1148,7 @@ const COMPARE_METRICS = [
 
 // One row for every project in each metric, one column for every machine, so a row compares the machines.
 function compareMetricsHTML(c) {
-  const ms = DATA.machines.filter((m) => hasProjectResults(c.runs[m.id]));
+  const ms = visibleMachines().filter((m) => hasProjectResults(c.runs[m.id]));
   if (!ms.length) return '<p class="notice">No results of projects or tests for this commit yet.</p>';
 
   // Projects follow the order of project repos, as in the projects table of a machine.
@@ -1267,7 +1317,7 @@ function againstHTML(c, other, m) {
     <span class="against-when">${esc(other.author)}, ${ago(other.date)}.</span>${engines}</p>`;
   if (!hasProjectResults(run) || !hasProjectResults(otherRun)) {
     const missing = hasProjectResults(run) ? other : c;
-    const both = DATA.machines.filter((x) => hasProjectResults(c.runs[x.id]) && hasProjectResults(other.runs[x.id])).map((x) => x.id);
+    const both = visibleMachines().filter((x) => hasProjectResults(c.runs[x.id]) && hasProjectResults(other.runs[x.id])).map((x) => x.id);
     return `${intro}<p class="notice"><span class="sha">${short(missing.sha)}</span> has no results of projects or tests on ${esc(m.id)}.
       <span class="sub">${both.length ? `Both commits have results on ${esc(joinList(both))}.` : 'No machine has results for both commits.'}</span></p>`;
   }
@@ -1384,8 +1434,8 @@ function bindEvents() {
       const c = DATA.commits.find((x) => x.sha === sha);
       const other = DATA.commits.find((x) => x.sha === pick.value);
       const hasBoth = (m) => hasProjectResults(c.runs[m.id]) && hasProjectResults(other.runs[m.id]);
-      const active = DATA.machines.find((m) => m.id === (state.tab[sha] || defaultTab(c)));
-      if (!hasBoth(active)) state.tab[sha] = (DATA.machines.find(hasBoth) || active).id;
+      const active = DATA.machines.find((m) => m.id === activeTab(c));
+      if (!hasBoth(active)) state.tab[sha] = (visibleMachines().find(hasBoth) || active).id;
     } else {
       delete state.against[sha];
     }
@@ -1406,6 +1456,15 @@ function bindEvents() {
     renderMetricSwitch(); renderChart();
   });
   $('#project-select').addEventListener('change', (e) => { state.project = e.target.value; renderMetricSwitch(); renderChart(); });
+  $('#legend').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-machine]');
+    if (!b || b.disabled) return;
+
+    const id = b.dataset.machine;
+    toggleMachine(id);
+    renderHeader(); renderLegend(); renderMatrixHead(); renderFilters(); renderRows(); renderChart();
+    $(`[data-machine="${CSS.escape(id)}"]`)?.focus();
+  });
   document.addEventListener('click', (e) => {
     const o = e.target.closest('[data-open]');
     if (o) openCommit(o.dataset.open);
@@ -1467,7 +1526,7 @@ function bindEvents() {
     refNow = () => t; // keep the sample's "2 hours ago" text stable whenever you open it
   }
   state.project = DATA.projects[0] ?? null;
-  const firstFinished = DATA.commits.find((c) => Object.values(c.runs).some(isFinished));
+  const firstFinished = DATA.commits.find((c) => visibleRuns(c).some(isFinished));
   if (firstFinished) state.open.add(firstFinished.sha);
 
   renderHeader();
