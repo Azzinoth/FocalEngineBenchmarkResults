@@ -3,10 +3,10 @@
  "kind": "gtest",
  "passes": 1,
  "status": "passed",
- "started": "2026-11-17T15:49:36Z",
- "finished": "2026-11-17T15:50:59Z",
- "duration_sec": 83,
- "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44118731404",
+ "started": "2026-11-17T16:04:21Z",
+ "finished": "2026-11-17T16:20:15Z",
+ "duration_sec": 954,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44121512673",
  "commit": {
   "author": "Azzinoth",
   "date": "2026-11-17T01:51:38Z",
@@ -14,9 +14,9 @@
   "url": "https://github.com/Azzinoth/FocalEngine/commit/7ee83b6c23372ca17ba9a31a166093143f504b63"
  },
  "project_sources": [],
- "benchmark_commit": "a4c033d4f04878db7729722f38f28ba2d25270b3",
+ "benchmark_commit": "d4937d1bad974c2c1a25f68e35c7f97c1b890e86",
  "machine": {
-  "os": "Windows 11 Enterprise 10.0.26300",
+  "os": "Windows 11 Enterprise build 26300.9974",
   "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
   "gpu": "NVIDIA GeForce RTX 4090",
   "driver": "616.92",
@@ -26,7 +26,7 @@
   {
    "name": "Build (Release, console tests)",
    "status": "passed",
-   "ms": 50575
+   "ms": 34761
   },
   {
    "name": "SceneGraph",
@@ -46,7 +46,7 @@
   {
    "name": "SceneGraphTest",
    "status": "passed",
-   "ms": 155,
+   "ms": 157,
    "checks": [
     {
      "name": "Check_GetNodeCount_AND_ChildCount_Functions",
