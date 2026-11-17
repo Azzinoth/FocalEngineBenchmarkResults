@@ -2,11 +2,11 @@
  "suite": "FocalEngineProjects",
  "kind": "projects",
  "passes": 3,
- "status": "failed",
- "started": "2026-11-17T14:18:26Z",
- "finished": "2026-11-17T14:20:32Z",
- "duration_sec": 126,
- "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44101636929",
+ "status": "passed",
+ "started": "2026-11-17T15:29:17Z",
+ "finished": "2026-11-17T15:47:15Z",
+ "duration_sec": 1078,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44114852571",
  "commit": {
   "author": "Azzinoth",
   "date": "2026-11-17T02:10:35Z",
@@ -20,9 +20,9 @@
    "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
   }
  ],
- "benchmark_commit": "a591f9855c583fa4af3af4ae9e207280e102f5a4",
+ "benchmark_commit": "a4c033d4f04878db7729722f38f28ba2d25270b3",
  "machine": {
-  "os": "Windows 11 Enterprise 10.0.26200",
+  "os": "Windows 11 Enterprise build 26300.9974",
   "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
   "gpu": "NVIDIA GeForce RTX 4090",
   "driver": "616.92",
@@ -31,10 +31,896 @@
  "tests": [
   {
    "name": "Build (Release)",
-   "status": "failed",
-   "ms": 766
+   "status": "passed",
+   "ms": 78020
+  },
+  {
+   "name": "Bistro",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "9d695d9899b2de98d9541c3518bc6907a6bdbbd1",
+   "ms": 10198,
+   "fps_avg": 18.597,
+   "frame_ms_median": 53.79633333333334,
+   "frame_ms_p95": 56.75666666666667,
+   "memory_mb": 2827.603,
+   "memory_start_mb": 264.31,
+   "memory_peak_mb": 2923.0743333333335,
+   "passes": [
+    {
+     "load_ms": 19295.0,
+     "fps_avg": 19.83,
+     "frame_ms_median": 49.947,
+     "frame_ms_p95": 54.723,
+     "memory_mb": 2805.102,
+     "memory_start_mb": 259.074,
+     "memory_peak_mb": 2903.645,
+     "gpu_load_before_pct": 0.048,
+     "cpu_load_before_pct": 2.782
+    },
+    {
+     "load_ms": 5601.0,
+     "fps_avg": 18.068,
+     "frame_ms_median": 55.684,
+     "frame_ms_p95": 57.871,
+     "memory_mb": 2828.254,
+     "memory_start_mb": 273.145,
+     "memory_peak_mb": 2926.406,
+     "gpu_load_before_pct": 0.24,
+     "cpu_load_before_pct": 8.009
+    },
+    {
+     "load_ms": 5697.0,
+     "fps_avg": 17.893,
+     "frame_ms_median": 55.758,
+     "frame_ms_p95": 57.676,
+     "memory_mb": 2849.453,
+     "memory_start_mb": 260.711,
+     "memory_peak_mb": 2939.172,
+     "gpu_load_before_pct": 0.242,
+     "cpu_load_before_pct": 5.67
+    }
+   ],
+   "gpu_load_before_pct": 0.242,
+   "cpu_load_before_pct": 8.009
+  },
+  {
+   "name": "Complex_Forest",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "401a6ef3c08372b9e63f0470159fb57d7a08616e",
+   "ms": 5018,
+   "fps_avg": 89.386,
+   "frame_ms_median": 11.155666666666667,
+   "frame_ms_p95": 11.966666666666667,
+   "memory_mb": 4680.271,
+   "memory_start_mb": 273.026,
+   "memory_peak_mb": 4987.777333333333,
+   "passes": [
+    {
+     "load_ms": 6254.0,
+     "fps_avg": 89.54,
+     "frame_ms_median": 11.167,
+     "frame_ms_p95": 11.832,
+     "memory_mb": 4653.602,
+     "memory_start_mb": 273.227,
+     "memory_peak_mb": 4893.695,
+     "gpu_load_before_pct": 0.261,
+     "cpu_load_before_pct": 7.905
+    },
+    {
+     "load_ms": 4394.0,
+     "fps_avg": 89.231,
+     "frame_ms_median": 11.155,
+     "frame_ms_p95": 12.04,
+     "memory_mb": 4669.84,
+     "memory_start_mb": 272.777,
+     "memory_peak_mb": 5013.383,
+     "gpu_load_before_pct": 0.254,
+     "cpu_load_before_pct": 6.255
+    },
+    {
+     "load_ms": 4405.0,
+     "fps_avg": 89.387,
+     "frame_ms_median": 11.145,
+     "frame_ms_p95": 12.028,
+     "memory_mb": 4717.371,
+     "memory_start_mb": 273.074,
+     "memory_peak_mb": 5056.254,
+     "gpu_load_before_pct": 0.272,
+     "cpu_load_before_pct": 6.155
+    }
+   ],
+   "gpu_load_before_pct": 0.272,
+   "cpu_load_before_pct": 7.905
+  },
+  {
+   "name": "Corals",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "26166e1ce2969aba9677e258cec8501d0d53d81a",
+   "ms": 306,
+   "fps_avg": 514.3543333333333,
+   "frame_ms_median": 2.07,
+   "frame_ms_p95": 2.378,
+   "memory_mb": 1252.9036666666666,
+   "memory_start_mb": 274.4413333333333,
+   "memory_peak_mb": 1459.2046666666668,
+   "passes": [
+    {
+     "load_ms": 426.0,
+     "fps_avg": 595.702,
+     "frame_ms_median": 1.637,
+     "frame_ms_p95": 1.949,
+     "memory_mb": 1248.707,
+     "memory_start_mb": 272.648,
+     "memory_peak_mb": 1437.805,
+     "gpu_load_before_pct": 0.248,
+     "cpu_load_before_pct": 0.581
+    },
+    {
+     "load_ms": 241.0,
+     "fps_avg": 593.988,
+     "frame_ms_median": 1.677,
+     "frame_ms_p95": 1.963,
+     "memory_mb": 1254.473,
+     "memory_start_mb": 276.543,
+     "memory_peak_mb": 1467.102,
+     "gpu_load_before_pct": 0.222,
+     "cpu_load_before_pct": 3.473
+    },
+    {
+     "load_ms": 251.0,
+     "fps_avg": 353.373,
+     "frame_ms_median": 2.896,
+     "frame_ms_p95": 3.222,
+     "memory_mb": 1255.531,
+     "memory_start_mb": 274.133,
+     "memory_peak_mb": 1472.707,
+     "gpu_load_before_pct": 0.237,
+     "cpu_load_before_pct": 5.915
+    }
+   ],
+   "gpu_load_before_pct": 0.248,
+   "cpu_load_before_pct": 5.915
+  },
+  {
+   "name": "New_Sponza",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "2a06c245c53def2ca797397205577a32f88e6b12",
+   "ms": 1429,
+   "fps_avg": 183.69866666666667,
+   "frame_ms_median": 5.463,
+   "frame_ms_p95": 6.037,
+   "memory_mb": 2083.510333333333,
+   "memory_start_mb": 268.556,
+   "memory_peak_mb": 2264.0506666666665,
+   "passes": [
+    {
+     "load_ms": 2862.0,
+     "fps_avg": 208.052,
+     "frame_ms_median": 4.767,
+     "frame_ms_p95": 5.14,
+     "memory_mb": 2082.336,
+     "memory_start_mb": 272.91,
+     "memory_peak_mb": 2248.621,
+     "gpu_load_before_pct": 0.247,
+     "cpu_load_before_pct": 11.381
+    },
+    {
+     "load_ms": 716.0,
+     "fps_avg": 183.237,
+     "frame_ms_median": 5.391,
+     "frame_ms_p95": 6.201,
+     "memory_mb": 2089.488,
+     "memory_start_mb": 259.676,
+     "memory_peak_mb": 2271.285,
+     "gpu_load_before_pct": 0.209,
+     "cpu_load_before_pct": 13.402
+    },
+    {
+     "load_ms": 708.0,
+     "fps_avg": 159.807,
+     "frame_ms_median": 6.231,
+     "frame_ms_p95": 6.77,
+     "memory_mb": 2078.707,
+     "memory_start_mb": 273.082,
+     "memory_peak_mb": 2272.246,
+     "gpu_load_before_pct": 0.24,
+     "cpu_load_before_pct": 7.089
+    }
+   ],
+   "gpu_load_before_pct": 0.247,
+   "cpu_load_before_pct": 13.402
+  },
+  {
+   "name": "Simple_Forest",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "cc08baee61594be127925b319b052c8ad3fa6e98",
+   "ms": 239,
+   "fps_avg": 322.682,
+   "frame_ms_median": 3.151,
+   "frame_ms_p95": 3.496,
+   "memory_mb": 1009.4533333333334,
+   "memory_start_mb": 277.276,
+   "memory_peak_mb": 1312.0546666666667,
+   "passes": [
+    {
+     "load_ms": 289.0,
+     "fps_avg": 354.079,
+     "frame_ms_median": 2.816,
+     "frame_ms_p95": 3.137,
+     "memory_mb": 1056.785,
+     "memory_start_mb": 273.184,
+     "memory_peak_mb": 1307.234,
+     "gpu_load_before_pct": 0.266,
+     "cpu_load_before_pct": 1.801
+    },
+    {
+     "load_ms": 216.0,
+     "fps_avg": 353.046,
+     "frame_ms_median": 2.822,
+     "frame_ms_p95": 3.205,
+     "memory_mb": 920.891,
+     "memory_start_mb": 273.562,
+     "memory_peak_mb": 1317.914,
+     "gpu_load_before_pct": 0.263,
+     "cpu_load_before_pct": 7.382
+    },
+    {
+     "load_ms": 213.0,
+     "fps_avg": 260.921,
+     "frame_ms_median": 3.815,
+     "frame_ms_p95": 4.146,
+     "memory_mb": 1050.684,
+     "memory_start_mb": 285.082,
+     "memory_peak_mb": 1311.016,
+     "gpu_load_before_pct": 0.236,
+     "cpu_load_before_pct": 6.241
+    }
+   ],
+   "gpu_load_before_pct": 0.266,
+   "cpu_load_before_pct": 7.382
+  },
+  {
+   "name": "Simple_Scene",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "3c0222ece26cfded866cfb69e1599a7a1914f262",
+   "ms": 98,
+   "fps_avg": 907.6170000000001,
+   "frame_ms_median": 1.1693333333333333,
+   "frame_ms_p95": 1.4333333333333333,
+   "memory_mb": 797.1963333333333,
+   "memory_start_mb": 268.46233333333333,
+   "memory_peak_mb": 1069.612,
+   "passes": [
+    {
+     "load_ms": 117.0,
+     "fps_avg": 1109.891,
+     "frame_ms_median": 0.878,
+     "frame_ms_p95": 1.093,
+     "memory_mb": 799.484,
+     "memory_start_mb": 272.43,
+     "memory_peak_mb": 1091.352,
+     "gpu_load_before_pct": 0.247,
+     "cpu_load_before_pct": 1.711
+    },
+    {
+     "load_ms": 88.0,
+     "fps_avg": 1044.039,
+     "frame_ms_median": 0.926,
+     "frame_ms_p95": 1.195,
+     "memory_mb": 795.57,
+     "memory_start_mb": 272.891,
+     "memory_peak_mb": 1041.902,
+     "gpu_load_before_pct": 0.244,
+     "cpu_load_before_pct": 6.523
+    },
+    {
+     "load_ms": 90.0,
+     "fps_avg": 568.921,
+     "frame_ms_median": 1.704,
+     "frame_ms_p95": 2.012,
+     "memory_mb": 796.535,
+     "memory_start_mb": 260.066,
+     "memory_peak_mb": 1075.582,
+     "gpu_load_before_pct": 0.235,
+     "cpu_load_before_pct": 5.634
+    }
+   ],
+   "gpu_load_before_pct": 0.247,
+   "cpu_load_before_pct": 6.523
+  },
+  {
+   "name": "Simple_Scene_2",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "67a47adea9cf70963ef8a0063e72d4aff8ae4fd0",
+   "ms": 191,
+   "fps_avg": 832.663,
+   "frame_ms_median": 1.2936666666666665,
+   "frame_ms_p95": 1.5610000000000002,
+   "memory_mb": 1003.8736666666666,
+   "memory_start_mb": 256.8996666666667,
+   "memory_peak_mb": 1164.6746666666666,
+   "passes": [
+    {
+     "load_ms": 316.0,
+     "fps_avg": 1019.218,
+     "frame_ms_median": 0.956,
+     "frame_ms_p95": 1.165,
+     "memory_mb": 1004.297,
+     "memory_start_mb": 272.488,
+     "memory_peak_mb": 1124.098,
+     "gpu_load_before_pct": 0.241,
+     "cpu_load_before_pct": 14.588
+    },
+    {
+     "load_ms": 131.0,
+     "fps_avg": 969.018,
+     "frame_ms_median": 1.007,
+     "frame_ms_p95": 1.282,
+     "memory_mb": 1006.324,
+     "memory_start_mb": 224.91,
+     "memory_peak_mb": 1183.809,
+     "gpu_load_before_pct": 0.23,
+     "cpu_load_before_pct": 12.413
+    },
+    {
+     "load_ms": 126.0,
+     "fps_avg": 509.753,
+     "frame_ms_median": 1.918,
+     "frame_ms_p95": 2.236,
+     "memory_mb": 1001.0,
+     "memory_start_mb": 273.301,
+     "memory_peak_mb": 1186.117,
+     "gpu_load_before_pct": 0.238,
+     "cpu_load_before_pct": 5.932
+    }
+   ],
+   "gpu_load_before_pct": 0.241,
+   "cpu_load_before_pct": 14.588
+  },
+  {
+   "name": "Simple_Scene_3",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "f8c71362f7a621faf2dce7f10040bd175feb8f97",
+   "ms": 190,
+   "fps_avg": 721.144,
+   "frame_ms_median": 1.4656666666666667,
+   "frame_ms_p95": 1.7356666666666667,
+   "memory_mb": 1061.94,
+   "memory_start_mb": 274.72633333333334,
+   "memory_peak_mb": 1228.7553333333333,
+   "passes": [
+    {
+     "load_ms": 306.0,
+     "fps_avg": 874.857,
+     "frame_ms_median": 1.12,
+     "frame_ms_p95": 1.309,
+     "memory_mb": 1067.738,
+     "memory_start_mb": 273.164,
+     "memory_peak_mb": 1181.301,
+     "gpu_load_before_pct": 0.242,
+     "cpu_load_before_pct": 1.985
+    },
+    {
+     "load_ms": 129.0,
+     "fps_avg": 821.955,
+     "frame_ms_median": 1.183,
+     "frame_ms_p95": 1.461,
+     "memory_mb": 1059.871,
+     "memory_start_mb": 274.281,
+     "memory_peak_mb": 1247.164,
+     "gpu_load_before_pct": 0.242,
+     "cpu_load_before_pct": 12.478
+    },
+    {
+     "load_ms": 136.0,
+     "fps_avg": 466.62,
+     "frame_ms_median": 2.094,
+     "frame_ms_p95": 2.437,
+     "memory_mb": 1058.211,
+     "memory_start_mb": 276.734,
+     "memory_peak_mb": 1257.801,
+     "gpu_load_before_pct": 0.23,
+     "cpu_load_before_pct": 5.201
+    }
+   ],
+   "gpu_load_before_pct": 0.242,
+   "cpu_load_before_pct": 12.478
+  },
+  {
+   "name": "Simple_Scene_4",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "d78586e4a5ade831d64dfd1a36694d336ceb06f7",
+   "ms": 182,
+   "fps_avg": 827.3423333333334,
+   "frame_ms_median": 1.2673333333333332,
+   "frame_ms_p95": 1.5943333333333334,
+   "memory_mb": 835.2136666666667,
+   "memory_start_mb": 272.72266666666667,
+   "memory_peak_mb": 1021.0103333333333,
+   "passes": [
+    {
+     "load_ms": 350.0,
+     "fps_avg": 1046.295,
+     "frame_ms_median": 0.926,
+     "frame_ms_p95": 1.177,
+     "memory_mb": 833.5,
+     "memory_start_mb": 273.023,
+     "memory_peak_mb": 968.453,
+     "gpu_load_before_pct": 0.256,
+     "cpu_load_before_pct": 3.911
+    },
+    {
+     "load_ms": 97.0,
+     "fps_avg": 897.818,
+     "frame_ms_median": 1.067,
+     "frame_ms_p95": 1.475,
+     "memory_mb": 834.465,
+     "memory_start_mb": 272.766,
+     "memory_peak_mb": 1044.008,
+     "gpu_load_before_pct": 0.253,
+     "cpu_load_before_pct": 11.136
+    },
+    {
+     "load_ms": 100.0,
+     "fps_avg": 537.914,
+     "frame_ms_median": 1.809,
+     "frame_ms_p95": 2.131,
+     "memory_mb": 837.676,
+     "memory_start_mb": 272.379,
+     "memory_peak_mb": 1050.57,
+     "gpu_load_before_pct": 0.23,
+     "cpu_load_before_pct": 8.594
+    }
+   ],
+   "gpu_load_before_pct": 0.256,
+   "cpu_load_before_pct": 11.136
+  },
+  {
+   "name": "Simple_Terrrain",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "a6d79edff311e0e891ee42f9b17a9af32b7983c2",
+   "ms": 99,
+   "fps_avg": 846.2239999999999,
+   "frame_ms_median": 1.2753333333333334,
+   "frame_ms_p95": 1.5896666666666668,
+   "memory_mb": 792.7916666666667,
+   "memory_start_mb": 268.5523333333333,
+   "memory_peak_mb": 1012.4723333333334,
+   "passes": [
+    {
+     "load_ms": 131.0,
+     "fps_avg": 1072.586,
+     "frame_ms_median": 0.894,
+     "frame_ms_p95": 1.197,
+     "memory_mb": 791.258,
+     "memory_start_mb": 272.188,
+     "memory_peak_mb": 1016.57,
+     "gpu_load_before_pct": 0.263,
+     "cpu_load_before_pct": 5.811
+    },
+    {
+     "load_ms": 81.0,
+     "fps_avg": 964.222,
+     "frame_ms_median": 0.999,
+     "frame_ms_p95": 1.314,
+     "memory_mb": 793.945,
+     "memory_start_mb": 260.055,
+     "memory_peak_mb": 1012.906,
+     "gpu_load_before_pct": 0.226,
+     "cpu_load_before_pct": 15.864
+    },
+    {
+     "load_ms": 84.0,
+     "fps_avg": 501.864,
+     "frame_ms_median": 1.933,
+     "frame_ms_p95": 2.258,
+     "memory_mb": 793.172,
+     "memory_start_mb": 273.414,
+     "memory_peak_mb": 1007.941,
+     "gpu_load_before_pct": 0.245,
+     "cpu_load_before_pct": 7.022
+    }
+   ],
+   "gpu_load_before_pct": 0.263,
+   "cpu_load_before_pct": 15.864
+  },
+  {
+   "name": "Simple_Terrrain_2",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "41d4cac26b897868948b6e1942482c150e62455c",
+   "ms": 284,
+   "fps_avg": 812.5483333333334,
+   "frame_ms_median": 1.3273333333333333,
+   "frame_ms_p95": 1.6116666666666668,
+   "memory_mb": 1145.996,
+   "memory_start_mb": 268.17966666666666,
+   "memory_peak_mb": 1328.7953333333332,
+   "passes": [
+    {
+     "load_ms": 459.0,
+     "fps_avg": 1009.653,
+     "frame_ms_median": 0.95,
+     "frame_ms_p95": 1.245,
+     "memory_mb": 1067.867,
+     "memory_start_mb": 272.723,
+     "memory_peak_mb": 1264.328,
+     "gpu_load_before_pct": 0.267,
+     "cpu_load_before_pct": 3.018
+    },
+    {
+     "load_ms": 200.0,
+     "fps_avg": 938.274,
+     "frame_ms_median": 1.036,
+     "frame_ms_p95": 1.284,
+     "memory_mb": 1181.391,
+     "memory_start_mb": 258.613,
+     "memory_peak_mb": 1362.648,
+     "gpu_load_before_pct": 0.214,
+     "cpu_load_before_pct": 16.256
+    },
+    {
+     "load_ms": 194.0,
+     "fps_avg": 489.718,
+     "frame_ms_median": 1.996,
+     "frame_ms_p95": 2.306,
+     "memory_mb": 1188.73,
+     "memory_start_mb": 273.203,
+     "memory_peak_mb": 1359.41,
+     "gpu_load_before_pct": 0.247,
+     "cpu_load_before_pct": 8.873
+    }
+   ],
+   "gpu_load_before_pct": 0.267,
+   "cpu_load_before_pct": 16.256
+  },
+  {
+   "name": "Simple_Terrrain_Layers",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "de9d2bac9f93adf4afe131b2edf84acb7d3d96bc",
+   "ms": 139,
+   "fps_avg": 811.916,
+   "frame_ms_median": 1.3236666666666665,
+   "frame_ms_p95": 1.6186666666666665,
+   "memory_mb": 927.6133333333333,
+   "memory_start_mb": 272.9866666666667,
+   "memory_peak_mb": 1095.565,
+   "passes": [
+    {
+     "load_ms": 190.0,
+     "fps_avg": 971.412,
+     "frame_ms_median": 0.981,
+     "frame_ms_p95": 1.291,
+     "memory_mb": 920.297,
+     "memory_start_mb": 273.023,
+     "memory_peak_mb": 1080.285,
+     "gpu_load_before_pct": 0.235,
+     "cpu_load_before_pct": 4.403
+    },
+    {
+     "load_ms": 121.0,
+     "fps_avg": 974.172,
+     "frame_ms_median": 0.992,
+     "frame_ms_p95": 1.273,
+     "memory_mb": 930.414,
+     "memory_start_mb": 272.859,
+     "memory_peak_mb": 1103.832,
+     "gpu_load_before_pct": 0.235,
+     "cpu_load_before_pct": 19.965
+    },
+    {
+     "load_ms": 107.0,
+     "fps_avg": 490.164,
+     "frame_ms_median": 1.998,
+     "frame_ms_p95": 2.292,
+     "memory_mb": 932.129,
+     "memory_start_mb": 273.078,
+     "memory_peak_mb": 1102.578,
+     "gpu_load_before_pct": 0.249,
+     "cpu_load_before_pct": 6.245
+    }
+   ],
+   "gpu_load_before_pct": 0.249,
+   "cpu_load_before_pct": 19.965
+  },
+  {
+   "name": "Sponza_OLD_without_graph",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "b7e1d1b782915f0399ab2d58d63e9fac8b987144",
+   "ms": 194,
+   "fps_avg": 692.7663333333333,
+   "frame_ms_median": 1.5456666666666665,
+   "frame_ms_p95": 1.816,
+   "memory_mb": 859.2446666666667,
+   "memory_start_mb": 264.751,
+   "memory_peak_mb": 1041.147,
+   "passes": [
+    {
+     "load_ms": 299.0,
+     "fps_avg": 845.68,
+     "frame_ms_median": 1.156,
+     "frame_ms_p95": 1.396,
+     "memory_mb": 860.113,
+     "memory_start_mb": 260.617,
+     "memory_peak_mb": 1032.957,
+     "gpu_load_before_pct": 0.225,
+     "cpu_load_before_pct": 15.987
+    },
+    {
+     "load_ms": 152.0,
+     "fps_avg": 796.284,
+     "frame_ms_median": 1.242,
+     "frame_ms_p95": 1.475,
+     "memory_mb": 866.516,
+     "memory_start_mb": 260.277,
+     "memory_peak_mb": 1042.57,
+     "gpu_load_before_pct": 0.226,
+     "cpu_load_before_pct": 12.383
+    },
+    {
+     "load_ms": 130.0,
+     "fps_avg": 436.335,
+     "frame_ms_median": 2.239,
+     "frame_ms_p95": 2.577,
+     "memory_mb": 851.105,
+     "memory_start_mb": 273.359,
+     "memory_peak_mb": 1047.914,
+     "gpu_load_before_pct": 0.262,
+     "cpu_load_before_pct": 7.951
+    }
+   ],
+   "gpu_load_before_pct": 0.262,
+   "cpu_load_before_pct": 15.987
+  },
+  {
+   "name": "Tower Defence_Scripts",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "7ae57cf5eb95731a6402a9a8ff1ec818909474b8",
+   "ms": 106,
+   "fps_avg": 544.57,
+   "frame_ms_median": 1.9489999999999998,
+   "frame_ms_p95": 2.3256666666666668,
+   "memory_mb": 1128.0886666666668,
+   "memory_start_mb": 265.49766666666665,
+   "memory_peak_mb": 1550.94,
+   "passes": [
+    {
+     "load_ms": 145.0,
+     "fps_avg": 697.397,
+     "frame_ms_median": 1.397,
+     "frame_ms_p95": 1.684,
+     "memory_mb": 1130.457,
+     "memory_start_mb": 266.012,
+     "memory_peak_mb": 1552.449,
+     "gpu_load_before_pct": 0.243,
+     "cpu_load_before_pct": 3.399
+    },
+    {
+     "load_ms": 85.0,
+     "fps_avg": 581.792,
+     "frame_ms_median": 1.67,
+     "frame_ms_p95": 2.184,
+     "memory_mb": 1122.918,
+     "memory_start_mb": 272.133,
+     "memory_peak_mb": 1549.809,
+     "gpu_load_before_pct": 0.197,
+     "cpu_load_before_pct": 11.991
+    },
+    {
+     "load_ms": 89.0,
+     "fps_avg": 354.521,
+     "frame_ms_median": 2.78,
+     "frame_ms_p95": 3.109,
+     "memory_mb": 1130.891,
+     "memory_start_mb": 258.348,
+     "memory_peak_mb": 1550.562,
+     "gpu_load_before_pct": 0.254,
+     "cpu_load_before_pct": 7.89
+    }
+   ],
+   "gpu_load_before_pct": 0.254,
+   "cpu_load_before_pct": 11.991
+  },
+  {
+   "name": "Volumetric",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects",
+   "tree": "cfe73e72bb4eaba76f3f51da5e22f8b7f218343d",
+   "ms": 138,
+   "fps_avg": 867.271,
+   "frame_ms_median": 1.2383333333333333,
+   "frame_ms_p95": 1.552,
+   "memory_mb": 823.026,
+   "memory_start_mb": 267.96866666666665,
+   "memory_peak_mb": 1115.31,
+   "passes": [
+    {
+     "load_ms": 153.0,
+     "fps_avg": 1036.291,
+     "frame_ms_median": 0.92,
+     "frame_ms_p95": 1.225,
+     "memory_mb": 779.18,
+     "memory_start_mb": 258.48,
+     "memory_peak_mb": 1114.895,
+     "gpu_load_before_pct": 0.273,
+     "cpu_load_before_pct": 8.906
+    },
+    {
+     "load_ms": 131.0,
+     "fps_avg": 1051.574,
+     "frame_ms_median": 0.909,
+     "frame_ms_p95": 1.222,
+     "memory_mb": 913.48,
+     "memory_start_mb": 273.121,
+     "memory_peak_mb": 1117.215,
+     "gpu_load_before_pct": 0.229,
+     "cpu_load_before_pct": 10.085
+    },
+    {
+     "load_ms": 129.0,
+     "fps_avg": 513.948,
+     "frame_ms_median": 1.886,
+     "frame_ms_p95": 2.209,
+     "memory_mb": 776.418,
+     "memory_start_mb": 272.305,
+     "memory_peak_mb": 1113.82,
+     "gpu_load_before_pct": 0.28,
+     "cpu_load_before_pct": 5.615
+    }
+   ],
+   "gpu_load_before_pct": 0.28,
+   "cpu_load_before_pct": 10.085
   }
  ],
- "screenshots": [],
+ "screenshots": [
+  {
+   "scene": "Bistro",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Bistro.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Bistro.jpg",
+   "status": "passed",
+   "diff_pct": 0.003,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/fedb1b0f-f19a-4359-b8fb-e968bb1c1cd8.png"
+  },
+  {
+   "scene": "Complex_Forest",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Complex_Forest.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Complex_Forest.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/3a1fbe3f-0a31-5be7-8df6-2fb56dca5a2f.png"
+  },
+  {
+   "scene": "Corals",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Corals.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Corals.jpg",
+   "status": "passed",
+   "diff_pct": 0.05,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/77a800b2-2dd4-57bc-b959-6014ff15067d.png"
+  },
+  {
+   "scene": "New_Sponza",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/New_Sponza.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/New_Sponza.jpg",
+   "status": "passed",
+   "diff_pct": 0.021,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/fda7bff8-eb89-485c-af08-14f2fe389e4d.png"
+  },
+  {
+   "scene": "Simple_Forest",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Forest.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Forest.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/e22ce3e4-0b29-5ff8-bf22-3ec74d6763d3.png"
+  },
+  {
+   "scene": "Simple_Scene",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Scene.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Scene.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/b684c5a5-085b-57c4-8889-0478963ac05d.png"
+  },
+  {
+   "scene": "Simple_Scene_2",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Scene_2.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Scene_2.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/1e093847-a671-561f-ae87-f4fb241025d3.png"
+  },
+  {
+   "scene": "Simple_Scene_3",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Scene_3.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Scene_3.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/cf1e1b35-79f9-5d4a-a578-73112e029ceb.png"
+  },
+  {
+   "scene": "Simple_Scene_4",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Scene_4.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Scene_4.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/eb47de18-dce6-5e2c-979f-676cfba338e9.png"
+  },
+  {
+   "scene": "Simple_Terrrain",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Terrrain.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Terrrain.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/045cd749-fd86-524d-ab5f-dcc32a2bbb30.png"
+  },
+  {
+   "scene": "Simple_Terrrain_2",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Terrrain_2.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Terrrain_2.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/2460e420-8cb8-5553-8da6-878789ada998.png"
+  },
+  {
+   "scene": "Simple_Terrrain_Layers",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Simple_Terrrain_Layers.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Simple_Terrrain_Layers.jpg",
+   "status": "passed",
+   "diff_pct": 0.013,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/e3b6cc59-71f7-59b0-aac9-1739d8e9db60.png"
+  },
+  {
+   "scene": "Sponza_OLD_without_graph",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Sponza_OLD_without_graph.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Sponza_OLD_without_graph.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/18c74324-89ca-5f4b-974a-fd136924c6a0.png"
+  },
+  {
+   "scene": "Tower Defence_Scripts",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Tower_Defence_Scripts.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Tower_Defence_Scripts.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/30e57a71-2894-57a8-96f6-6062efa9596f.png"
+  },
+  {
+   "scene": "Volumetric",
+   "file": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/Volumetric.jpg",
+   "thumb": "editor/runs/79de45d8cdaa11269c9737b41eee82bb2e8288b4/lab-win-SHEARWATER/FocalEngineProjects/thumbs/Volumetric.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/269bb469-b8e0-4034-ba32-cecfbc076e21.png"
+  }
+ ],
  "engine_commit": "7ee83b6c23372ca17ba9a31a166093143f504b63"
 }

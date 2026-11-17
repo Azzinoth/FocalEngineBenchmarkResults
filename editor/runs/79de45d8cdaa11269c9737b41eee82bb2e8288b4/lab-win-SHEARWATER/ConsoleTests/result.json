@@ -3,10 +3,10 @@
  "kind": "gtest",
  "passes": 1,
  "status": "passed",
- "started": "2026-11-17T14:18:26Z",
- "finished": "2026-11-17T14:20:32Z",
- "duration_sec": 126,
- "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44101636929",
+ "started": "2026-11-17T15:29:17Z",
+ "finished": "2026-11-17T15:47:15Z",
+ "duration_sec": 1078,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44114852571",
  "commit": {
   "author": "Azzinoth",
   "date": "2026-11-17T02:10:35Z",
@@ -14,9 +14,9 @@
   "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/79de45d8cdaa11269c9737b41eee82bb2e8288b4"
  },
  "project_sources": [],
- "benchmark_commit": "a591f9855c583fa4af3af4ae9e207280e102f5a4",
+ "benchmark_commit": "a4c033d4f04878db7729722f38f28ba2d25270b3",
  "machine": {
-  "os": "Windows 11 Enterprise 10.0.26200",
+  "os": "Windows 11 Enterprise build 26300.9974",
   "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
   "gpu": "NVIDIA GeForce RTX 4090",
   "driver": "616.92",
@@ -26,12 +26,12 @@
   {
    "name": "Build (Release, console tests)",
    "status": "passed",
-   "ms": 70687
+   "ms": 60925
   },
   {
    "name": "VirtualFileSystem",
    "status": "passed",
-   "ms": 81,
+   "ms": 90,
    "checks": [
     {
      "name": "AcceptableName_RejectsEmptyAndSlashesAndDots",
