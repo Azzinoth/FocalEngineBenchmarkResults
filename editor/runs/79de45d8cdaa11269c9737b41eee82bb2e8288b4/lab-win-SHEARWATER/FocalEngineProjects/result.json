@@ -1,0 +1,40 @@
+{
+ "suite": "FocalEngineProjects",
+ "kind": "projects",
+ "passes": 3,
+ "status": "failed",
+ "started": "2026-11-17T14:18:26Z",
+ "finished": "2026-11-17T14:20:32Z",
+ "duration_sec": 126,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44101636929",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-17T02:10:35Z",
+  "message": "Updated Focal Engine submodule to the latest version; Previews are now made when they are first shown, previously all of them were rendered when a project was opened; A changed material now updates only previews that exist, of the material, of game models and of prefabs that use it; Removed FEEditorPreviewManager::ReCreateAll.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/79de45d8cdaa11269c9737b41eee82bb2e8288b4"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects",
+   "ref": "master",
+   "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
+  }
+ ],
+ "benchmark_commit": "a591f9855c583fa4af3af4ae9e207280e102f5a4",
+ "machine": {
+  "os": "Windows 11 Enterprise 10.0.26200",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "616.92",
+  "ram_gb": 64
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "failed",
+   "ms": 766
+  }
+ ],
+ "screenshots": [],
+ "engine_commit": "7ee83b6c23372ca17ba9a31a166093143f504b63"
+}
