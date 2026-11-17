@@ -1,0 +1,39 @@
+{
+ "suite": "FocalEngineProjects",
+ "kind": "projects",
+ "passes": 3,
+ "status": "failed",
+ "started": "2026-11-17T15:49:36Z",
+ "finished": "2026-11-17T15:50:59Z",
+ "duration_sec": 83,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44118731404",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-17T01:51:38Z",
+  "message": "Debug lines are now uploaded and drawn only when there are some, previously the whole buffer of lines was uploaded on every render.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/7ee83b6c23372ca17ba9a31a166093143f504b63"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects",
+   "ref": "master",
+   "commit": "4add48363b1cdc9a14ca5782ad0c1b22c8717fea"
+  }
+ ],
+ "benchmark_commit": "a4c033d4f04878db7729722f38f28ba2d25270b3",
+ "machine": {
+  "os": "Windows 11 Enterprise 10.0.26300",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "616.92",
+  "ram_gb": 64
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "failed",
+   "ms": 651
+  }
+ ],
+ "screenshots": []
+}

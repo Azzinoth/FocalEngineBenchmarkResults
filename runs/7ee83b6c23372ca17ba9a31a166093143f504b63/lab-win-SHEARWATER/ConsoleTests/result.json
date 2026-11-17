@@ -1,0 +1,231 @@
+{
+ "suite": "ConsoleTests",
+ "kind": "gtest",
+ "passes": 1,
+ "status": "passed",
+ "started": "2026-11-17T15:49:36Z",
+ "finished": "2026-11-17T15:50:59Z",
+ "duration_sec": 83,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44118731404",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-17T01:51:38Z",
+  "message": "Debug lines are now uploaded and drawn only when there are some, previously the whole buffer of lines was uploaded on every render.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/7ee83b6c23372ca17ba9a31a166093143f504b63"
+ },
+ "project_sources": [],
+ "benchmark_commit": "a4c033d4f04878db7729722f38f28ba2d25270b3",
+ "machine": {
+  "os": "Windows 11 Enterprise 10.0.26300",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "616.92",
+  "ram_gb": 64
+ },
+ "tests": [
+  {
+   "name": "Build (Release, console tests)",
+   "status": "passed",
+   "ms": 50575
+  },
+  {
+   "name": "SceneGraph",
+   "status": "passed",
+   "ms": 0,
+   "checks": [
+    {
+     "name": "Check_Basic_Add_Find_Delete_Nodes",
+     "status": "passed"
+    },
+    {
+     "name": "Check_For_Cycles",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "SceneGraphTest",
+   "status": "passed",
+   "ms": 155,
+   "checks": [
+    {
+     "name": "Check_GetNodeCount_AND_ChildCount_Functions",
+     "status": "passed"
+    },
+    {
+     "name": "Check_MoveNode_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Node_AddChild_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Extensive_Node_Manipulation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_IsDescendant_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Position_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Rotation_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Scale_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Tiny",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Small",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Medium",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Basic_Transformations_After_Child_Added",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Save_Load_Simple",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Save_Load_Simple_2",
+     "status": "passed"
+    },
+    {
+     "name": "Check_SceneNodes_Import",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Delete_Nodes_and_Entities",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_Scene_Duplication",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_ImportSceneAsNode",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_AreSceneGraphHierarchiesEquivalent",
+     "status": "passed"
+    },
+    {
+     "name": "GetNodeByName",
+     "status": "passed"
+    },
+    {
+     "name": "GetDepth",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_SubtreeEntityNamesMatchNodeNames",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_FilterAppliesToDescendants",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_DetachesFromPreviousParent",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_IntoDescendant_ReturnsNullptr",
+     "status": "passed"
+    },
+    {
+     "name": "AddNode_Rejects_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteNode_Rejects_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_RejectsNewParent_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_RejectsTargetParent_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "FEScene_Clear_HandlesOrphanEntitiesCorrectly",
+     "status": "passed"
+    },
+    {
+     "name": "GetFirstChildNodeWithComponent_ImmediateAndRecursive",
+     "status": "passed"
+    },
+    {
+     "name": "GetFirstRecursiveParentNodeWithComponent_WalksAncestorChain",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_RejectsAncestor_NoCycle",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_RejectsRootNode",
+     "status": "passed"
+    },
+    {
+     "name": "FromJson_MutualParent_RecoversUnderRoot",
+     "status": "passed"
+    },
+    {
+     "name": "NodeToJson_OnRoot_DoesNotDereferenceNull",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_DeletedSubtree_IsNotFound",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_MoveNode_KeepsSubtreeNodes",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_OrphanEntity_FoundOnlyAfterAddNode",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_DuplicateWithFilter_ThenDeleteDuplicate",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_Clear_ThenReuse",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_Rejects_NodeFromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "FromJson_KeepsOrderOfChildren",
+     "status": "passed"
+    },
+    {
+     "name": "ImportEntity_EntityLeftOutByFilter_IsNotAnError",
+     "status": "passed"
+    }
+   ]
+  }
+ ],
+ "screenshots": []
+}
