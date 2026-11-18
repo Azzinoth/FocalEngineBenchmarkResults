@@ -1,0 +1,423 @@
+{
+ "suite": "FocalEngineScriptedTests",
+ "kind": "scripted",
+ "passes": 1,
+ "status": "passed",
+ "started": "2026-11-18T02:02:43Z",
+ "finished": "2026-11-18T02:18:07Z",
+ "duration_sec": 924,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44220316721",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-18T02:01:04Z",
+  "message": "Updated Focal Engine submodule to the latest version; Selection halo effect is now turned off while nothing is selected, previously its five stages ran every frame; Gizmos are no longer drawn black, the fix is in the engine; Content Browser no longer shows Dear ImGui error when it has nothing to show (empty directory or a filter that matches nothing); Added FEVirtualFileSystem::CreateMissingFiles; Resources with a name that is taken are now added to virtual file system with their type or ID added to the name, on project load and on import, previously they were left out of content browser; FEProject::AddMissingVFSData now collects files and names once, previously it searched the whole tree for every resource.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/00339359a51ae1134b55538609bed26a6f6516c1"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineScriptedTests",
+   "ref": "master",
+   "commit": "8578086a1d74b5d03311af70346c800f15a811d2"
+  }
+ ],
+ "benchmark_commit": "d4937d1bad974c2c1a25f68e35c7f97c1b890e86",
+ "machine": {
+  "os": "Windows 11 Home build 26200.9974",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 31474
+  },
+  {
+   "name": "ImportAndPlace",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineScriptedTests",
+   "ms": 2092,
+   "checks": [
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "New project is in the project list",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "New project is opened with one scene window",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after the project is created and opened",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Scene of the new project has an editor camera",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "OBJ file is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Imported object is a mesh",
+     "status": "passed"
+    },
+    {
+     "actual": "5024",
+     "expected": "5024",
+     "name": "Mesh has all triangles of the file",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Albedo PNG is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Normal PNG is imported as one object",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Albedo texture was read from its file",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Normal texture was read from its file",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Albedo texture width",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Albedo texture height",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Normal texture width",
+     "status": "passed"
+    },
+    {
+     "actual": "2048",
+     "expected": "2048",
+     "name": "Normal texture height",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Material has the albedo texture",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Material has the normal texture",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game model has the mesh",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game model has the material",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut.obj_0 is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut_Albedo is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut_Normal is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut material is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Donut is in content browser",
+     "status": "passed"
+    },
+    {
+     "actual": "18",
+     "expected": "18",
+     "name": "Scene has one more entity",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Entity has a game model component",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Loading finished",
+     "status": "passed"
+    },
+    {
+     "actual": "11.40% of pixels different",
+     "expected": "at least 5.00% of pixels different",
+     "name": "Model is visible in the scene",
+     "status": "passed"
+    },
+    {
+     "actual": "0.00% of pixels different from reference",
+     "expected": "at most 2.00% of pixels different from reference",
+     "name": "Editor window looks like its reference",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after import and placing the model",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game camera is set as main camera of the scene",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Scene window still uses editor camera",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Editor is in game mode",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Game mode runs a copy of the scene",
+     "status": "passed"
+    },
+    {
+     "actual": "2",
+     "expected": "2",
+     "name": "Game mode scene has a window of its own",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Game mode scene is shown through the game camera",
+     "status": "passed"
+    },
+    {
+     "actual": "59.64% of pixels different",
+     "expected": "at least 5.00% of pixels different",
+     "name": "Game camera shows the scene from another side",
+     "status": "passed"
+    },
+    {
+     "actual": "0.00% of pixels different from reference",
+     "expected": "at most 2.00% of pixels different from reference",
+     "name": "Game mode looks like its reference",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after game mode is started",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Editor is not in game mode",
+     "status": "passed"
+    },
+    {
+     "actual": "0",
+     "expected": "0",
+     "name": "Game mode scene is removed",
+     "status": "passed"
+    },
+    {
+     "actual": "1",
+     "expected": "1",
+     "name": "Only the window of the scene is left",
+     "status": "passed"
+    },
+    {
+     "actual": "0.00% of pixels different",
+     "expected": "at most 0.50% of pixels different",
+     "name": "Scene looks the same after game mode",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after game mode is stopped",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Window is minimized",
+     "status": "passed"
+    },
+    {
+     "actual": "true",
+     "expected": "true",
+     "name": "Window is restored",
+     "status": "passed"
+    },
+    {
+     "actual": "0.00% of pixels different",
+     "expected": "at most 0.50% of pixels different",
+     "name": "Editor window looks the same after it was minimized and restored",
+     "status": "passed"
+    },
+    {
+     "actual": "0 errors",
+     "expected": "0 errors",
+     "name": "No errors in the log after the window was minimized and restored",
+     "status": "passed"
+    }
+   ],
+   "metrics": {
+    "cpu_load_before_pct": 2.461,
+    "gpu_load_before_pct": 0.329,
+    "memory_mb": 814.977,
+    "memory_peak_mb": 1035.383,
+    "memory_start_mb": 272.09
+   },
+   "gpu_load_before_pct": 0.329,
+   "cpu_load_before_pct": 2.461
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "ImportAndPlace: EmptyScene",
+   "test": "ImportAndPlace",
+   "image": "EmptyScene",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EmptyScene.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EmptyScene.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: SceneWithModel",
+   "test": "ImportAndPlace",
+   "image": "SceneWithModel",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneWithModel.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneWithModel.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: EditorWithModel",
+   "test": "ImportAndPlace",
+   "image": "EditorWithModel",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorWithModel.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorWithModel.jpg",
+   "status": "passed",
+   "diff_pct": 0.001,
+   "max_diff_pct": 2.0,
+   "difference": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/differences/ImportAndPlace_EditorWithModel.jpg"
+  },
+  {
+   "scene": "ImportAndPlace: SceneBeforeGameMode",
+   "test": "ImportAndPlace",
+   "image": "SceneBeforeGameMode",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneBeforeGameMode.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneBeforeGameMode.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: GameMode",
+   "test": "ImportAndPlace",
+   "image": "GameMode",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_GameMode.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_GameMode.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 2.0
+  },
+  {
+   "scene": "ImportAndPlace: EditorInGameMode",
+   "test": "ImportAndPlace",
+   "image": "EditorInGameMode",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorInGameMode.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorInGameMode.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: SceneAfterGameMode",
+   "test": "ImportAndPlace",
+   "image": "SceneAfterGameMode",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneAfterGameMode.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneAfterGameMode.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: WindowBeforeMinimize",
+   "test": "ImportAndPlace",
+   "image": "WindowBeforeMinimize",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowBeforeMinimize.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowBeforeMinimize.jpg",
+   "status": "passed"
+  },
+  {
+   "scene": "ImportAndPlace: WindowAfterRestore",
+   "test": "ImportAndPlace",
+   "image": "WindowAfterRestore",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowAfterRestore.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowAfterRestore.jpg",
+   "status": "passed"
+  }
+ ],
+ "engine_commit": "c2787cfd1ae6f0553a95ad996b89862eb5beaa72"
+}

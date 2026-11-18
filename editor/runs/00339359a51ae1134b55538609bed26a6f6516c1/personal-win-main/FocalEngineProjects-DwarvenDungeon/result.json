@@ -1,0 +1,100 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-18T02:02:43Z",
+ "finished": "2026-11-18T02:18:07Z",
+ "duration_sec": 924,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44220316721",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-18T02:01:04Z",
+  "message": "Updated Focal Engine submodule to the latest version; Selection halo effect is now turned off while nothing is selected, previously its five stages ran every frame; Gizmos are no longer drawn black, the fix is in the engine; Content Browser no longer shows Dear ImGui error when it has nothing to show (empty directory or a filter that matches nothing); Added FEVirtualFileSystem::CreateMissingFiles; Resources with a name that is taken are now added to virtual file system with their type or ID added to the name, on project load and on import, previously they were left out of content browser; FEProject::AddMissingVFSData now collects files and names once, previously it searched the whole tree for every resource.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/00339359a51ae1134b55538609bed26a6f6516c1"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "90de5cc71abf4c229cbf19f9b2ecdd0abeb1b4b7"
+  }
+ ],
+ "benchmark_commit": "d4937d1bad974c2c1a25f68e35c7f97c1b890e86",
+ "machine": {
+  "os": "Windows 11 Home build 26200.9974",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 31474
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "78bd4b92904eff1604ac8d13c32e451621e16040",
+   "ms": 1522,
+   "fps_avg": 18.117,
+   "frame_ms_median": 54.97266666666667,
+   "frame_ms_p95": 57.79666666666667,
+   "memory_mb": 700.1396666666667,
+   "memory_start_mb": 252.263,
+   "memory_peak_mb": 1023.9243333333333,
+   "passes": [
+    {
+     "load_ms": 3216.0,
+     "fps_avg": 18.082,
+     "frame_ms_median": 55.072,
+     "frame_ms_p95": 58.359,
+     "memory_mb": 701.059,
+     "memory_start_mb": 257.199,
+     "memory_peak_mb": 1037.793,
+     "gpu_load_before_pct": 0.38,
+     "cpu_load_before_pct": 2.443
+    },
+    {
+     "load_ms": 675.0,
+     "fps_avg": 18.121,
+     "frame_ms_median": 54.881,
+     "frame_ms_p95": 57.817,
+     "memory_mb": 700.965,
+     "memory_start_mb": 274.922,
+     "memory_peak_mb": 1019.082,
+     "gpu_load_before_pct": 0.314,
+     "cpu_load_before_pct": 2.123
+    },
+    {
+     "load_ms": 676.0,
+     "fps_avg": 18.148,
+     "frame_ms_median": 54.965,
+     "frame_ms_p95": 57.214,
+     "memory_mb": 698.395,
+     "memory_start_mb": 224.668,
+     "memory_peak_mb": 1014.898,
+     "gpu_load_before_pct": 1.097,
+     "cpu_load_before_pct": 2.241
+    }
+   ],
+   "gpu_load_before_pct": 1.097,
+   "cpu_load_before_pct": 2.443
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "editor/runs/00339359a51ae1134b55538609bed26a6f6516c1/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "diff_pct": 0.0,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/001bc0a8-e135-4da8-b095-979aabf50746.png"
+  }
+ ],
+ "engine_commit": "c2787cfd1ae6f0553a95ad996b89862eb5beaa72"
+}
