@@ -1,0 +1,99 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-18T02:21:45Z",
+ "finished": "2026-11-18T02:36:01Z",
+ "duration_sec": 856,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44222668152",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-18T01:58:21Z",
+  "message": "Debug lines bookkeeping at the start and end of a frame now goes only through lines in use, previously through all 50000 slots; Framebuffers of post process stages are now bound before their attachment is changed, previously each change bound and unbound them one more time; Solid color shader now starts with BrightnessFactor of 1, previously materials that do not set it were drawn black.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/c2787cfd1ae6f0553a95ad996b89862eb5beaa72"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "90de5cc71abf4c229cbf19f9b2ecdd0abeb1b4b7"
+  }
+ ],
+ "benchmark_commit": "d4937d1bad974c2c1a25f68e35c7f97c1b890e86",
+ "machine": {
+  "os": "Windows 11 Home build 26200.9974",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 23004
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "78bd4b92904eff1604ac8d13c32e451621e16040",
+   "ms": 659,
+   "fps_avg": 18.166,
+   "frame_ms_median": 54.746,
+   "frame_ms_p95": 58.237,
+   "memory_mb": 628.2996666666667,
+   "memory_start_mb": 116.307,
+   "memory_peak_mb": 756.7946666666667,
+   "passes": [
+    {
+     "load_ms": 646.0,
+     "fps_avg": 18.204,
+     "frame_ms_median": 54.568,
+     "frame_ms_p95": 58.48,
+     "memory_mb": 631.754,
+     "memory_start_mb": 116.031,
+     "memory_peak_mb": 754.645,
+     "gpu_load_before_pct": 0.482,
+     "cpu_load_before_pct": 2.286
+    },
+    {
+     "load_ms": 661.0,
+     "fps_avg": 18.078,
+     "frame_ms_median": 54.968,
+     "frame_ms_p95": 59.051,
+     "memory_mb": 622.188,
+     "memory_start_mb": 116.992,
+     "memory_peak_mb": 753.469,
+     "gpu_load_before_pct": 0.309,
+     "cpu_load_before_pct": 3.671
+    },
+    {
+     "load_ms": 671.0,
+     "fps_avg": 18.216,
+     "frame_ms_median": 54.702,
+     "frame_ms_p95": 57.18,
+     "memory_mb": 630.957,
+     "memory_start_mb": 115.898,
+     "memory_peak_mb": 762.27,
+     "gpu_load_before_pct": 0.304,
+     "cpu_load_before_pct": 2.092
+    }
+   ],
+   "gpu_load_before_pct": 0.482,
+   "cpu_load_before_pct": 3.671
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "runs/c2787cfd1ae6f0553a95ad996b89862eb5beaa72/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "runs/c2787cfd1ae6f0553a95ad996b89862eb5beaa72/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "diff_pct": 0.067,
+   "max_diff_pct": 20.0,
+   "reference": "references/001bc0a8-e135-4da8-b095-979aabf50746.png"
+  }
+ ]
+}
