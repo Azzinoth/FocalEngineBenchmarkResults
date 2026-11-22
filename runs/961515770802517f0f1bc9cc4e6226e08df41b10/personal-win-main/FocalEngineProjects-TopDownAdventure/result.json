@@ -3,9 +3,9 @@
  "kind": "projects",
  "passes": 3,
  "status": "failed",
- "started": "2026-11-22T01:23:10Z",
- "finished": "2026-11-22T01:24:34Z",
- "duration_sec": 84,
+ "started": "2026-11-22T01:28:36Z",
+ "finished": "2026-11-22T01:30:55Z",
+ "duration_sec": 139,
  "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44971208871",
  "commit": {
   "author": "Azzinoth",
@@ -32,58 +32,58 @@
   {
    "name": "Build (Release)",
    "status": "passed",
-   "ms": 23332
+   "ms": 22271
   },
   {
    "name": "TopDownAdventure",
    "status": "failed",
    "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
    "tree": "6762784acc14e9ea4e56dc755c4f4492df1b4195",
-   "ms": 244,
-   "fps_avg": 84.51033333333334,
-   "frame_ms_median": 11.758666666666667,
-   "frame_ms_p95": 12.602666666666666,
-   "memory_mb": 572.837,
-   "memory_start_mb": 115.61733333333333,
-   "memory_peak_mb": 699.379,
+   "ms": 226,
+   "fps_avg": 78.57633333333334,
+   "frame_ms_median": 12.575666666666667,
+   "frame_ms_p95": 14.208333333333334,
+   "memory_mb": 575.5963333333333,
+   "memory_start_mb": 116.18233333333333,
+   "memory_peak_mb": 694.0533333333333,
    "passes": [
     {
-     "load_ms": 241.0,
-     "fps_avg": 84.531,
-     "frame_ms_median": 11.788,
-     "frame_ms_p95": 12.391,
-     "memory_mb": 568.691,
-     "memory_start_mb": 114.727,
-     "memory_peak_mb": 687.961,
-     "gpu_load_before_pct": 1.35,
-     "cpu_load_before_pct": 3.587
+     "load_ms": 227.0,
+     "fps_avg": 79.289,
+     "frame_ms_median": 12.463,
+     "frame_ms_p95": 14.266,
+     "memory_mb": 570.785,
+     "memory_start_mb": 118.098,
+     "memory_peak_mb": 706.031,
+     "gpu_load_before_pct": 0.592,
+     "cpu_load_before_pct": 2.885
     },
     {
-     "load_ms": 231.0,
-     "fps_avg": 84.716,
-     "frame_ms_median": 11.724,
-     "frame_ms_p95": 12.754,
-     "memory_mb": 581.91,
-     "memory_start_mb": 116.566,
-     "memory_peak_mb": 714.594,
-     "gpu_load_before_pct": 1.7,
-     "cpu_load_before_pct": 3.915
+     "load_ms": 222.0,
+     "fps_avg": 77.796,
+     "frame_ms_median": 12.717,
+     "frame_ms_p95": 14.232,
+     "memory_mb": 577.93,
+     "memory_start_mb": 114.5,
+     "memory_peak_mb": 687.555,
+     "gpu_load_before_pct": 1.352,
+     "cpu_load_before_pct": 4.472
     },
     {
-     "load_ms": 259.0,
-     "fps_avg": 84.284,
-     "frame_ms_median": 11.764,
-     "frame_ms_p95": 12.663,
-     "memory_mb": 567.91,
-     "memory_start_mb": 115.559,
-     "memory_peak_mb": 695.582,
-     "gpu_load_before_pct": 1.619,
-     "cpu_load_before_pct": 2.234
+     "load_ms": 228.0,
+     "fps_avg": 78.644,
+     "frame_ms_median": 12.547,
+     "frame_ms_p95": 14.127,
+     "memory_mb": 578.074,
+     "memory_start_mb": 115.949,
+     "memory_peak_mb": 688.574,
+     "gpu_load_before_pct": 0.53,
+     "cpu_load_before_pct": 2.749
     }
    ],
    "message": "Screenshot differs from its reference in 28.30% of pixels, limit is 20%.",
-   "gpu_load_before_pct": 1.7,
-   "cpu_load_before_pct": 3.915
+   "gpu_load_before_pct": 1.352,
+   "cpu_load_before_pct": 4.472
   }
  ],
  "screenshots": [
@@ -92,7 +92,7 @@
    "file": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
    "thumb": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
    "status": "failed",
-   "diff_pct": 28.296,
+   "diff_pct": 28.297,
    "max_diff_pct": 20.0,
    "difference": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/differences/TopDownAdventure.jpg",
    "reference": "references/9d004811-4cb5-40cc-9974-10917d3011e3.png"
