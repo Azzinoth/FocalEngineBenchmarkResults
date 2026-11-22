@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-22T01:48:22Z",
+ "generated_at": "2026-11-22T02:02:28Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -18362,10 +18362,10 @@
      "kind": "projects",
      "passes": 3,
      "status": "passed",
-     "started": "2026-11-22T01:46:24Z",
-     "finished": "2026-11-22T01:47:47Z",
+     "started": "2026-11-22T02:00:27Z",
+     "finished": "2026-11-22T02:01:50Z",
      "duration_sec": 83,
-     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44971208871",
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44974031253",
      "commit": {
       "author": "Azzinoth",
       "date": "2026-11-22T01:20:54Z",
@@ -18391,57 +18391,57 @@
       {
        "name": "Build (Release)",
        "status": "passed",
-       "ms": 22422
+       "ms": 23167
       },
       {
        "name": "TopDownAdventure",
        "status": "passed",
        "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
        "tree": "51e0b589309d43d2af9b89f68c32d78630b55031",
-       "ms": 230,
-       "fps_avg": 87.95333333333333,
-       "frame_ms_median": 11.324666666666667,
-       "frame_ms_p95": 11.948333333333334,
-       "memory_mb": 572.7356666666667,
-       "memory_start_mb": 116.09666666666666,
-       "memory_peak_mb": 704.9689999999999,
+       "ms": 233,
+       "fps_avg": 87.872,
+       "frame_ms_median": 11.331666666666667,
+       "frame_ms_p95": 11.951333333333332,
+       "memory_mb": 573.0586666666667,
+       "memory_start_mb": 116.77233333333334,
+       "memory_peak_mb": 695.0326666666666,
        "passes": [
         {
-         "load_ms": 236.0,
-         "fps_avg": 87.967,
-         "frame_ms_median": 11.303,
-         "frame_ms_p95": 12.027,
-         "memory_mb": 571.344,
-         "memory_start_mb": 114.434,
-         "memory_peak_mb": 699.836,
-         "gpu_load_before_pct": 0.607,
-         "cpu_load_before_pct": 2.279
+         "load_ms": 225.0,
+         "fps_avg": 87.687,
+         "frame_ms_median": 11.376,
+         "frame_ms_p95": 11.962,
+         "memory_mb": 575.004,
+         "memory_start_mb": 117.461,
+         "memory_peak_mb": 706.891,
+         "gpu_load_before_pct": 0.424,
+         "cpu_load_before_pct": 4.797
         },
         {
-         "load_ms": 227.0,
-         "fps_avg": 87.807,
-         "frame_ms_median": 11.359,
-         "frame_ms_p95": 11.922,
-         "memory_mb": 571.785,
-         "memory_start_mb": 117.395,
-         "memory_peak_mb": 714.059,
-         "gpu_load_before_pct": 0.638,
-         "cpu_load_before_pct": 4.106
+         "load_ms": 225.0,
+         "fps_avg": 87.814,
+         "frame_ms_median": 11.329,
+         "frame_ms_p95": 12.048,
+         "memory_mb": 572.906,
+         "memory_start_mb": 116.02,
+         "memory_peak_mb": 697.566,
+         "gpu_load_before_pct": 0.601,
+         "cpu_load_before_pct": 2.491
         },
         {
-         "load_ms": 226.0,
-         "fps_avg": 88.086,
-         "frame_ms_median": 11.312,
-         "frame_ms_p95": 11.896,
-         "memory_mb": 575.078,
-         "memory_start_mb": 116.461,
-         "memory_peak_mb": 701.012,
-         "gpu_load_before_pct": 0.421,
-         "cpu_load_before_pct": 2.87
+         "load_ms": 249.0,
+         "fps_avg": 88.115,
+         "frame_ms_median": 11.29,
+         "frame_ms_p95": 11.844,
+         "memory_mb": 571.266,
+         "memory_start_mb": 116.836,
+         "memory_peak_mb": 680.641,
+         "gpu_load_before_pct": 0.599,
+         "cpu_load_before_pct": 1.944
         }
        ],
-       "gpu_load_before_pct": 0.638,
-       "cpu_load_before_pct": 4.106
+       "gpu_load_before_pct": 0.601,
+       "cpu_load_before_pct": 4.797
       }
      ],
      "screenshots": [
@@ -18450,7 +18450,9 @@
        "file": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
        "thumb": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
        "status": "passed",
-       "reference_created": true
+       "diff_pct": 0.05,
+       "max_diff_pct": 20.0,
+       "reference": "references/9d004811-4cb5-40cc-9974-10917d3011e3.png"
       }
      ]
     }
