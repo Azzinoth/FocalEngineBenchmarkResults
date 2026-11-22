@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-22T00:46:03Z",
+ "generated_at": "2026-11-22T01:25:19Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -94,6 +94,12 @@
    "date": "2026-11-17T01:51:38Z",
    "message": "Debug lines are now uploaded and drawn only when there are some, previously the whole buffer of lines was uploaded on every render.",
    "url": "https://github.com/Azzinoth/FocalEngine/commit/7ee83b6c23372ca17ba9a31a166093143f504b63"
+  },
+  "961515770802517f0f1bc9cc4e6226e08df41b10": {
+   "author": "Azzinoth",
+   "date": "2026-11-22T01:20:54Z",
+   "message": "Scenes loaded with FESceneManager::LoadSceneFromJSON now have world matrices of their entities computed right after loading, previously they stayed identity until the end of the first frame and native scripts, which run before the transform system, read wrong world positions in that frame; Added LoadSceneFromJSON_WorldMatricesAreReadyBeforeFirstFrame test.",
+   "url": "https://github.com/Azzinoth/FocalEngine/commit/961515770802517f0f1bc9cc4e6226e08df41b10"
   },
   "9779fe5b9cef413d63ca07b892b46c3d90eed1db": {
    "author": "Azzinoth",
@@ -18344,6 +18350,111 @@
        "diff_pct": 0.07,
        "max_diff_pct": 20.0,
        "reference": "references/001bc0a8-e135-4da8-b095-979aabf50746.png"
+      }
+     ]
+    }
+   ]
+  },
+  "961515770802517f0f1bc9cc4e6226e08df41b10": {
+   "personal-win-main": [
+    {
+     "suite": "FocalEngineProjects-TopDownAdventure",
+     "kind": "projects",
+     "passes": 3,
+     "status": "failed",
+     "started": "2026-11-22T01:23:10Z",
+     "finished": "2026-11-22T01:24:34Z",
+     "duration_sec": 84,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44971208871",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-22T01:20:54Z",
+      "message": "Scenes loaded with FESceneManager::LoadSceneFromJSON now have world matrices of their entities computed right after loading, previously they stayed identity until the end of the first frame and native scripts, which run before the transform system, read wrong world positions in that frame; Added LoadSceneFromJSON_WorldMatricesAreReadyBeforeFirstFrame test.",
+      "url": "https://github.com/Azzinoth/FocalEngine/commit/961515770802517f0f1bc9cc4e6226e08df41b10"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "ref": "master",
+       "commit": "f2cd23c2ce175290b8e4577ca0ba007adb25ff4f"
+      }
+     ],
+     "benchmark_commit": "ca70104123ce324ca3d04a75a83aabf80d046a26",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 23332
+      },
+      {
+       "name": "TopDownAdventure",
+       "status": "failed",
+       "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "tree": "6762784acc14e9ea4e56dc755c4f4492df1b4195",
+       "ms": 244,
+       "fps_avg": 84.51033333333334,
+       "frame_ms_median": 11.758666666666667,
+       "frame_ms_p95": 12.602666666666666,
+       "memory_mb": 572.837,
+       "memory_start_mb": 115.61733333333333,
+       "memory_peak_mb": 699.379,
+       "passes": [
+        {
+         "load_ms": 241.0,
+         "fps_avg": 84.531,
+         "frame_ms_median": 11.788,
+         "frame_ms_p95": 12.391,
+         "memory_mb": 568.691,
+         "memory_start_mb": 114.727,
+         "memory_peak_mb": 687.961,
+         "gpu_load_before_pct": 1.35,
+         "cpu_load_before_pct": 3.587
+        },
+        {
+         "load_ms": 231.0,
+         "fps_avg": 84.716,
+         "frame_ms_median": 11.724,
+         "frame_ms_p95": 12.754,
+         "memory_mb": 581.91,
+         "memory_start_mb": 116.566,
+         "memory_peak_mb": 714.594,
+         "gpu_load_before_pct": 1.7,
+         "cpu_load_before_pct": 3.915
+        },
+        {
+         "load_ms": 259.0,
+         "fps_avg": 84.284,
+         "frame_ms_median": 11.764,
+         "frame_ms_p95": 12.663,
+         "memory_mb": 567.91,
+         "memory_start_mb": 115.559,
+         "memory_peak_mb": 695.582,
+         "gpu_load_before_pct": 1.619,
+         "cpu_load_before_pct": 2.234
+        }
+       ],
+       "message": "Screenshot differs from its reference in 28.30% of pixels, limit is 20%.",
+       "gpu_load_before_pct": 1.7,
+       "cpu_load_before_pct": 3.915
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "TopDownAdventure",
+       "file": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
+       "thumb": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
+       "status": "failed",
+       "diff_pct": 28.296,
+       "max_diff_pct": 20.0,
+       "difference": "runs/961515770802517f0f1bc9cc4e6226e08df41b10/personal-win-main/FocalEngineProjects-TopDownAdventure/differences/TopDownAdventure.jpg",
+       "reference": "references/9d004811-4cb5-40cc-9974-10917d3011e3.png"
       }
      ]
     }
