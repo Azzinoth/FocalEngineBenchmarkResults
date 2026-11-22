@@ -1,0 +1,97 @@
+{
+ "suite": "FocalEngineProjects-TopDownAdventure",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-22T00:28:51Z",
+ "finished": "2026-11-22T00:45:27Z",
+ "duration_sec": 996,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/44966800519",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-20T02:05:09Z",
+  "message": "FEShaderUniformValue::SetValue now overwrites stored value in place, previously memory was allocated and freed on every call.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/f20b480f65c367c19d25e0c9da49b0802d98dfa5"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+   "ref": "master",
+   "commit": "f2cd23c2ce175290b8e4577ca0ba007adb25ff4f"
+  }
+ ],
+ "benchmark_commit": "ca70104123ce324ca3d04a75a83aabf80d046a26",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 23085
+  },
+  {
+   "name": "TopDownAdventure",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+   "tree": "6762784acc14e9ea4e56dc755c4f4492df1b4195",
+   "ms": 363,
+   "fps_avg": 76.962,
+   "frame_ms_median": 12.858666666666666,
+   "frame_ms_p95": 14.583333333333334,
+   "memory_mb": 577.612,
+   "memory_start_mb": 116.384,
+   "memory_peak_mb": 697.432,
+   "passes": [
+    {
+     "load_ms": 637.0,
+     "fps_avg": 76.168,
+     "frame_ms_median": 13.006,
+     "frame_ms_p95": 14.711,
+     "memory_mb": 577.465,
+     "memory_start_mb": 115.699,
+     "memory_peak_mb": 688.484,
+     "gpu_load_before_pct": 0.603,
+     "cpu_load_before_pct": 3.38
+    },
+    {
+     "load_ms": 233.0,
+     "fps_avg": 77.36,
+     "frame_ms_median": 12.776,
+     "frame_ms_p95": 14.43,
+     "memory_mb": 576.297,
+     "memory_start_mb": 115.957,
+     "memory_peak_mb": 702.027,
+     "gpu_load_before_pct": 0.513,
+     "cpu_load_before_pct": 2.175
+    },
+    {
+     "load_ms": 220.0,
+     "fps_avg": 77.358,
+     "frame_ms_median": 12.794,
+     "frame_ms_p95": 14.609,
+     "memory_mb": 579.074,
+     "memory_start_mb": 117.496,
+     "memory_peak_mb": 701.785,
+     "gpu_load_before_pct": 0.579,
+     "cpu_load_before_pct": 3.048
+    }
+   ],
+   "gpu_load_before_pct": 0.603,
+   "cpu_load_before_pct": 3.38
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "TopDownAdventure",
+   "file": "runs/f20b480f65c367c19d25e0c9da49b0802d98dfa5/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
+   "thumb": "runs/f20b480f65c367c19d25e0c9da49b0802d98dfa5/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
+   "status": "passed",
+   "reference_created": true
+  }
+ ]
+}
