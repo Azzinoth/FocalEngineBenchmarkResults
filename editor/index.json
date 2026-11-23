@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-23T00:21:19Z",
+ "generated_at": "2026-11-23T00:54:28Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -7135,11 +7135,11 @@
      "suite": "FocalEngineScriptedTests",
      "kind": "scripted",
      "passes": 1,
-     "status": "failed",
-     "started": "2026-11-23T00:17:10Z",
-     "finished": "2026-11-23T00:20:20Z",
-     "duration_sec": 190,
-     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/45087828358",
+     "status": "passed",
+     "started": "2026-11-23T00:50:26Z",
+     "finished": "2026-11-23T00:53:30Z",
+     "duration_sec": 184,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/45091072265",
      "commit": {
       "author": "Azzinoth",
       "date": "2026-11-22T03:47:17Z",
@@ -7150,7 +7150,7 @@
       {
        "repository": "Azzinoth/FocalEngineScriptedTests",
        "ref": "master",
-       "commit": "f079c46904c3d6a409557032410c0bd25466c789"
+       "commit": "b967667d3b43ec7b65a2f99dca1691ec7a6f609a"
       }
      ],
      "benchmark_commit": "ca70104123ce324ca3d04a75a83aabf80d046a26",
@@ -7165,13 +7165,13 @@
       {
        "name": "Build (Release)",
        "status": "passed",
-       "ms": 71296
+       "ms": 68834
       },
       {
        "name": "ImportAndPlace",
        "status": "passed",
        "source": "Azzinoth/FocalEngineScriptedTests",
-       "ms": 2760,
+       "ms": 2838,
        "checks": [
         {
          "actual": "true",
@@ -7463,20 +7463,20 @@
         }
        ],
        "metrics": {
-        "cpu_load_before_pct": 0.487,
+        "cpu_load_before_pct": 2.723,
         "gpu_load_before_pct": 0.0,
-        "memory_mb": 685.523,
-        "memory_peak_mb": 1009.34,
-        "memory_start_mb": 237.242
+        "memory_mb": 687.133,
+        "memory_peak_mb": 1005.977,
+        "memory_start_mb": 234.109
        },
        "gpu_load_before_pct": 0,
-       "cpu_load_before_pct": 0.487
+       "cpu_load_before_pct": 2.723
       },
       {
        "name": "PlayerToTrainingRoom",
-       "status": "failed",
+       "status": "passed",
        "source": "Azzinoth/FocalEngineScriptedTests",
-       "ms": 48087,
+       "ms": 47627,
        "checks": [
         {
          "actual": "true",
@@ -7581,13 +7581,13 @@
          "status": "passed"
         },
         {
-         "actual": "0.32% of pixels different from reference",
+         "actual": "0.31% of pixels different from reference",
          "expected": "at most 2.00% of pixels different from reference",
          "name": "Start looks like its reference",
          "status": "passed"
         },
         {
-         "actual": "(8.342, 4.500, -10.062)",
+         "actual": "(8.366, 4.500, -9.971)",
          "expected": "(8.250, 4.500, -10.000) within 0.25 m",
          "name": "Player reaches TopOfStairs",
          "status": "passed"
@@ -7605,13 +7605,13 @@
          "status": "passed"
         },
         {
-         "actual": "1.60% of pixels different from reference",
+         "actual": "1.36% of pixels different from reference",
          "expected": "at most 3.00% of pixels different from reference",
          "name": "TopOfStairs looks like its reference",
          "status": "passed"
         },
         {
-         "actual": "(6.828, 0.500, 8.364)",
+         "actual": "(6.642, 0.500, 8.395)",
          "expected": "(6.750, 0.500, 8.250) within 0.25 m",
          "name": "Player reaches BelowStairs",
          "status": "passed"
@@ -7629,16 +7629,70 @@
          "status": "passed"
         },
         {
-         "actual": "1.51% of pixels different from reference",
+         "actual": "1.60% of pixels different from reference",
          "expected": "at most 3.00% of pixels different from reference",
          "name": "BelowStairs looks like its reference",
          "status": "passed"
         },
         {
-         "actual": "(8.000, 2.500, -6.404)",
+         "actual": "(21.151, 0.500, 29.627)",
          "expected": "(21.000, 0.500, 29.750) within 0.25 m",
          "name": "Player reaches Corridor",
-         "status": "failed"
+         "status": "passed"
+        },
+        {
+         "actual": "0.5",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "1.34% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "Corridor looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "cosine 0.999642",
+         "expected": "cosine >= 0.9",
+         "name": "Player looks where it walks in the corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "(44.356, 0.500, 26.071)",
+         "expected": "(44.250, 0.500, 26.250) within 0.25 m",
+         "name": "Player reaches TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "0.500001",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "1.56% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "TrainingRoom looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "on the floor",
+         "expected": "never more than 1 m under the floor",
+         "name": "Player stays on the floor while it walks",
+         "status": "passed"
         },
         {
          "actual": "0 errors",
@@ -7648,15 +7702,14 @@
         }
        ],
        "metrics": {
-        "cpu_load_before_pct": 0.577,
+        "cpu_load_before_pct": 0.334,
         "gpu_load_before_pct": 0.0,
-        "memory_mb": 830.363,
-        "memory_peak_mb": 1123.117,
-        "memory_start_mb": 235.262
+        "memory_mb": 852.082,
+        "memory_peak_mb": 1139.664,
+        "memory_start_mb": 237.438
        },
-       "message": "Failed checks: Player reaches Corridor.",
        "gpu_load_before_pct": 0,
-       "cpu_load_before_pct": 0.577
+       "cpu_load_before_pct": 0.334
       }
      ],
      "screenshots": [
@@ -7744,7 +7797,7 @@
        "file": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/PlayerToTrainingRoom_Start.jpg",
        "thumb": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Start.jpg",
        "status": "passed",
-       "diff_pct": 0.318,
+       "diff_pct": 0.315,
        "max_diff_pct": 2.0,
        "difference": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Start.jpg"
       },
@@ -7755,7 +7808,7 @@
        "file": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/PlayerToTrainingRoom_TopOfStairs.jpg",
        "thumb": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TopOfStairs.jpg",
        "status": "passed",
-       "diff_pct": 1.6,
+       "diff_pct": 1.36,
        "max_diff_pct": 3.0,
        "difference": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TopOfStairs.jpg"
       },
@@ -7766,9 +7819,31 @@
        "file": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/PlayerToTrainingRoom_BelowStairs.jpg",
        "thumb": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_BelowStairs.jpg",
        "status": "passed",
-       "diff_pct": 1.506,
+       "diff_pct": 1.603,
        "max_diff_pct": 3.0,
        "difference": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_BelowStairs.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: Corridor",
+       "test": "PlayerToTrainingRoom",
+       "image": "Corridor",
+       "file": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/PlayerToTrainingRoom_Corridor.jpg",
+       "thumb": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Corridor.jpg",
+       "status": "passed",
+       "diff_pct": 1.336,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Corridor.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: TrainingRoom",
+       "test": "PlayerToTrainingRoom",
+       "image": "TrainingRoom",
+       "file": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "thumb": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "status": "passed",
+       "diff_pct": 1.562,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2/lab-win-AQUILA/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TrainingRoom.jpg"
       }
      ],
      "engine_commit": "cef140982efbabb79fe8331fbe388d86cc7a9756"
