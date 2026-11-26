@@ -1,0 +1,100 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-26T03:12:11Z",
+ "finished": "2026-11-26T03:14:13Z",
+ "duration_sec": 122,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/45747373832",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-26T03:09:32Z",
+  "message": "Updated Focal Engine submodule to the latest version; Project list is now a list of FEProjectInfo entries that is saved in Resources/ProjectList.txt, projects could be added from any folder, previously list was read from one projects folder and every entry was a full FEProject;= FEProject now exists only for the opened project; Projects of the new default Projects folder of the editor are added to the list at every start, folder is in .gitignore; Project list has new interface: grid of cards or list with details panel, filter by name, sorting by last opened time, name or date added, menu on right click and its own popups; Project whose folder is missing now stays in the list greyed with 'Locate folder...' that accepts only folder with project of the same ID; 'Delete project' now moves whole project folder to the Recycle Bin after confirmation, previously it deleted only files of the top folder; Added 'Remove from list', 'Rename' that changes only name in Project.txt and 'Show in Explorer'; Copy of a project from the list now gets new ID when it is added, and thumbnails are loaded with new IDs, previously two copies of a project in the list caused 'New ID is already in use' assertion; 'Save project as...' now gives project new ID and adds new folder to the list; Project.txt now has CreatedWith and SavedWith with version, build number and commit of editor and engine; Removed -set_projects_folder command line action, restarted editor reads saved project list, -load_project now adds project to the list; Folder dropped on the project list is now added to it, previously it became the projects folder; Plugins window without a project is now a centered panel in the style of the project list over dimmed list, previously it covered the whole window; Added FEProjectManager::AddToProjectList, AddProjectsFromFolderToList, RemoveFromProjectList, CanBeRemovedFromProjectList, DeleteProject, RenameProject, LocateProject, GetDefaultProjectsFolder, PushProjectListStyle and PopProjectListStyle; FEProjectManager::GetList is now GetProjectList and returns list of FEProjectInfo; FEProjectManager::OpenProject now takes only project folder and CreateNewProject returns bool; Removed FEProjectManager::OpenProject with index, SetProjectsFolder, GetProjectsFolder, InitializeResources and PROJECTS_FOLDER; FEProjectManager::LoadProjectList now reads the saved list and should be called by the application, list is saved only after that call; Added FEProject::ReadProjectFile, ReadProjectID, SetNameInProjectFile and SetNewIDInProjectFile for Project.txt of a project that is not opened, FEProject::ReadPluginIDs now uses ReadProjectFile; Added FEEditor::GetEditorCommitHash.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/033e077ec49d387ac8f910d1d1a9fbd7d439de70"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "90de5cc71abf4c229cbf19f9b2ecdd0abeb1b4b7"
+  }
+ ],
+ "benchmark_commit": "b67d3afe660105fb8f7d03964d36feb4b2fede92",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 45396
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "78bd4b92904eff1604ac8d13c32e451621e16040",
+   "ms": 687,
+   "fps_avg": 17.287333333333333,
+   "frame_ms_median": 57.495333333333335,
+   "frame_ms_p95": 60.943666666666665,
+   "memory_mb": 696.4883333333333,
+   "memory_start_mb": 268.397,
+   "memory_peak_mb": 1025.5816666666667,
+   "passes": [
+    {
+     "load_ms": 922.0,
+     "fps_avg": 17.192,
+     "frame_ms_median": 57.905,
+     "frame_ms_p95": 61.526,
+     "memory_mb": 696.453,
+     "memory_start_mb": 273.074,
+     "memory_peak_mb": 1017.234,
+     "gpu_load_before_pct": 1.452,
+     "cpu_load_before_pct": 5.077
+    },
+    {
+     "load_ms": 570.0,
+     "fps_avg": 17.285,
+     "frame_ms_median": 57.47,
+     "frame_ms_p95": 61.287,
+     "memory_mb": 694.207,
+     "memory_start_mb": 259.699,
+     "memory_peak_mb": 1019.691,
+     "gpu_load_before_pct": 1.602,
+     "cpu_load_before_pct": 5.462
+    },
+    {
+     "load_ms": 568.0,
+     "fps_avg": 17.385,
+     "frame_ms_median": 57.111,
+     "frame_ms_p95": 60.018,
+     "memory_mb": 698.805,
+     "memory_start_mb": 272.418,
+     "memory_peak_mb": 1039.82,
+     "gpu_load_before_pct": 1.673,
+     "cpu_load_before_pct": 4.728
+    }
+   ],
+   "gpu_load_before_pct": 1.673,
+   "cpu_load_before_pct": 5.462
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "editor/runs/033e077ec49d387ac8f910d1d1a9fbd7d439de70/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "editor/runs/033e077ec49d387ac8f910d1d1a9fbd7d439de70/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "diff_pct": 0.003,
+   "max_diff_pct": 20.0,
+   "reference": "references/editor/001bc0a8-e135-4da8-b095-979aabf50746.png"
+  }
+ ],
+ "engine_commit": "16a6e27f99adca347b66cb42f4db9e6e0dd305cb"
+}
