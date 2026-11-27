@@ -1,0 +1,235 @@
+{
+ "suite": "ConsoleTests",
+ "kind": "gtest",
+ "passes": 1,
+ "status": "passed",
+ "started": "2026-11-27T20:27:03Z",
+ "finished": "2026-11-27T20:43:26Z",
+ "duration_sec": 983,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46063700862",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-27T18:11:22Z",
+  "message": "Updated FEBasicApplication submodule to the latest version; Bloom, depth of field and chromatic aberration can now be turned on and off per camera, previously FERenderer overwrote state of these effects every frame; Depth of field is now off by default; Uniforms of a post process effect that is turned off are no longer updated; Added FECameraComponent::IsBloomEnabled, SetBloomEnabled, IsDOFEnabled, SetDOFEnabled, IsChromaticAberrationEnabled and SetChromaticAberrationEnabled; Native script module of the free camera controller is rebuilt for new layout of FECameraComponent; Engine version is now 0.3.0.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+ },
+ "project_sources": [],
+ "benchmark_commit": "b67d3afe660105fb8f7d03964d36feb4b2fede92",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release, console tests)",
+   "status": "passed",
+   "ms": 23590
+  },
+  {
+   "name": "SceneGraph",
+   "status": "passed",
+   "ms": 0,
+   "checks": [
+    {
+     "name": "Check_Basic_Add_Find_Delete_Nodes",
+     "status": "passed"
+    },
+    {
+     "name": "Check_For_Cycles",
+     "status": "passed"
+    }
+   ]
+  },
+  {
+   "name": "SceneGraphTest",
+   "status": "passed",
+   "ms": 241,
+   "checks": [
+    {
+     "name": "Check_GetNodeCount_AND_ChildCount_Functions",
+     "status": "passed"
+    },
+    {
+     "name": "Check_MoveNode_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Node_AddChild_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Extensive_Node_Manipulation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_IsDescendant_Function",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Position_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Rotation_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Scale_Inheritance_Propagation",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Tiny",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Small",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Multi_Level_Inheritance_Propagation_Medium",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Basic_Transformations_After_Child_Added",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Save_Load_Simple",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Save_Load_Simple_2",
+     "status": "passed"
+    },
+    {
+     "name": "Check_SceneNodes_Import",
+     "status": "passed"
+    },
+    {
+     "name": "Check_Delete_Nodes_and_Entities",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_Scene_Duplication",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_ImportSceneAsNode",
+     "status": "passed"
+    },
+    {
+     "name": "Simple_Check_Of_AreSceneGraphHierarchiesEquivalent",
+     "status": "passed"
+    },
+    {
+     "name": "GetNodeByName",
+     "status": "passed"
+    },
+    {
+     "name": "GetDepth",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_SubtreeEntityNamesMatchNodeNames",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_FilterAppliesToDescendants",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_DetachesFromPreviousParent",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_IntoDescendant_ReturnsNullptr",
+     "status": "passed"
+    },
+    {
+     "name": "AddNode_Rejects_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "DeleteNode_Rejects_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "DuplicateNode_RejectsNewParent_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_RejectsTargetParent_FromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "FEScene_Clear_HandlesOrphanEntitiesCorrectly",
+     "status": "passed"
+    },
+    {
+     "name": "GetFirstChildNodeWithComponent_ImmediateAndRecursive",
+     "status": "passed"
+    },
+    {
+     "name": "GetFirstRecursiveParentNodeWithComponent_WalksAncestorChain",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_RejectsAncestor_NoCycle",
+     "status": "passed"
+    },
+    {
+     "name": "ImportNode_RejectsRootNode",
+     "status": "passed"
+    },
+    {
+     "name": "FromJson_MutualParent_RecoversUnderRoot",
+     "status": "passed"
+    },
+    {
+     "name": "NodeToJson_OnRoot_DoesNotDereferenceNull",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_DeletedSubtree_IsNotFound",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_MoveNode_KeepsSubtreeNodes",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_OrphanEntity_FoundOnlyAfterAddNode",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_DuplicateWithFilter_ThenDeleteDuplicate",
+     "status": "passed"
+    },
+    {
+     "name": "EntityIndex_Clear_ThenReuse",
+     "status": "passed"
+    },
+    {
+     "name": "AddChild_Rejects_NodeFromDifferentScene",
+     "status": "passed"
+    },
+    {
+     "name": "FromJson_KeepsOrderOfChildren",
+     "status": "passed"
+    },
+    {
+     "name": "ImportEntity_EntityLeftOutByFilter_IsNotAnError",
+     "status": "passed"
+    },
+    {
+     "name": "LoadSceneFromJSON_WorldMatricesAreReadyBeforeFirstFrame",
+     "status": "passed"
+    }
+   ]
+  }
+ ],
+ "screenshots": []
+}

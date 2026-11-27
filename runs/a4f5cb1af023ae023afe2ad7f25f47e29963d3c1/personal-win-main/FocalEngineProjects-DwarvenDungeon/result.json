@@ -1,0 +1,99 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-27T20:27:03Z",
+ "finished": "2026-11-27T20:43:26Z",
+ "duration_sec": 983,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46063700862",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-27T18:11:22Z",
+  "message": "Updated FEBasicApplication submodule to the latest version; Bloom, depth of field and chromatic aberration can now be turned on and off per camera, previously FERenderer overwrote state of these effects every frame; Depth of field is now off by default; Uniforms of a post process effect that is turned off are no longer updated; Added FECameraComponent::IsBloomEnabled, SetBloomEnabled, IsDOFEnabled, SetDOFEnabled, IsChromaticAberrationEnabled and SetChromaticAberrationEnabled; Native script module of the free camera controller is rebuilt for new layout of FECameraComponent; Engine version is now 0.3.0.",
+  "url": "https://github.com/Azzinoth/FocalEngine/commit/a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "72de7c4f80e7a9fcf66d06a7ae5594a692fa7c92"
+  }
+ ],
+ "benchmark_commit": "b67d3afe660105fb8f7d03964d36feb4b2fede92",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 27877
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "4ada91fe7097883746777a2798e126b0293c0a34",
+   "ms": 1415,
+   "fps_avg": 17.179666666666666,
+   "frame_ms_median": 57.93366666666667,
+   "frame_ms_p95": 60.942,
+   "memory_mb": 627.5523333333333,
+   "memory_start_mb": 115.05333333333333,
+   "memory_peak_mb": 700.238,
+   "passes": [
+    {
+     "load_ms": 3136.0,
+     "fps_avg": 17.196,
+     "frame_ms_median": 57.782,
+     "frame_ms_p95": 60.567,
+     "memory_mb": 630.848,
+     "memory_start_mb": 114.91,
+     "memory_peak_mb": 699.961,
+     "gpu_load_before_pct": 0.397,
+     "cpu_load_before_pct": 3.05
+    },
+    {
+     "load_ms": 575.0,
+     "fps_avg": 17.247,
+     "frame_ms_median": 57.852,
+     "frame_ms_p95": 60.641,
+     "memory_mb": 619.059,
+     "memory_start_mb": 115.289,
+     "memory_peak_mb": 697.148,
+     "gpu_load_before_pct": 0.387,
+     "cpu_load_before_pct": 2.047
+    },
+    {
+     "load_ms": 535.0,
+     "fps_avg": 17.096,
+     "frame_ms_median": 58.167,
+     "frame_ms_p95": 61.618,
+     "memory_mb": 632.75,
+     "memory_start_mb": 114.961,
+     "memory_peak_mb": 703.605,
+     "gpu_load_before_pct": 0.408,
+     "cpu_load_before_pct": 2.731
+    }
+   ],
+   "gpu_load_before_pct": 0.408,
+   "cpu_load_before_pct": 3.05
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "runs/a4f5cb1af023ae023afe2ad7f25f47e29963d3c1/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "runs/a4f5cb1af023ae023afe2ad7f25f47e29963d3c1/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "diff_pct": 0.054,
+   "max_diff_pct": 20.0,
+   "reference": "references/001bc0a8-e135-4da8-b095-979aabf50746.png"
+  }
+ ]
+}
