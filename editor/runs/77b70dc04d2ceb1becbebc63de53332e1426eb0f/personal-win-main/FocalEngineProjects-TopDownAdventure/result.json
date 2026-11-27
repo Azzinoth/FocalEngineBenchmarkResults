@@ -1,0 +1,98 @@
+{
+ "suite": "FocalEngineProjects-TopDownAdventure",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-27T21:59:23Z",
+ "finished": "2026-11-27T22:16:10Z",
+ "duration_sec": 1007,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-27T20:07:26Z",
+  "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+   "ref": "master",
+   "commit": "c505ab49c0eb67c006b2ad80bf0a31e5c6342521"
+  }
+ ],
+ "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 35660
+  },
+  {
+   "name": "TopDownAdventure",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+   "tree": "11e2e245b2e41394594b17f66c8d9a0cd5d8213d",
+   "ms": 146,
+   "fps_avg": 89.06466666666667,
+   "frame_ms_median": 11.159333333333333,
+   "frame_ms_p95": 11.805666666666667,
+   "memory_mb": 635.0483333333333,
+   "memory_start_mb": 248.55733333333333,
+   "memory_peak_mb": 934.211,
+   "passes": [
+    {
+     "load_ms": 151.0,
+     "fps_avg": 88.712,
+     "frame_ms_median": 11.193,
+     "frame_ms_p95": 11.834,
+     "memory_mb": 635.953,
+     "memory_start_mb": 226.555,
+     "memory_peak_mb": 933.934,
+     "gpu_load_before_pct": 0.477,
+     "cpu_load_before_pct": 2.713
+    },
+    {
+     "load_ms": 143.0,
+     "fps_avg": 89.199,
+     "frame_ms_median": 11.147,
+     "frame_ms_p95": 11.814,
+     "memory_mb": 637.422,
+     "memory_start_mb": 260.402,
+     "memory_peak_mb": 934.547,
+     "gpu_load_before_pct": 0.404,
+     "cpu_load_before_pct": 2.531
+    },
+    {
+     "load_ms": 144.0,
+     "fps_avg": 89.283,
+     "frame_ms_median": 11.138,
+     "frame_ms_p95": 11.769,
+     "memory_mb": 631.77,
+     "memory_start_mb": 258.715,
+     "memory_peak_mb": 934.152,
+     "gpu_load_before_pct": 0.418,
+     "cpu_load_before_pct": 2.43
+    }
+   ],
+   "gpu_load_before_pct": 0.477,
+   "cpu_load_before_pct": 2.713
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "TopDownAdventure",
+   "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
+   "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
+   "status": "passed",
+   "reference_created": true
+  }
+ ],
+ "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+}

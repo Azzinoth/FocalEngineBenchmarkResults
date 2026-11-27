@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T20:44:03Z",
+ "generated_at": "2026-11-27T22:16:47Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -82,6 +82,12 @@
    "date": "2026-11-22T03:47:17Z",
    "message": "Updated Focal Engine submodule to the latest version.",
    "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/4d01494b50c13fe4ce8a76a3ea245e99bc4916a2"
+  },
+  "77b70dc04d2ceb1becbebc63de53332e1426eb0f": {
+   "author": "Azzinoth",
+   "date": "2026-11-27T20:07:26Z",
+   "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+   "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
   },
   "79de45d8cdaa11269c9737b41eee82bb2e8288b4": {
    "author": "Azzinoth",
@@ -8676,6 +8682,2114 @@
       }
      ],
      "engine_commit": "cef140982efbabb79fe8331fbe388d86cc7a9756"
+    }
+   ]
+  },
+  "77b70dc04d2ceb1becbebc63de53332e1426eb0f": {
+   "personal-win-main": [
+    {
+     "suite": "ConsoleTests",
+     "kind": "gtest",
+     "passes": 1,
+     "status": "passed",
+     "started": "2026-11-27T21:59:23Z",
+     "finished": "2026-11-27T22:16:10Z",
+     "duration_sec": 1007,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-27T20:07:26Z",
+      "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+     },
+     "project_sources": [],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release, console tests)",
+       "status": "passed",
+       "ms": 42335
+      },
+      {
+       "name": "VirtualFileSystem",
+       "status": "passed",
+       "ms": 74,
+       "checks": [
+        {
+         "name": "AcceptableName_RejectsEmptyAndSlashesAndDots",
+         "status": "passed"
+        },
+        {
+         "name": "RootPathIsValidAndIsTheDefault",
+         "status": "passed"
+        },
+        {
+         "name": "CreateDirectory_AddsRemovableSubdirectoryAtRoot",
+         "status": "passed"
+        },
+        {
+         "name": "SetCurrentPath_RejectsInvalidAndAcceptsCreatedSubdirectory",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_RejectsSiblingNameCollision",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_RejectsMovingIntoOwnDescendant",
+         "status": "passed"
+        },
+        {
+         "name": "Root_HasNoParent",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_RejectsRenamingRoot",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_CompletesLegitimateMove",
+         "status": "passed"
+        },
+        {
+         "name": "LoadState_ReplacesExistingState",
+         "status": "passed"
+        },
+        {
+         "name": "CreateDirectory_RejectsReadOnlyParent",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_RejectsReadOnlyTarget",
+         "status": "passed"
+        },
+        {
+         "name": "SaveState_PersistsFileReadOnlyFlag",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_RejectsReadOnlyParent",
+         "status": "passed"
+        },
+        {
+         "name": "DoesFileExist_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "GetDirectoryContentIDs_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "SubDirectoriesCount_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "GetDirectoryParent_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "IsDirectoryReadOnly_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "DeleteFile_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsSubdirectoryNameCollision",
+         "status": "passed"
+        },
+        {
+         "name": "MoveFile_RejectsSubdirectoryNameCollisionInTarget",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_RejectsFileNameCollisionInParent",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_RejectsFileNameCollisionInTarget",
+         "status": "passed"
+        },
+        {
+         "name": "CreateDirectory_RejectsFileNameCollision",
+         "status": "passed"
+        },
+        {
+         "name": "CreateDirectoryAutoName_SkipsFileNameCollision",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsDuplicateNameInSameDirectory",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsDuplicateInDifferentDirectory",
+         "status": "passed"
+        },
+        {
+         "name": "CreateMissingFiles_AddsOnlyObjectsThatAreInNoDirectory",
+         "status": "passed"
+        },
+        {
+         "name": "CreateMissingFiles_RenamesObjectWithTakenName",
+         "status": "passed"
+        },
+        {
+         "name": "CreateMissingFiles_WithoutRenameLeavesOutObjectWithTakenName",
+         "status": "passed"
+        },
+        {
+         "name": "IsReadOnly_DefensiveOnInvalidPath",
+         "status": "passed"
+        },
+        {
+         "name": "MoveFile_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "SetFileReadOnly_IgnoresNullData",
+         "status": "passed"
+        },
+        {
+         "name": "IsReadOnly_HandlesNullDataAcrossPaths",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsFilePathAsTarget",
+         "status": "passed"
+        },
+        {
+         "name": "CreateDirectory_RejectsFilePathAsParent",
+         "status": "passed"
+        },
+        {
+         "name": "SetDirectoryReadOnly_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_RejectsFilePathAsDestination",
+         "status": "passed"
+        },
+        {
+         "name": "Clear_ResetsCurrentPathToRoot",
+         "status": "passed"
+        },
+        {
+         "name": "SetCurrentPath_RejectsFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsReadOnlyDirectory",
+         "status": "passed"
+        },
+        {
+         "name": "MoveFile_RejectsReadOnlyTarget",
+         "status": "passed"
+        },
+        {
+         "name": "DeleteFile_ReportsFailureOnReadOnlyFile",
+         "status": "passed"
+        },
+        {
+         "name": "SaveState_PersistsReadOnlyFlag",
+         "status": "passed"
+        },
+        {
+         "name": "DeleteEmptyDirectory_RejectsReadOnlyParent",
+         "status": "passed"
+        },
+        {
+         "name": "MoveDirectory_RejectsReadOnlySourceParent",
+         "status": "passed"
+        },
+        {
+         "name": "SaveLoad_FidelityRoundTripWithMixedTree",
+         "status": "passed"
+        },
+        {
+         "name": "PathFormEquivalence_AcceptsCanonicalRejectsMalformed",
+         "status": "passed"
+        },
+        {
+         "name": "ManySiblings_FlatLargeDirectoryRoundTrips",
+         "status": "passed"
+        },
+        {
+         "name": "DeepNesting_PathOperationsHandleLongChains",
+         "status": "passed"
+        },
+        {
+         "name": "DeleteEmptyDirectory_RejectsRoot",
+         "status": "passed"
+        },
+        {
+         "name": "Clear_ResetsRootReadOnlyFlag",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsNameContainingSlash",
+         "status": "passed"
+        },
+        {
+         "name": "CreateFile_RejectsEmptyName",
+         "status": "passed"
+        },
+        {
+         "name": "ReadOnly_AncestorBlocksCreateInDescendant",
+         "status": "passed"
+        },
+        {
+         "name": "ReadOnly_AncestorBlocksMoveOutOfLockedSubtree",
+         "status": "passed"
+        },
+        {
+         "name": "SetCurrentPath_CanonicalizesTrailingSlash",
+         "status": "passed"
+        },
+        {
+         "name": "IsPathCorrect_RejectsTrailingSlashOnFilePath",
+         "status": "passed"
+        },
+        {
+         "name": "LocateAndDeleteFile_HonorsReadOnlyAncestor",
+         "status": "passed"
+        },
+        {
+         "name": "CurrentPath_StaysValidAfterDeletingCurrentDirectory",
+         "status": "passed"
+        },
+        {
+         "name": "RenameDirectory_OnReadOnlyDirectory_ReportsFailure",
+         "status": "passed"
+        }
+       ]
+      }
+     ],
+     "screenshots": [],
+     "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+    },
+    {
+     "suite": "FocalEngineProjects",
+     "kind": "projects",
+     "passes": 3,
+     "status": "passed",
+     "started": "2026-11-27T21:59:23Z",
+     "finished": "2026-11-27T22:16:10Z",
+     "duration_sec": 1007,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-27T20:07:26Z",
+      "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineProjects",
+       "ref": "master",
+       "commit": "df5fa04367c54fc17bde2a5e37c62f80839d50ad"
+      }
+     ],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 35660
+      },
+      {
+       "name": "Bistro",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "c8be27fe0ca0d8656bef1b6c409007e98ca898a1",
+       "ms": 4211,
+       "fps_avg": 21.434333333333335,
+       "frame_ms_median": 45.678666666666665,
+       "frame_ms_p95": 53.916333333333334,
+       "memory_mb": 2648.9946666666665,
+       "memory_start_mb": 275.3906666666667,
+       "memory_peak_mb": 2744.112,
+       "passes": [
+        {
+         "load_ms": 4304.0,
+         "fps_avg": 21.73,
+         "frame_ms_median": 45.562,
+         "frame_ms_p95": 50.599,
+         "memory_mb": 2692.062,
+         "memory_start_mb": 275.922,
+         "memory_peak_mb": 2786.516,
+         "gpu_load_before_pct": 0.246,
+         "cpu_load_before_pct": 1.742
+        },
+        {
+         "load_ms": 4115.0,
+         "fps_avg": 20.81,
+         "frame_ms_median": 45.928,
+         "frame_ms_p95": 60.48,
+         "memory_mb": 2606.176,
+         "memory_start_mb": 274.477,
+         "memory_peak_mb": 2702.566,
+         "gpu_load_before_pct": 0.508,
+         "cpu_load_before_pct": 4.429
+        },
+        {
+         "load_ms": 4214.0,
+         "fps_avg": 21.763,
+         "frame_ms_median": 45.546,
+         "frame_ms_p95": 50.67,
+         "memory_mb": 2648.746,
+         "memory_start_mb": 275.773,
+         "memory_peak_mb": 2743.254,
+         "gpu_load_before_pct": 0.349,
+         "cpu_load_before_pct": 1.714
+        }
+       ],
+       "gpu_load_before_pct": 0.508,
+       "cpu_load_before_pct": 4.429
+      },
+      {
+       "name": "Complex_Forest",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "e3109247ff95ad0f77026e43b224d2a40e561108",
+       "ms": 2432,
+       "fps_avg": 85.48033333333333,
+       "frame_ms_median": 11.676333333333334,
+       "frame_ms_p95": 12.386000000000001,
+       "memory_mb": 4500.296666666667,
+       "memory_start_mb": 274.074,
+       "memory_peak_mb": 4964.287666666667,
+       "passes": [
+        {
+         "load_ms": 2420.0,
+         "fps_avg": 85.873,
+         "frame_ms_median": 11.642,
+         "frame_ms_p95": 12.268,
+         "memory_mb": 4493.312,
+         "memory_start_mb": 273.773,
+         "memory_peak_mb": 4953.738,
+         "gpu_load_before_pct": 0.509,
+         "cpu_load_before_pct": 2.326
+        },
+        {
+         "load_ms": 2450.0,
+         "fps_avg": 85.694,
+         "frame_ms_median": 11.666,
+         "frame_ms_p95": 12.31,
+         "memory_mb": 4499.344,
+         "memory_start_mb": 272.117,
+         "memory_peak_mb": 4958.887,
+         "gpu_load_before_pct": 0.333,
+         "cpu_load_before_pct": 4.346
+        },
+        {
+         "load_ms": 2425.0,
+         "fps_avg": 84.874,
+         "frame_ms_median": 11.721,
+         "frame_ms_p95": 12.58,
+         "memory_mb": 4508.234,
+         "memory_start_mb": 276.332,
+         "memory_peak_mb": 4980.238,
+         "gpu_load_before_pct": 0.419,
+         "cpu_load_before_pct": 2.197
+        }
+       ],
+       "gpu_load_before_pct": 0.509,
+       "cpu_load_before_pct": 4.346
+      },
+      {
+       "name": "Corals",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "26f5d9b59b317fba1bf245cfa59f6fc154a851e6",
+       "ms": 199,
+       "fps_avg": 616.1463333333334,
+       "frame_ms_median": 1.5536666666666668,
+       "frame_ms_p95": 1.9036666666666666,
+       "memory_mb": 1061.4726666666668,
+       "memory_start_mb": 264.638,
+       "memory_peak_mb": 1374.2723333333333,
+       "passes": [
+        {
+         "load_ms": 192.0,
+         "fps_avg": 615.894,
+         "frame_ms_median": 1.554,
+         "frame_ms_p95": 1.908,
+         "memory_mb": 1066.547,
+         "memory_start_mb": 272.719,
+         "memory_peak_mb": 1377.383,
+         "gpu_load_before_pct": 0.47,
+         "cpu_load_before_pct": 3.896
+        },
+        {
+         "load_ms": 208.0,
+         "fps_avg": 615.806,
+         "frame_ms_median": 1.555,
+         "frame_ms_p95": 1.903,
+         "memory_mb": 1055.508,
+         "memory_start_mb": 261.988,
+         "memory_peak_mb": 1372.977,
+         "gpu_load_before_pct": 0.377,
+         "cpu_load_before_pct": 5.894
+        },
+        {
+         "load_ms": 198.0,
+         "fps_avg": 616.739,
+         "frame_ms_median": 1.552,
+         "frame_ms_p95": 1.9,
+         "memory_mb": 1062.363,
+         "memory_start_mb": 259.207,
+         "memory_peak_mb": 1372.457,
+         "gpu_load_before_pct": 0.377,
+         "cpu_load_before_pct": 3.994
+        }
+       ],
+       "gpu_load_before_pct": 0.47,
+       "cpu_load_before_pct": 5.894
+      },
+      {
+       "name": "New_Sponza",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "7d0488849e55e85538a0add2802c4676d15f4e8f",
+       "ms": 556,
+       "fps_avg": 196.80599999999998,
+       "frame_ms_median": 5.038333333333333,
+       "frame_ms_p95": 5.417,
+       "memory_mb": 1891.97,
+       "memory_start_mb": 272.56233333333336,
+       "memory_peak_mb": 2194.1236666666664,
+       "passes": [
+        {
+         "load_ms": 551.0,
+         "fps_avg": 196.433,
+         "frame_ms_median": 5.044,
+         "frame_ms_p95": 5.454,
+         "memory_mb": 1891.613,
+         "memory_start_mb": 271.617,
+         "memory_peak_mb": 2188.906,
+         "gpu_load_before_pct": 1.251,
+         "cpu_load_before_pct": 3.387
+        },
+        {
+         "load_ms": 537.0,
+         "fps_avg": 197.433,
+         "frame_ms_median": 5.028,
+         "frame_ms_p95": 5.381,
+         "memory_mb": 1895.426,
+         "memory_start_mb": 274.488,
+         "memory_peak_mb": 2199.102,
+         "gpu_load_before_pct": 0.41,
+         "cpu_load_before_pct": 2.377
+        },
+        {
+         "load_ms": 581.0,
+         "fps_avg": 196.552,
+         "frame_ms_median": 5.043,
+         "frame_ms_p95": 5.416,
+         "memory_mb": 1888.871,
+         "memory_start_mb": 271.582,
+         "memory_peak_mb": 2194.363,
+         "gpu_load_before_pct": 0.396,
+         "cpu_load_before_pct": 3.614
+        }
+       ],
+       "gpu_load_before_pct": 1.251,
+       "cpu_load_before_pct": 3.614
+      },
+      {
+       "name": "Simple_Forest",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "8932bb02ab50fe23bea5a16fb9ae6c935ee2ed80",
+       "ms": 145,
+       "fps_avg": 352.4356666666667,
+       "frame_ms_median": 2.7336666666666667,
+       "frame_ms_p95": 3.0936666666666666,
+       "memory_mb": 860.3803333333333,
+       "memory_start_mb": 268.612,
+       "memory_peak_mb": 1243.159,
+       "passes": [
+        {
+         "load_ms": 151.0,
+         "fps_avg": 353.287,
+         "frame_ms_median": 2.727,
+         "frame_ms_p95": 3.085,
+         "memory_mb": 860.516,
+         "memory_start_mb": 271.754,
+         "memory_peak_mb": 1223.121,
+         "gpu_load_before_pct": 0.396,
+         "cpu_load_before_pct": 5.278
+        },
+        {
+         "load_ms": 142.0,
+         "fps_avg": 352.384,
+         "frame_ms_median": 2.734,
+         "frame_ms_p95": 3.093,
+         "memory_mb": 862.441,
+         "memory_start_mb": 274.871,
+         "memory_peak_mb": 1254.977,
+         "gpu_load_before_pct": 0.423,
+         "cpu_load_before_pct": 4.169
+        },
+        {
+         "load_ms": 141.0,
+         "fps_avg": 351.636,
+         "frame_ms_median": 2.74,
+         "frame_ms_p95": 3.103,
+         "memory_mb": 858.184,
+         "memory_start_mb": 259.211,
+         "memory_peak_mb": 1251.379,
+         "gpu_load_before_pct": 0.376,
+         "cpu_load_before_pct": 2.252
+        }
+       ],
+       "gpu_load_before_pct": 0.423,
+       "cpu_load_before_pct": 5.278
+      },
+      {
+       "name": "Simple_Scene",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "61b38616d54ace078cd13e5c22fee3d84a6f7280",
+       "ms": 98,
+       "fps_avg": 1425.233,
+       "frame_ms_median": 0.6796666666666668,
+       "frame_ms_p95": 0.8726666666666667,
+       "memory_mb": 602.6513333333334,
+       "memory_start_mb": 268.75266666666664,
+       "memory_peak_mb": 1026.2383333333335,
+       "passes": [
+        {
+         "load_ms": 97.0,
+         "fps_avg": 1430.735,
+         "frame_ms_median": 0.675,
+         "frame_ms_p95": 0.875,
+         "memory_mb": 604.395,
+         "memory_start_mb": 257.938,
+         "memory_peak_mb": 1006.969,
+         "gpu_load_before_pct": 0.414,
+         "cpu_load_before_pct": 3.326
+        },
+        {
+         "load_ms": 97.0,
+         "fps_avg": 1425.582,
+         "frame_ms_median": 0.679,
+         "frame_ms_p95": 0.867,
+         "memory_mb": 603.215,
+         "memory_start_mb": 274.48,
+         "memory_peak_mb": 1027.758,
+         "gpu_load_before_pct": 0.388,
+         "cpu_load_before_pct": 2.118
+        },
+        {
+         "load_ms": 99.0,
+         "fps_avg": 1419.382,
+         "frame_ms_median": 0.685,
+         "frame_ms_p95": 0.876,
+         "memory_mb": 600.344,
+         "memory_start_mb": 273.84,
+         "memory_peak_mb": 1043.988,
+         "gpu_load_before_pct": 0.359,
+         "cpu_load_before_pct": 2.919
+        }
+       ],
+       "gpu_load_before_pct": 0.414,
+       "cpu_load_before_pct": 3.326
+      },
+      {
+       "name": "Simple_Scene_2",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "4977319a13f61111a152b915a8bc80c4e6fd0ad5",
+       "ms": 111,
+       "fps_avg": 1116.6433333333334,
+       "frame_ms_median": 0.8706666666666667,
+       "frame_ms_p95": 1.079,
+       "memory_mb": 807.509,
+       "memory_start_mb": 268.13533333333334,
+       "memory_peak_mb": 1090.2373333333333,
+       "passes": [
+        {
+         "load_ms": 116.0,
+         "fps_avg": 1104.126,
+         "frame_ms_median": 0.883,
+         "frame_ms_p95": 1.095,
+         "memory_mb": 801.156,
+         "memory_start_mb": 271.879,
+         "memory_peak_mb": 1083.02,
+         "gpu_load_before_pct": 0.405,
+         "cpu_load_before_pct": 1.394
+        },
+        {
+         "load_ms": 108.0,
+         "fps_avg": 1126.768,
+         "frame_ms_median": 0.862,
+         "frame_ms_p95": 1.066,
+         "memory_mb": 812.641,
+         "memory_start_mb": 272.535,
+         "memory_peak_mb": 1091.633,
+         "gpu_load_before_pct": 0.386,
+         "cpu_load_before_pct": 3.544
+        },
+        {
+         "load_ms": 109.0,
+         "fps_avg": 1119.036,
+         "frame_ms_median": 0.867,
+         "frame_ms_p95": 1.076,
+         "memory_mb": 808.73,
+         "memory_start_mb": 259.992,
+         "memory_peak_mb": 1096.059,
+         "gpu_load_before_pct": 0.381,
+         "cpu_load_before_pct": 3.284
+        }
+       ],
+       "gpu_load_before_pct": 0.405,
+       "cpu_load_before_pct": 3.544
+      },
+      {
+       "name": "Simple_Scene_3",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "0cc143d463fdcf4a732317ca93f4bab7c13769c2",
+       "ms": 127,
+       "fps_avg": 1041.1023333333333,
+       "frame_ms_median": 0.938,
+       "frame_ms_p95": 1.1413333333333333,
+       "memory_mb": 876.2796666666667,
+       "memory_start_mb": 264.0,
+       "memory_peak_mb": 1198.8113333333333,
+       "passes": [
+        {
+         "load_ms": 152.0,
+         "fps_avg": 1046.897,
+         "frame_ms_median": 0.93,
+         "frame_ms_p95": 1.138,
+         "memory_mb": 873.41,
+         "memory_start_mb": 275.562,
+         "memory_peak_mb": 1200.32,
+         "gpu_load_before_pct": 0.38,
+         "cpu_load_before_pct": 1.663
+        },
+        {
+         "load_ms": 115.0,
+         "fps_avg": 1037.264,
+         "frame_ms_median": 0.942,
+         "frame_ms_p95": 1.143,
+         "memory_mb": 878.113,
+         "memory_start_mb": 257.641,
+         "memory_peak_mb": 1201.77,
+         "gpu_load_before_pct": 0.395,
+         "cpu_load_before_pct": 2.776
+        },
+        {
+         "load_ms": 115.0,
+         "fps_avg": 1039.146,
+         "frame_ms_median": 0.942,
+         "frame_ms_p95": 1.143,
+         "memory_mb": 877.316,
+         "memory_start_mb": 258.797,
+         "memory_peak_mb": 1194.344,
+         "gpu_load_before_pct": 0.401,
+         "cpu_load_before_pct": 2.51
+        }
+       ],
+       "gpu_load_before_pct": 0.401,
+       "cpu_load_before_pct": 2.776
+      },
+      {
+       "name": "Simple_Scene_4",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "2c3dc14c0d1070a653e8072795a9eeddd2678b85",
+       "ms": 86,
+       "fps_avg": 1187.6513333333332,
+       "frame_ms_median": 0.8226666666666667,
+       "frame_ms_p95": 1.008,
+       "memory_mb": 651.6066666666667,
+       "memory_start_mb": 270.104,
+       "memory_peak_mb": 968.1106666666667,
+       "passes": [
+        {
+         "load_ms": 94.0,
+         "fps_avg": 1222.297,
+         "frame_ms_median": 0.8,
+         "frame_ms_p95": 0.968,
+         "memory_mb": 656.371,
+         "memory_start_mb": 259.738,
+         "memory_peak_mb": 960.539,
+         "gpu_load_before_pct": 0.392,
+         "cpu_load_before_pct": 3.303
+        },
+        {
+         "load_ms": 81.0,
+         "fps_avg": 1208.994,
+         "frame_ms_median": 0.807,
+         "frame_ms_p95": 1.002,
+         "memory_mb": 652.547,
+         "memory_start_mb": 275.418,
+         "memory_peak_mb": 973.66,
+         "gpu_load_before_pct": 0.341,
+         "cpu_load_before_pct": 4.294
+        },
+        {
+         "load_ms": 83.0,
+         "fps_avg": 1131.663,
+         "frame_ms_median": 0.861,
+         "frame_ms_p95": 1.054,
+         "memory_mb": 645.902,
+         "memory_start_mb": 275.156,
+         "memory_peak_mb": 970.133,
+         "gpu_load_before_pct": 0.383,
+         "cpu_load_before_pct": 1.411
+        }
+       ],
+       "gpu_load_before_pct": 0.392,
+       "cpu_load_before_pct": 4.294
+      },
+      {
+       "name": "Simple_Terrrain",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "3f4b668593de1bb5ed7643f51034cc368e314fc8",
+       "ms": 87,
+       "fps_avg": 1151.1673333333333,
+       "frame_ms_median": 0.829,
+       "frame_ms_p95": 1.159,
+       "memory_mb": 605.6123333333333,
+       "memory_start_mb": 259.216,
+       "memory_peak_mb": 924.444,
+       "passes": [
+        {
+         "load_ms": 75.0,
+         "fps_avg": 1151.714,
+         "frame_ms_median": 0.829,
+         "frame_ms_p95": 1.16,
+         "memory_mb": 604.43,
+         "memory_start_mb": 243.035,
+         "memory_peak_mb": 923.332,
+         "gpu_load_before_pct": 0.427,
+         "cpu_load_before_pct": 3.151
+        },
+        {
+         "load_ms": 117.0,
+         "fps_avg": 1152.821,
+         "frame_ms_median": 0.828,
+         "frame_ms_p95": 1.156,
+         "memory_mb": 603.598,
+         "memory_start_mb": 260.051,
+         "memory_peak_mb": 925.727,
+         "gpu_load_before_pct": 0.381,
+         "cpu_load_before_pct": 1.662
+        },
+        {
+         "load_ms": 70.0,
+         "fps_avg": 1148.967,
+         "frame_ms_median": 0.83,
+         "frame_ms_p95": 1.161,
+         "memory_mb": 608.809,
+         "memory_start_mb": 274.562,
+         "memory_peak_mb": 924.273,
+         "gpu_load_before_pct": 0.39,
+         "cpu_load_before_pct": 3.706
+        }
+       ],
+       "gpu_load_before_pct": 0.427,
+       "cpu_load_before_pct": 3.706
+      },
+      {
+       "name": "Simple_Terrrain_2",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "c41c4f9513547d4ced03d46ac68bb924ecffec96",
+       "ms": 155,
+       "fps_avg": 1083.1593333333333,
+       "frame_ms_median": 0.8813333333333333,
+       "frame_ms_p95": 1.2133333333333334,
+       "memory_mb": 1004.284,
+       "memory_start_mb": 262.4753333333333,
+       "memory_peak_mb": 1289.8593333333333,
+       "passes": [
+        {
+         "load_ms": 158.0,
+         "fps_avg": 1084.721,
+         "frame_ms_median": 0.881,
+         "frame_ms_p95": 1.214,
+         "memory_mb": 1004.586,
+         "memory_start_mb": 241.441,
+         "memory_peak_mb": 1284.863,
+         "gpu_load_before_pct": 0.311,
+         "cpu_load_before_pct": 2.041
+        },
+        {
+         "load_ms": 157.0,
+         "fps_avg": 1083.486,
+         "frame_ms_median": 0.881,
+         "frame_ms_p95": 1.213,
+         "memory_mb": 1002.125,
+         "memory_start_mb": 272.059,
+         "memory_peak_mb": 1298.414,
+         "gpu_load_before_pct": 0.392,
+         "cpu_load_before_pct": 4.214
+        },
+        {
+         "load_ms": 149.0,
+         "fps_avg": 1081.271,
+         "frame_ms_median": 0.882,
+         "frame_ms_p95": 1.213,
+         "memory_mb": 1006.141,
+         "memory_start_mb": 273.926,
+         "memory_peak_mb": 1286.301,
+         "gpu_load_before_pct": 0.387,
+         "cpu_load_before_pct": 2.327
+        }
+       ],
+       "gpu_load_before_pct": 0.392,
+       "cpu_load_before_pct": 4.214
+      },
+      {
+       "name": "Simple_Terrrain_Layers",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "c43dec111e52eac6fe917c7721e35e1adad50822",
+       "ms": 104,
+       "fps_avg": 1043.5296666666666,
+       "frame_ms_median": 0.9166666666666667,
+       "frame_ms_p95": 1.247,
+       "memory_mb": 722.2656666666667,
+       "memory_start_mb": 273.565,
+       "memory_peak_mb": 1006.3383333333334,
+       "passes": [
+        {
+         "load_ms": 103.0,
+         "fps_avg": 1042.195,
+         "frame_ms_median": 0.919,
+         "frame_ms_p95": 1.248,
+         "memory_mb": 717.121,
+         "memory_start_mb": 275.359,
+         "memory_peak_mb": 1007.711,
+         "gpu_load_before_pct": 0.455,
+         "cpu_load_before_pct": 1.884
+        },
+        {
+         "load_ms": 123.0,
+         "fps_avg": 1042.02,
+         "frame_ms_median": 0.918,
+         "frame_ms_p95": 1.247,
+         "memory_mb": 728.469,
+         "memory_start_mb": 272.637,
+         "memory_peak_mb": 1003.191,
+         "gpu_load_before_pct": 0.378,
+         "cpu_load_before_pct": 1.306
+        },
+        {
+         "load_ms": 86.0,
+         "fps_avg": 1046.374,
+         "frame_ms_median": 0.913,
+         "frame_ms_p95": 1.246,
+         "memory_mb": 721.207,
+         "memory_start_mb": 272.699,
+         "memory_peak_mb": 1008.113,
+         "gpu_load_before_pct": 1.214,
+         "cpu_load_before_pct": 2.808
+        }
+       ],
+       "gpu_load_before_pct": 1.214,
+       "cpu_load_before_pct": 2.808
+      },
+      {
+       "name": "Sponza_OLD_without_graph",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "357602d136f258bf846d4a801c714b7c79a5e684",
+       "ms": 109,
+       "fps_avg": 1016.5656666666666,
+       "frame_ms_median": 0.9576666666666667,
+       "frame_ms_p95": 1.197,
+       "memory_mb": 668.8123333333333,
+       "memory_start_mb": 262.996,
+       "memory_peak_mb": 945.4713333333333,
+       "passes": [
+        {
+         "load_ms": 111.0,
+         "fps_avg": 1016.003,
+         "frame_ms_median": 0.958,
+         "frame_ms_p95": 1.199,
+         "memory_mb": 667.441,
+         "memory_start_mb": 272.121,
+         "memory_peak_mb": 944.645,
+         "gpu_load_before_pct": 0.413,
+         "cpu_load_before_pct": 2.901
+        },
+        {
+         "load_ms": 106.0,
+         "fps_avg": 1019.16,
+         "frame_ms_median": 0.956,
+         "frame_ms_p95": 1.191,
+         "memory_mb": 667.25,
+         "memory_start_mb": 257.867,
+         "memory_peak_mb": 947.66,
+         "gpu_load_before_pct": 0.417,
+         "cpu_load_before_pct": 2.059
+        },
+        {
+         "load_ms": 109.0,
+         "fps_avg": 1014.534,
+         "frame_ms_median": 0.959,
+         "frame_ms_p95": 1.201,
+         "memory_mb": 671.746,
+         "memory_start_mb": 259.0,
+         "memory_peak_mb": 944.109,
+         "gpu_load_before_pct": 0.405,
+         "cpu_load_before_pct": 1.855
+        }
+       ],
+       "gpu_load_before_pct": 0.417,
+       "cpu_load_before_pct": 2.901
+      },
+      {
+       "name": "Tower Defence_Scripts",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "142064777d3716a1d63ca8b394b19d900d5f7ae2",
+       "ms": 93,
+       "fps_avg": 910.7370000000001,
+       "frame_ms_median": 1.0706666666666667,
+       "frame_ms_p95": 1.2956666666666667,
+       "memory_mb": 803.7146666666666,
+       "memory_start_mb": 257.90766666666667,
+       "memory_peak_mb": 1447.3506666666667,
+       "passes": [
+        {
+         "load_ms": 80.0,
+         "fps_avg": 934.017,
+         "frame_ms_median": 1.039,
+         "frame_ms_p95": 1.229,
+         "memory_mb": 803.035,
+         "memory_start_mb": 272.086,
+         "memory_peak_mb": 1447.969,
+         "gpu_load_before_pct": 0.326,
+         "cpu_load_before_pct": 1.955
+        },
+        {
+         "load_ms": 122.0,
+         "fps_avg": 900.484,
+         "frame_ms_median": 1.085,
+         "frame_ms_p95": 1.32,
+         "memory_mb": 805.707,
+         "memory_start_mb": 226.789,
+         "memory_peak_mb": 1446.438,
+         "gpu_load_before_pct": 0.388,
+         "cpu_load_before_pct": 1.932
+        },
+        {
+         "load_ms": 77.0,
+         "fps_avg": 897.71,
+         "frame_ms_median": 1.088,
+         "frame_ms_p95": 1.338,
+         "memory_mb": 802.402,
+         "memory_start_mb": 274.848,
+         "memory_peak_mb": 1447.645,
+         "gpu_load_before_pct": 1.175,
+         "cpu_load_before_pct": 3.117
+        }
+       ],
+       "gpu_load_before_pct": 1.175,
+       "cpu_load_before_pct": 3.117
+      },
+      {
+       "name": "Volumetric",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects",
+       "tree": "dd38e75ba350b2e3c2928997f76bcec6a0d3c71f",
+       "ms": 140,
+       "fps_avg": 1136.4233333333334,
+       "frame_ms_median": 0.8423333333333333,
+       "frame_ms_p95": 1.1686666666666665,
+       "memory_mb": 720.4633333333334,
+       "memory_start_mb": 257.0756666666667,
+       "memory_peak_mb": 1061.2186666666666,
+       "passes": [
+        {
+         "load_ms": 121.0,
+         "fps_avg": 1137.866,
+         "frame_ms_median": 0.841,
+         "frame_ms_p95": 1.166,
+         "memory_mb": 715.582,
+         "memory_start_mb": 240.09,
+         "memory_peak_mb": 1073.285,
+         "gpu_load_before_pct": 0.408,
+         "cpu_load_before_pct": 1.98
+        },
+        {
+         "load_ms": 158.0,
+         "fps_avg": 1135.974,
+         "frame_ms_median": 0.843,
+         "frame_ms_p95": 1.168,
+         "memory_mb": 718.992,
+         "memory_start_mb": 271.375,
+         "memory_peak_mb": 1038.449,
+         "gpu_load_before_pct": 0.407,
+         "cpu_load_before_pct": 2.68
+        },
+        {
+         "load_ms": 142.0,
+         "fps_avg": 1135.43,
+         "frame_ms_median": 0.843,
+         "frame_ms_p95": 1.172,
+         "memory_mb": 726.816,
+         "memory_start_mb": 259.762,
+         "memory_peak_mb": 1071.922,
+         "gpu_load_before_pct": 0.342,
+         "cpu_load_before_pct": 2.749
+        }
+       ],
+       "gpu_load_before_pct": 0.408,
+       "cpu_load_before_pct": 2.749
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "Bistro",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Bistro.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Bistro.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Complex_Forest",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Complex_Forest.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Complex_Forest.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Corals",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Corals.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Corals.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "New_Sponza",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/New_Sponza.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/New_Sponza.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Forest",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Forest.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Forest.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Scene",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Scene.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Scene.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Scene_2",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Scene_2.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Scene_2.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Scene_3",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Scene_3.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Scene_3.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Scene_4",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Scene_4.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Scene_4.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Terrrain",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Terrrain.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Terrrain.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Terrrain_2",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Terrrain_2.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Terrrain_2.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Simple_Terrrain_Layers",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Simple_Terrrain_Layers.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Simple_Terrrain_Layers.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Sponza_OLD_without_graph",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Sponza_OLD_without_graph.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Sponza_OLD_without_graph.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Tower Defence_Scripts",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Tower_Defence_Scripts.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Tower_Defence_Scripts.jpg",
+       "status": "passed",
+       "reference_created": true
+      },
+      {
+       "scene": "Volumetric",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/Volumetric.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects/thumbs/Volumetric.jpg",
+       "status": "passed",
+       "reference_created": true
+      }
+     ],
+     "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+    },
+    {
+     "suite": "FocalEngineProjects-DwarvenDungeon",
+     "kind": "projects",
+     "passes": 3,
+     "status": "passed",
+     "started": "2026-11-27T21:59:23Z",
+     "finished": "2026-11-27T22:16:10Z",
+     "duration_sec": 1007,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-27T20:07:26Z",
+      "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+       "ref": "master",
+       "commit": "72de7c4f80e7a9fcf66d06a7ae5594a692fa7c92"
+      }
+     ],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 35660
+      },
+      {
+       "name": "POLYGON_Dwarven_Dungeon_Map",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+       "tree": "4ada91fe7097883746777a2798e126b0293c0a34",
+       "ms": 534,
+       "fps_avg": 18.067666666666668,
+       "frame_ms_median": 55.002,
+       "frame_ms_p95": 57.829,
+       "memory_mb": 692.9336666666667,
+       "memory_start_mb": 268.08733333333333,
+       "memory_peak_mb": 992.6116666666667,
+       "passes": [
+        {
+         "load_ms": 537.0,
+         "fps_avg": 18.086,
+         "frame_ms_median": 55.006,
+         "frame_ms_p95": 57.618,
+         "memory_mb": 691.461,
+         "memory_start_mb": 272.484,
+         "memory_peak_mb": 990.906,
+         "gpu_load_before_pct": 0.4,
+         "cpu_load_before_pct": 3.399
+        },
+        {
+         "load_ms": 533.0,
+         "fps_avg": 18.01,
+         "frame_ms_median": 55.334,
+         "frame_ms_p95": 57.919,
+         "memory_mb": 691.449,
+         "memory_start_mb": 272.559,
+         "memory_peak_mb": 992.902,
+         "gpu_load_before_pct": 0.412,
+         "cpu_load_before_pct": 3.16
+        },
+        {
+         "load_ms": 532.0,
+         "fps_avg": 18.107,
+         "frame_ms_median": 54.666,
+         "frame_ms_p95": 57.95,
+         "memory_mb": 695.891,
+         "memory_start_mb": 259.219,
+         "memory_peak_mb": 994.027,
+         "gpu_load_before_pct": 0.387,
+         "cpu_load_before_pct": 2.374
+        }
+       ],
+       "gpu_load_before_pct": 0.412,
+       "cpu_load_before_pct": 3.399
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "POLYGON_Dwarven_Dungeon_Map",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+       "status": "passed",
+       "reference_created": true
+      }
+     ],
+     "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+    },
+    {
+     "suite": "FocalEngineProjects-TopDownAdventure",
+     "kind": "projects",
+     "passes": 3,
+     "status": "passed",
+     "started": "2026-11-27T21:59:23Z",
+     "finished": "2026-11-27T22:16:10Z",
+     "duration_sec": 1007,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-27T20:07:26Z",
+      "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "ref": "master",
+       "commit": "c505ab49c0eb67c006b2ad80bf0a31e5c6342521"
+      }
+     ],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 35660
+      },
+      {
+       "name": "TopDownAdventure",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "tree": "11e2e245b2e41394594b17f66c8d9a0cd5d8213d",
+       "ms": 146,
+       "fps_avg": 89.06466666666667,
+       "frame_ms_median": 11.159333333333333,
+       "frame_ms_p95": 11.805666666666667,
+       "memory_mb": 635.0483333333333,
+       "memory_start_mb": 248.55733333333333,
+       "memory_peak_mb": 934.211,
+       "passes": [
+        {
+         "load_ms": 151.0,
+         "fps_avg": 88.712,
+         "frame_ms_median": 11.193,
+         "frame_ms_p95": 11.834,
+         "memory_mb": 635.953,
+         "memory_start_mb": 226.555,
+         "memory_peak_mb": 933.934,
+         "gpu_load_before_pct": 0.477,
+         "cpu_load_before_pct": 2.713
+        },
+        {
+         "load_ms": 143.0,
+         "fps_avg": 89.199,
+         "frame_ms_median": 11.147,
+         "frame_ms_p95": 11.814,
+         "memory_mb": 637.422,
+         "memory_start_mb": 260.402,
+         "memory_peak_mb": 934.547,
+         "gpu_load_before_pct": 0.404,
+         "cpu_load_before_pct": 2.531
+        },
+        {
+         "load_ms": 144.0,
+         "fps_avg": 89.283,
+         "frame_ms_median": 11.138,
+         "frame_ms_p95": 11.769,
+         "memory_mb": 631.77,
+         "memory_start_mb": 258.715,
+         "memory_peak_mb": 934.152,
+         "gpu_load_before_pct": 0.418,
+         "cpu_load_before_pct": 2.43
+        }
+       ],
+       "gpu_load_before_pct": 0.477,
+       "cpu_load_before_pct": 2.713
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "TopDownAdventure",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
+       "status": "passed",
+       "reference_created": true
+      }
+     ],
+     "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+    },
+    {
+     "suite": "FocalEngineScriptedTests",
+     "kind": "scripted",
+     "passes": 1,
+     "status": "failed",
+     "started": "2026-11-27T21:59:23Z",
+     "finished": "2026-11-27T22:16:10Z",
+     "duration_sec": 1007,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-27T20:07:26Z",
+      "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineScriptedTests",
+       "ref": "master",
+       "commit": "9c77cf920f1c42d0d58ccf8ee16fa83809c006e7"
+      }
+     ],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 35660
+      },
+      {
+       "name": "ImportAndPlace",
+       "status": "failed",
+       "source": "Azzinoth/FocalEngineScriptedTests",
+       "ms": 2144,
+       "checks": [
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "New project is in the project list",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "New project is opened with one scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the project is created and opened",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Scene of the new project has an editor camera",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "OBJ file is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Imported object is a mesh",
+         "status": "passed"
+        },
+        {
+         "actual": "5024",
+         "expected": "5024",
+         "name": "Mesh has all triangles of the file",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Albedo PNG is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Normal PNG is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Albedo texture was read from its file",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Normal texture was read from its file",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Albedo texture width",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Albedo texture height",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Normal texture width",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Normal texture height",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Material has the albedo texture",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Material has the normal texture",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game model has the mesh",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game model has the material",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut.obj_0 is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut_Albedo is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut_Normal is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut material is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "18",
+         "expected": "18",
+         "name": "Scene has one more entity",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Entity has a game model component",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Loading finished",
+         "status": "passed"
+        },
+        {
+         "actual": "11.40% of pixels different",
+         "expected": "at least 5.00% of pixels different",
+         "name": "Model is visible in the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "42.14% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Editor window looks like its reference",
+         "status": "failed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after import and placing the model",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game camera is set as main camera of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Scene window still uses editor camera",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor is in game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game mode runs a copy of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "2",
+         "expected": "2",
+         "name": "Game mode scene has a window of its own",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game mode scene is shown through the game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "59.64% of pixels different",
+         "expected": "at least 5.00% of pixels different",
+         "name": "Game camera shows the scene from another side",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Game mode looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after game mode is started",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor is not in game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "0",
+         "expected": "0",
+         "name": "Game mode scene is removed",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Only the window of the scene is left",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different",
+         "expected": "at most 0.50% of pixels different",
+         "name": "Scene looks the same after game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after game mode is stopped",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Window is minimized",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Window is restored",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different",
+         "expected": "at most 0.50% of pixels different",
+         "name": "Editor window looks the same after it was minimized and restored",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the window was minimized and restored",
+         "status": "passed"
+        }
+       ],
+       "metrics": {
+        "cpu_load_before_pct": 5.334,
+        "gpu_load_before_pct": 0.358,
+        "memory_mb": 798.438,
+        "memory_peak_mb": 1001.598,
+        "memory_start_mb": 259.32
+       },
+       "message": "Failed checks: Editor window looks like its reference.",
+       "gpu_load_before_pct": 0.358,
+       "cpu_load_before_pct": 5.334
+      },
+      {
+       "name": "PlayerToTrainingRoom",
+       "status": "failed",
+       "source": "Azzinoth/FocalEngineScriptedTests",
+       "ms": 38457,
+       "checks": [
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project is downloaded from its repository",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor has the project in its list",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project finished loading",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Starting scene is Level1",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project has its script module",
+         "status": "passed"
+        },
+        {
+         "actual": "built and loaded",
+         "expected": "built and loaded",
+         "name": "Script module is built for this engine and loaded",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the script module is built",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game mode runs a copy of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game has one player",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game has one game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game is shown through the game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "script component with a loaded script",
+         "expected": "script component with a loaded script",
+         "name": "Player has a running script",
+         "status": "passed"
+        },
+        {
+         "actual": "PlayerController",
+         "expected": "PlayerController",
+         "name": "Script of the player",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Script of the player is from the project's module",
+         "status": "passed"
+        },
+        {
+         "actual": "(8.000, 4.500, -17.000)",
+         "expected": "(8.000, 4.500, -17.000) +- 0.01",
+         "name": "Player stands at its start",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at the start",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Loading finished before the first image",
+         "status": "passed"
+        },
+        {
+         "actual": "0.08% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Start looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(8.236, 4.500, -9.975)",
+         "expected": "(8.250, 4.500, -10.000) within 0.25 m",
+         "name": "Player reaches TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "4.5",
+         "expected": "4.5 +- 0.05",
+         "name": "Player stands on the floor at TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "1.58% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "TopOfStairs looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(6.861, 0.500, 8.462)",
+         "expected": "(6.750, 0.500, 8.250) within 0.25 m",
+         "name": "Player reaches BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "0.5",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "1.62% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "BelowStairs looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(21.022, 0.350, 29.725)",
+         "expected": "(21.000, 0.500, 29.750) within 0.25 m",
+         "name": "Player reaches Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "0.35",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at Corridor",
+         "status": "failed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "1.01% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "Corridor looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "cosine 0.999684",
+         "expected": "cosine >= 0.9",
+         "name": "Player looks where it walks in the corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "(44.181, 0.500, 26.253)",
+         "expected": "(44.250, 0.500, 26.250) within 0.25 m",
+         "name": "Player reaches TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "0.500001",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "1.27% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "TrainingRoom looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "on the floor",
+         "expected": "never more than 1 m under the floor",
+         "name": "Player stays on the floor while it walks",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log while the player walks",
+         "status": "passed"
+        }
+       ],
+       "metrics": {
+        "cpu_load_before_pct": 3.178,
+        "gpu_load_before_pct": 0.469,
+        "memory_mb": 788.199,
+        "memory_peak_mb": 1132.773,
+        "memory_start_mb": 257.801
+       },
+       "message": "Failed checks: Player stands on the floor at Corridor.",
+       "gpu_load_before_pct": 0.469,
+       "cpu_load_before_pct": 3.178
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "ImportAndPlace: EmptyScene",
+       "test": "ImportAndPlace",
+       "image": "EmptyScene",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EmptyScene.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EmptyScene.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: SceneWithModel",
+       "test": "ImportAndPlace",
+       "image": "SceneWithModel",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneWithModel.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneWithModel.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: EditorWithModel",
+       "test": "ImportAndPlace",
+       "image": "EditorWithModel",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorWithModel.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorWithModel.jpg",
+       "status": "failed",
+       "diff_pct": 42.141,
+       "max_diff_pct": 2.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/ImportAndPlace_EditorWithModel.jpg"
+      },
+      {
+       "scene": "ImportAndPlace: SceneBeforeGameMode",
+       "test": "ImportAndPlace",
+       "image": "SceneBeforeGameMode",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneBeforeGameMode.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneBeforeGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: GameMode",
+       "test": "ImportAndPlace",
+       "image": "GameMode",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_GameMode.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_GameMode.jpg",
+       "status": "passed",
+       "diff_pct": 0.0,
+       "max_diff_pct": 2.0
+      },
+      {
+       "scene": "ImportAndPlace: EditorInGameMode",
+       "test": "ImportAndPlace",
+       "image": "EditorInGameMode",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorInGameMode.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorInGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: SceneAfterGameMode",
+       "test": "ImportAndPlace",
+       "image": "SceneAfterGameMode",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneAfterGameMode.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneAfterGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: WindowBeforeMinimize",
+       "test": "ImportAndPlace",
+       "image": "WindowBeforeMinimize",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowBeforeMinimize.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowBeforeMinimize.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: WindowAfterRestore",
+       "test": "ImportAndPlace",
+       "image": "WindowAfterRestore",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowAfterRestore.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowAfterRestore.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: Start",
+       "test": "PlayerToTrainingRoom",
+       "image": "Start",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_Start.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Start.jpg",
+       "status": "passed",
+       "diff_pct": 0.077,
+       "max_diff_pct": 2.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Start.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: TopOfStairs",
+       "test": "PlayerToTrainingRoom",
+       "image": "TopOfStairs",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_TopOfStairs.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TopOfStairs.jpg",
+       "status": "passed",
+       "diff_pct": 1.585,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TopOfStairs.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: BelowStairs",
+       "test": "PlayerToTrainingRoom",
+       "image": "BelowStairs",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_BelowStairs.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_BelowStairs.jpg",
+       "status": "passed",
+       "diff_pct": 1.622,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_BelowStairs.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: Corridor",
+       "test": "PlayerToTrainingRoom",
+       "image": "Corridor",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_Corridor.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Corridor.jpg",
+       "status": "passed",
+       "diff_pct": 1.007,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Corridor.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: TrainingRoom",
+       "test": "PlayerToTrainingRoom",
+       "image": "TrainingRoom",
+       "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "status": "passed",
+       "diff_pct": 1.268,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TrainingRoom.jpg"
+      }
+     ],
+     "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
     }
    ]
   },

@@ -1,0 +1,98 @@
+{
+ "suite": "FocalEngineProjects-DwarvenDungeon",
+ "kind": "projects",
+ "passes": 3,
+ "status": "passed",
+ "started": "2026-11-27T21:59:23Z",
+ "finished": "2026-11-27T22:16:10Z",
+ "duration_sec": 1007,
+ "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46073765293",
+ "commit": {
+  "author": "Azzinoth",
+  "date": "2026-11-27T20:07:26Z",
+  "message": "Updated Focal Engine and FESceneGraphUI submodules to the latest version; Editor interface has new style: colors are now in new FEEditorStyle.h, selected tab has accent line, icons are white and are tinted in code, new layout of inspector components, content browser, main menu bar, selection window, game model editor, Editor Cameras window, texture view windows, Log window, gizmo selection and popups; Added Ctrl+S that saves the project; 'Build executable' is now in File menu, Project menu is removed, debug items are in Debug menu, Info menu is now Help; Play / Stop button is now in the main menu bar together with name of the project and its saved state, previously it was a separate window over scene tabs; Log window no longer does any work while its tab is hidden and renders only visible rows, previously it crashed with about 7,000 different messages; Log window now has list of channels, filters by level and by text, 'Follow', 'Copy' and 'Clear'; Bloom, depth of field and chromatic aberration can now be turned on and off per camera in the inspector; Fixed out-of-bounds read of FXAA option names in camera settings; Fixed crash on selection of an entity with Point Cloud component that has no point cloud; Game model editor now applies cull distance before levels of detail, previously billboard level kept old cull distance as its end; Instance of Instanced component is now marked as modified only when its values are changed, previously on selection; Settings of Virtual UI component are now applied only when they are changed, previously every frame; 'Add Component' is now a menu with filter that lists only components that the editor can add; Prefab Instance component now has 'Edit prefab' and 'Show in folder' buttons; Tag field of the inspector now has list of tags that are used in the scene; Filter of selection window is no longer case sensitive; Delete popups now list objects that use the resource, previously only count was shown; Double click in content browser is now ignored while right-click menu is opened and opens shader editor for shaders; 'Delete' is no longer shown in content browser for items where it did nothing; Removed '*DEPRECATED*Import Tree...'; Plugins window now has close button when a project is opened; About popup now has link to the GitHub repository; Removed RenamePopUp, RenameFailedPopUp, FERangeConfigurator, FERangeRecord, FEArrowScroller, gizmo icons of FEEditorGizmoManager and unused icon files; Added BeginStyledPopup, EndStyledPopup, RenderPopupHeading, RenderPopupText, RenderPopupCard, RenderPopupNameList, RenderPopupButtons, RenderRowLabel, RenderSwitchButton, GetNumberWithSeparators, ToLowerCase and CutTextToWidth to FEDearImguiWrapper; Added FEEditorSceneGraphWindow::GetComponentIcon, TextureViewWindow::GetFormatName, RenderPanelTitle and RenderFactRow; VolumeTransferFunctionWidget::Render now takes width of labels; Editor version is now 0.2.0.",
+  "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/77b70dc04d2ceb1becbebc63de53332e1426eb0f"
+ },
+ "project_sources": [
+  {
+   "repository": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "ref": "master",
+   "commit": "72de7c4f80e7a9fcf66d06a7ae5594a692fa7c92"
+  }
+ ],
+ "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+ "machine": {
+  "os": "Windows 11 Home build 26200.10075",
+  "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "610.88",
+  "ram_gb": 63
+ },
+ "tests": [
+  {
+   "name": "Build (Release)",
+   "status": "passed",
+   "ms": 35660
+  },
+  {
+   "name": "POLYGON_Dwarven_Dungeon_Map",
+   "status": "passed",
+   "source": "Azzinoth/FocalEngineProjects-DwarvenDungeon",
+   "tree": "4ada91fe7097883746777a2798e126b0293c0a34",
+   "ms": 534,
+   "fps_avg": 18.067666666666668,
+   "frame_ms_median": 55.002,
+   "frame_ms_p95": 57.829,
+   "memory_mb": 692.9336666666667,
+   "memory_start_mb": 268.08733333333333,
+   "memory_peak_mb": 992.6116666666667,
+   "passes": [
+    {
+     "load_ms": 537.0,
+     "fps_avg": 18.086,
+     "frame_ms_median": 55.006,
+     "frame_ms_p95": 57.618,
+     "memory_mb": 691.461,
+     "memory_start_mb": 272.484,
+     "memory_peak_mb": 990.906,
+     "gpu_load_before_pct": 0.4,
+     "cpu_load_before_pct": 3.399
+    },
+    {
+     "load_ms": 533.0,
+     "fps_avg": 18.01,
+     "frame_ms_median": 55.334,
+     "frame_ms_p95": 57.919,
+     "memory_mb": 691.449,
+     "memory_start_mb": 272.559,
+     "memory_peak_mb": 992.902,
+     "gpu_load_before_pct": 0.412,
+     "cpu_load_before_pct": 3.16
+    },
+    {
+     "load_ms": 532.0,
+     "fps_avg": 18.107,
+     "frame_ms_median": 54.666,
+     "frame_ms_p95": 57.95,
+     "memory_mb": 695.891,
+     "memory_start_mb": 259.219,
+     "memory_peak_mb": 994.027,
+     "gpu_load_before_pct": 0.387,
+     "cpu_load_before_pct": 2.374
+    }
+   ],
+   "gpu_load_before_pct": 0.412,
+   "cpu_load_before_pct": 3.399
+  }
+ ],
+ "screenshots": [
+  {
+   "scene": "POLYGON_Dwarven_Dungeon_Map",
+   "file": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-DwarvenDungeon/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "thumb": "editor/runs/77b70dc04d2ceb1becbebc63de53332e1426eb0f/personal-win-main/FocalEngineProjects-DwarvenDungeon/thumbs/POLYGON_Dwarven_Dungeon_Map.jpg",
+   "status": "passed",
+   "reference_created": true
+  }
+ ],
+ "engine_commit": "a4f5cb1af023ae023afe2ad7f25f47e29963d3c1"
+}
