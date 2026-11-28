@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T22:16:47Z",
+ "generated_at": "2026-11-28T00:26:18Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -3772,6 +3772,104 @@
        "diff_pct": 0.003,
        "max_diff_pct": 20.0,
        "reference": "references/editor/001bc0a8-e135-4da8-b095-979aabf50746.png"
+      }
+     ],
+     "engine_commit": "16a6e27f99adca347b66cb42f4db9e6e0dd305cb"
+    },
+    {
+     "suite": "FocalEngineProjects-TopDownAdventure",
+     "kind": "projects",
+     "passes": 3,
+     "status": "passed",
+     "started": "2026-11-28T00:23:48Z",
+     "finished": "2026-11-28T00:25:38Z",
+     "duration_sec": 110,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46087636576",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-26T03:09:32Z",
+      "message": "Updated Focal Engine submodule to the latest version; Project list is now a list of FEProjectInfo entries that is saved in Resources/ProjectList.txt, projects could be added from any folder, previously list was read from one projects folder and every entry was a full FEProject;= FEProject now exists only for the opened project; Projects of the new default Projects folder of the editor are added to the list at every start, folder is in .gitignore; Project list has new interface: grid of cards or list with details panel, filter by name, sorting by last opened time, name or date added, menu on right click and its own popups; Project whose folder is missing now stays in the list greyed with 'Locate folder...' that accepts only folder with project of the same ID; 'Delete project' now moves whole project folder to the Recycle Bin after confirmation, previously it deleted only files of the top folder; Added 'Remove from list', 'Rename' that changes only name in Project.txt and 'Show in Explorer'; Copy of a project from the list now gets new ID when it is added, and thumbnails are loaded with new IDs, previously two copies of a project in the list caused 'New ID is already in use' assertion; 'Save project as...' now gives project new ID and adds new folder to the list; Project.txt now has CreatedWith and SavedWith with version, build number and commit of editor and engine; Removed -set_projects_folder command line action, restarted editor reads saved project list, -load_project now adds project to the list; Folder dropped on the project list is now added to it, previously it became the projects folder; Plugins window without a project is now a centered panel in the style of the project list over dimmed list, previously it covered the whole window; Added FEProjectManager::AddToProjectList, AddProjectsFromFolderToList, RemoveFromProjectList, CanBeRemovedFromProjectList, DeleteProject, RenameProject, LocateProject, GetDefaultProjectsFolder, PushProjectListStyle and PopProjectListStyle; FEProjectManager::GetList is now GetProjectList and returns list of FEProjectInfo; FEProjectManager::OpenProject now takes only project folder and CreateNewProject returns bool; Removed FEProjectManager::OpenProject with index, SetProjectsFolder, GetProjectsFolder, InitializeResources and PROJECTS_FOLDER; FEProjectManager::LoadProjectList now reads the saved list and should be called by the application, list is saved only after that call; Added FEProject::ReadProjectFile, ReadProjectID, SetNameInProjectFile and SetNewIDInProjectFile for Project.txt of a project that is not opened, FEProject::ReadPluginIDs now uses ReadProjectFile; Added FEEditor::GetEditorCommitHash.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/033e077ec49d387ac8f910d1d1a9fbd7d439de70"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "ref": "c505ab49c0eb67c006b2ad80bf0a31e5c6342521~1",
+       "commit": "9b9c92a69b59758a8c59f924c0878767f9013da6"
+      }
+     ],
+     "benchmark_commit": "50ee84b2ac1490aec213481fe7f4cd108e9ea496",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 34902
+      },
+      {
+       "name": "TopDownAdventure",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineProjects-TopDownAdventure",
+       "tree": "51e0b589309d43d2af9b89f68c32d78630b55031",
+       "ms": 159,
+       "fps_avg": 87.48633333333333,
+       "frame_ms_median": 11.360666666666667,
+       "frame_ms_p95": 12.042333333333334,
+       "memory_mb": 636.5523333333333,
+       "memory_start_mb": 272.819,
+       "memory_peak_mb": 954.3176666666667,
+       "passes": [
+        {
+         "load_ms": 172.0,
+         "fps_avg": 87.173,
+         "frame_ms_median": 11.417,
+         "frame_ms_p95": 12.007,
+         "memory_mb": 635.508,
+         "memory_start_mb": 273.043,
+         "memory_peak_mb": 949.504,
+         "gpu_load_before_pct": 0.841,
+         "cpu_load_before_pct": 4.752
+        },
+        {
+         "load_ms": 160.0,
+         "fps_avg": 87.558,
+         "frame_ms_median": 11.326,
+         "frame_ms_p95": 12.15,
+         "memory_mb": 638.547,
+         "memory_start_mb": 272.855,
+         "memory_peak_mb": 964.859,
+         "gpu_load_before_pct": 0.836,
+         "cpu_load_before_pct": 3.091
+        },
+        {
+         "load_ms": 146.0,
+         "fps_avg": 87.728,
+         "frame_ms_median": 11.339,
+         "frame_ms_p95": 11.97,
+         "memory_mb": 635.602,
+         "memory_start_mb": 272.559,
+         "memory_peak_mb": 948.59,
+         "gpu_load_before_pct": 0.883,
+         "cpu_load_before_pct": 2.574
+        }
+       ],
+       "gpu_load_before_pct": 0.883,
+       "cpu_load_before_pct": 4.752
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "TopDownAdventure",
+       "file": "editor/runs/033e077ec49d387ac8f910d1d1a9fbd7d439de70/personal-win-main/FocalEngineProjects-TopDownAdventure/TopDownAdventure.jpg",
+       "thumb": "editor/runs/033e077ec49d387ac8f910d1d1a9fbd7d439de70/personal-win-main/FocalEngineProjects-TopDownAdventure/thumbs/TopDownAdventure.jpg",
+       "status": "passed",
+       "reference_created": true
       }
      ],
      "engine_commit": "16a6e27f99adca347b66cb42f4db9e6e0dd305cb"
