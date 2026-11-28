@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T03:33:08Z",
+ "generated_at": "2026-11-28T03:38:54Z",
  "machines": [
   {
    "id": "lab-win-AQUILA",
@@ -70,6 +70,12 @@
    "date": "2026-11-26T03:09:32Z",
    "message": "Updated Focal Engine submodule to the latest version; Project list is now a list of FEProjectInfo entries that is saved in Resources/ProjectList.txt, projects could be added from any folder, previously list was read from one projects folder and every entry was a full FEProject;= FEProject now exists only for the opened project; Projects of the new default Projects folder of the editor are added to the list at every start, folder is in .gitignore; Project list has new interface: grid of cards or list with details panel, filter by name, sorting by last opened time, name or date added, menu on right click and its own popups; Project whose folder is missing now stays in the list greyed with 'Locate folder...' that accepts only folder with project of the same ID; 'Delete project' now moves whole project folder to the Recycle Bin after confirmation, previously it deleted only files of the top folder; Added 'Remove from list', 'Rename' that changes only name in Project.txt and 'Show in Explorer'; Copy of a project from the list now gets new ID when it is added, and thumbnails are loaded with new IDs, previously two copies of a project in the list caused 'New ID is already in use' assertion; 'Save project as...' now gives project new ID and adds new folder to the list; Project.txt now has CreatedWith and SavedWith with version, build number and commit of editor and engine; Removed -set_projects_folder command line action, restarted editor reads saved project list, -load_project now adds project to the list; Folder dropped on the project list is now added to it, previously it became the projects folder; Plugins window without a project is now a centered panel in the style of the project list over dimmed list, previously it covered the whole window; Added FEProjectManager::AddToProjectList, AddProjectsFromFolderToList, RemoveFromProjectList, CanBeRemovedFromProjectList, DeleteProject, RenameProject, LocateProject, GetDefaultProjectsFolder, PushProjectListStyle and PopProjectListStyle; FEProjectManager::GetList is now GetProjectList and returns list of FEProjectInfo; FEProjectManager::OpenProject now takes only project folder and CreateNewProject returns bool; Removed FEProjectManager::OpenProject with index, SetProjectsFolder, GetProjectsFolder, InitializeResources and PROJECTS_FOLDER; FEProjectManager::LoadProjectList now reads the saved list and should be called by the application, list is saved only after that call; Added FEProject::ReadProjectFile, ReadProjectID, SetNameInProjectFile and SetNewIDInProjectFile for Project.txt of a project that is not opened, FEProject::ReadPluginIDs now uses ReadProjectFile; Added FEEditor::GetEditorCommitHash.",
    "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/033e077ec49d387ac8f910d1d1a9fbd7d439de70"
+  },
+  "078c8b60a7044750ab23a72edf367a8edb299ab6": {
+   "author": "Azzinoth",
+   "date": "2026-11-28T03:19:55Z",
+   "message": "Updated Focal Engine submodule to the latest version; Terrain brush now works only while left mouse button that was pressed in the scene window; Renamed FEEditorInspectorWindow::bLeftMousePressed to bLeftMousePressedInSceneWindow.",
+   "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/078c8b60a7044750ab23a72edf367a8edb299ab6"
   },
   "20905ca3c55b404215c24ef3061037ee9fec84a9": {
    "author": "Azzinoth",
@@ -3879,6 +3885,896 @@
       }
      ],
      "engine_commit": "16a6e27f99adca347b66cb42f4db9e6e0dd305cb"
+    }
+   ]
+  },
+  "078c8b60a7044750ab23a72edf367a8edb299ab6": {
+   "personal-win-main": [
+    {
+     "suite": "FocalEngineScriptedTests",
+     "kind": "scripted",
+     "passes": 1,
+     "status": "passed",
+     "started": "2026-11-28T03:36:25Z",
+     "finished": "2026-11-28T03:38:14Z",
+     "duration_sec": 109,
+     "run_url": "https://github.com/Azzinoth/FocalEngineBenchmark/actions/runs/46103654413",
+     "commit": {
+      "author": "Azzinoth",
+      "date": "2026-11-28T03:19:55Z",
+      "message": "Updated Focal Engine submodule to the latest version; Terrain brush now works only while left mouse button that was pressed in the scene window; Renamed FEEditorInspectorWindow::bLeftMousePressed to bLeftMousePressedInSceneWindow.",
+      "url": "https://github.com/Azzinoth/FocalEngineEditor/commit/078c8b60a7044750ab23a72edf367a8edb299ab6"
+     },
+     "project_sources": [
+      {
+       "repository": "Azzinoth/FocalEngineScriptedTests",
+       "ref": "master",
+       "commit": "4aeaff0a6dadb432d44fd9c24c02edec6669f47d"
+      }
+     ],
+     "benchmark_commit": "c03272f0c5e038dd16a51036b2ead42670c90dfd",
+     "machine": {
+      "os": "Windows 11 Home build 26200.10075",
+      "cpu": "AMD Ryzen 9 7950X 16-Core Processor",
+      "gpu": "NVIDIA GeForce RTX 4090",
+      "driver": "610.88",
+      "ram_gb": 63
+     },
+     "tests": [
+      {
+       "name": "Build (Release)",
+       "status": "passed",
+       "ms": 36636
+      },
+      {
+       "name": "ImportAndPlace",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineScriptedTests",
+       "ms": 2083,
+       "checks": [
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "New project is in the project list",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "New project is opened with one scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the project is created and opened",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Scene of the new project has an editor camera",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "OBJ file is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Imported object is a mesh",
+         "status": "passed"
+        },
+        {
+         "actual": "5024",
+         "expected": "5024",
+         "name": "Mesh has all triangles of the file",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Albedo PNG is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Normal PNG is imported as one object",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Albedo texture was read from its file",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Normal texture was read from its file",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Albedo texture width",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Albedo texture height",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Normal texture width",
+         "status": "passed"
+        },
+        {
+         "actual": "2048",
+         "expected": "2048",
+         "name": "Normal texture height",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Material has the albedo texture",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Material has the normal texture",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game model has the mesh",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game model has the material",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut.obj_0 is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut_Albedo is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut_Normal is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut material is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Donut is in content browser",
+         "status": "passed"
+        },
+        {
+         "actual": "18",
+         "expected": "18",
+         "name": "Scene has one more entity",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Entity has a game model component",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Loading finished",
+         "status": "passed"
+        },
+        {
+         "actual": "11.40% of pixels different",
+         "expected": "at least 5.00% of pixels different",
+         "name": "Model is visible in the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "0.18% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Editor window looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after import and placing the model",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game camera is set as main camera of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Scene window still uses editor camera",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor is in game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game mode runs a copy of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "2",
+         "expected": "2",
+         "name": "Game mode scene has a window of its own",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game mode scene is shown through the game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "59.64% of pixels different",
+         "expected": "at least 5.00% of pixels different",
+         "name": "Game camera shows the scene from another side",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Game mode looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after game mode is started",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor is not in game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "0",
+         "expected": "0",
+         "name": "Game mode scene is removed",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Only the window of the scene is left",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different",
+         "expected": "at most 0.50% of pixels different",
+         "name": "Scene looks the same after game mode",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after game mode is stopped",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Window is minimized",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Window is restored",
+         "status": "passed"
+        },
+        {
+         "actual": "0.00% of pixels different",
+         "expected": "at most 0.50% of pixels different",
+         "name": "Editor window looks the same after it was minimized and restored",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the window was minimized and restored",
+         "status": "passed"
+        }
+       ],
+       "metrics": {
+        "cpu_load_before_pct": 3.524,
+        "gpu_load_before_pct": 1.037,
+        "memory_mb": 773.902,
+        "memory_peak_mb": 1004.77,
+        "memory_start_mb": 259.215
+       },
+       "gpu_load_before_pct": 1.037,
+       "cpu_load_before_pct": 3.524
+      },
+      {
+       "name": "PlayerToTrainingRoom",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineScriptedTests",
+       "ms": 39539,
+       "checks": [
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project is downloaded from its repository",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor has the project in its list",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project finished loading",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Starting scene is Level1",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Project has its script module",
+         "status": "passed"
+        },
+        {
+         "actual": "built and loaded",
+         "expected": "built and loaded",
+         "name": "Script module is built for this engine and loaded",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the script module is built",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game mode runs a copy of the scene",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game has one player",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "Game has one game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Game is shown through the game camera",
+         "status": "passed"
+        },
+        {
+         "actual": "script component with a loaded script",
+         "expected": "script component with a loaded script",
+         "name": "Player has a running script",
+         "status": "passed"
+        },
+        {
+         "actual": "PlayerController",
+         "expected": "PlayerController",
+         "name": "Script of the player",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Script of the player is from the project's module",
+         "status": "passed"
+        },
+        {
+         "actual": "(8.000, 4.500, -17.000)",
+         "expected": "(8.000, 4.500, -17.000) +- 0.01",
+         "name": "Player stands at its start",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at the start",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Loading finished before the first image",
+         "status": "passed"
+        },
+        {
+         "actual": "0.26% of pixels different from reference",
+         "expected": "at most 2.00% of pixels different from reference",
+         "name": "Start looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(8.255, 4.500, -9.910)",
+         "expected": "(8.250, 4.500, -10.000) within 0.25 m",
+         "name": "Player reaches TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "4.5",
+         "expected": "4.5 +- 0.05",
+         "name": "Player stands on the floor at TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at TopOfStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "1.48% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "TopOfStairs looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(6.842, 0.500, 8.725)",
+         "expected": "(6.750, 0.500, 8.750) within 0.25 m",
+         "name": "Player reaches BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "0.5",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at BelowStairs",
+         "status": "passed"
+        },
+        {
+         "actual": "1.29% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "BelowStairs looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "(20.552, 0.500, 29.867)",
+         "expected": "(20.500, 0.500, 29.750) within 0.25 m",
+         "name": "Player reaches Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "0.5",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at Corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "1.91% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "Corridor looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "cosine 0.999481",
+         "expected": "cosine >= 0.9",
+         "name": "Player looks where it walks in the corridor",
+         "status": "passed"
+        },
+        {
+         "actual": "(44.201, 0.500, 26.034)",
+         "expected": "(44.250, 0.500, 26.250) within 0.25 m",
+         "name": "Player reaches TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "0.500001",
+         "expected": "0.5 +- 0.05",
+         "name": "Player stands on the floor at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "(-22.430, 14.792, -22.430)",
+         "expected": "(-22.430, 14.792, -22.430) +- 0.01",
+         "name": "Camera is behind the player at TrainingRoom",
+         "status": "passed"
+        },
+        {
+         "actual": "1.47% of pixels different from reference",
+         "expected": "at most 3.00% of pixels different from reference",
+         "name": "TrainingRoom looks like its reference",
+         "status": "passed"
+        },
+        {
+         "actual": "on the floor",
+         "expected": "never more than 1 m under the floor",
+         "name": "Player stays on the floor while it walks",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log while the player walks",
+         "status": "passed"
+        }
+       ],
+       "metrics": {
+        "cpu_load_before_pct": 3.844,
+        "gpu_load_before_pct": 1.683,
+        "memory_mb": 748.316,
+        "memory_peak_mb": 1143.051,
+        "memory_start_mb": 259.938
+       },
+       "gpu_load_before_pct": 1.683,
+       "cpu_load_before_pct": 3.844
+      },
+      {
+       "name": "TerrainMouseInteraction",
+       "status": "passed",
+       "source": "Azzinoth/FocalEngineScriptedTests",
+       "ms": 3620,
+       "checks": [
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "New project is in the project list",
+         "status": "passed"
+        },
+        {
+         "actual": "1",
+         "expected": "1",
+         "name": "New project is opened with one scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Scene of the new project has an editor camera",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Loading finished",
+         "status": "passed"
+        },
+        {
+         "actual": "(928, 440)",
+         "expected": "(928.049, 440.878)",
+         "name": "Editor gets the position of the mouse",
+         "status": "passed"
+        },
+        {
+         "actual": "9",
+         "expected": "9",
+         "name": "Points of Left terrain that are in the scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "9 of 9",
+         "expected": "9 of 9",
+         "name": "Clicks on Left terrain that selected it",
+         "status": "passed"
+        },
+        {
+         "actual": "9",
+         "expected": "9",
+         "name": "Points of Right terrain that are in the scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "9 of 9",
+         "expected": "9 of 9",
+         "name": "Clicks on Right terrain that selected it",
+         "status": "passed"
+        },
+        {
+         "actual": "nothing",
+         "expected": "nothing",
+         "name": "Click between the terrains selects",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Editor has the inspector window",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Brush point of Left terrain is in the scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "Left terrain",
+         "expected": "Left terrain",
+         "name": "Click on Left terrain before the brush selects",
+         "status": "passed"
+        },
+        {
+         "actual": "0 m",
+         "expected": "less than 0.01 m",
+         "name": "Brush held in the inspector does not change Left terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "0 m",
+         "expected": "less than 0.01 m",
+         "name": "Brush held beside the terrains does not change Left terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "0.725109 m",
+         "expected": "more than 0.05 m",
+         "name": "Raise brush raises Left terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "highest at (x, z) (-193.5, 6.5)",
+         "expected": "(-192.9, 5.9) within 11.92 m",
+         "name": "Left terrain is raised under the mouse",
+         "status": "passed"
+        },
+        {
+         "actual": "true",
+         "expected": "true",
+         "name": "Brush point of Right terrain is in the scene window",
+         "status": "passed"
+        },
+        {
+         "actual": "Right terrain",
+         "expected": "Right terrain",
+         "name": "Click on Right terrain before the brush selects",
+         "status": "passed"
+        },
+        {
+         "actual": "0 m",
+         "expected": "less than 0.01 m",
+         "name": "Brush held in the inspector does not change Right terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "0 m",
+         "expected": "less than 0.01 m",
+         "name": "Brush held beside the terrains does not change Right terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "1.38796 m",
+         "expected": "more than 0.05 m",
+         "name": "Raise brush raises Right terrain",
+         "status": "passed"
+        },
+        {
+         "actual": "highest at (x, z) (213.1, 51.4)",
+         "expected": "(211.8, 51.4) within 13.84 m",
+         "name": "Right terrain is raised under the mouse",
+         "status": "passed"
+        },
+        {
+         "actual": "0 errors",
+         "expected": "0 errors",
+         "name": "No errors in the log after the clicks and the brush",
+         "status": "passed"
+        }
+       ],
+       "metrics": {
+        "cpu_load_before_pct": 4.024,
+        "gpu_load_before_pct": 1.583,
+        "memory_mb": 533.441,
+        "memory_peak_mb": 872.145,
+        "memory_start_mb": 271.199
+       },
+       "gpu_load_before_pct": 1.583,
+       "cpu_load_before_pct": 4.024
+      }
+     ],
+     "screenshots": [
+      {
+       "scene": "ImportAndPlace: EmptyScene",
+       "test": "ImportAndPlace",
+       "image": "EmptyScene",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EmptyScene.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EmptyScene.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: SceneWithModel",
+       "test": "ImportAndPlace",
+       "image": "SceneWithModel",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneWithModel.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneWithModel.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: EditorWithModel",
+       "test": "ImportAndPlace",
+       "image": "EditorWithModel",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorWithModel.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorWithModel.jpg",
+       "status": "passed",
+       "diff_pct": 0.178,
+       "max_diff_pct": 2.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/ImportAndPlace_EditorWithModel.jpg"
+      },
+      {
+       "scene": "ImportAndPlace: SceneBeforeGameMode",
+       "test": "ImportAndPlace",
+       "image": "SceneBeforeGameMode",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneBeforeGameMode.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneBeforeGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: GameMode",
+       "test": "ImportAndPlace",
+       "image": "GameMode",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_GameMode.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_GameMode.jpg",
+       "status": "passed",
+       "diff_pct": 0.0,
+       "max_diff_pct": 2.0
+      },
+      {
+       "scene": "ImportAndPlace: EditorInGameMode",
+       "test": "ImportAndPlace",
+       "image": "EditorInGameMode",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_EditorInGameMode.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_EditorInGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: SceneAfterGameMode",
+       "test": "ImportAndPlace",
+       "image": "SceneAfterGameMode",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_SceneAfterGameMode.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_SceneAfterGameMode.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: WindowBeforeMinimize",
+       "test": "ImportAndPlace",
+       "image": "WindowBeforeMinimize",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowBeforeMinimize.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowBeforeMinimize.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "ImportAndPlace: WindowAfterRestore",
+       "test": "ImportAndPlace",
+       "image": "WindowAfterRestore",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/ImportAndPlace_WindowAfterRestore.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/ImportAndPlace_WindowAfterRestore.jpg",
+       "status": "passed"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: Start",
+       "test": "PlayerToTrainingRoom",
+       "image": "Start",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_Start.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Start.jpg",
+       "status": "passed",
+       "diff_pct": 0.263,
+       "max_diff_pct": 2.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Start.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: TopOfStairs",
+       "test": "PlayerToTrainingRoom",
+       "image": "TopOfStairs",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_TopOfStairs.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TopOfStairs.jpg",
+       "status": "passed",
+       "diff_pct": 1.481,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TopOfStairs.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: BelowStairs",
+       "test": "PlayerToTrainingRoom",
+       "image": "BelowStairs",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_BelowStairs.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_BelowStairs.jpg",
+       "status": "passed",
+       "diff_pct": 1.294,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_BelowStairs.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: Corridor",
+       "test": "PlayerToTrainingRoom",
+       "image": "Corridor",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_Corridor.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_Corridor.jpg",
+       "status": "passed",
+       "diff_pct": 1.91,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_Corridor.jpg"
+      },
+      {
+       "scene": "PlayerToTrainingRoom: TrainingRoom",
+       "test": "PlayerToTrainingRoom",
+       "image": "TrainingRoom",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/PlayerToTrainingRoom_TrainingRoom.jpg",
+       "status": "passed",
+       "diff_pct": 1.466,
+       "max_diff_pct": 3.0,
+       "difference": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/differences/PlayerToTrainingRoom_TrainingRoom.jpg"
+      },
+      {
+       "scene": "TerrainMouseInteraction: TerrainSelected",
+       "test": "TerrainMouseInteraction",
+       "image": "TerrainSelected",
+       "file": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/TerrainMouseInteraction_TerrainSelected.jpg",
+       "thumb": "editor/runs/078c8b60a7044750ab23a72edf367a8edb299ab6/personal-win-main/FocalEngineScriptedTests/thumbs/TerrainMouseInteraction_TerrainSelected.jpg",
+       "status": "passed"
+      }
+     ],
+     "engine_commit": "ac4eaecc9fa367881953be91559e345112905089"
     }
    ]
   },
